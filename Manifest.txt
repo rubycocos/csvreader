@@ -1,0 +1,8 @@
+HISTORY.md
+LICENSE.md
+Manifest.txt
+README.md
+Rakefile
+lib/csvreader.rb
+lib/csvreader/reader.rb
+lib/csvreader/version.rb
