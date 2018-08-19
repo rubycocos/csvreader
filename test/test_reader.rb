@@ -9,9 +9,24 @@ require 'helper'
 
 class TestReader < MiniTest::Test
 
+
 def test_read
   puts "== read: beer.csv:"
-  table = CsvReader.read( "#{CsvReader.test_data_dir}/beer.csv" )   ## returns CSV::Table
+  data = CsvReader.read( "#{CsvReader.test_data_dir}/beer.csv" )
+
+  pp data.class.name
+  pp data
+
+  data.each do |row|
+    pp row
+  end
+  puts "  #{data.size} rows"
+  assert_equal 7, data.size   ## note: include header row in count
+end
+
+def test_read_hash
+  puts "== read (hash): beer.csv:"
+  table = CsvHashReader.read( "#{CsvReader.test_data_dir}/beer.csv" )   ## returns CSV::Table
 
   pp table.class.name
   pp table
@@ -24,24 +39,10 @@ def test_read
   assert_equal 6, table.size
 end
 
-def test_read_header_false
-  puts "== read (headers: false): beer.csv:"
-  data = CsvReader.read( "#{CsvReader.test_data_dir}/beer.csv", headers: false )
 
-  pp data.class.name
-  pp data
-
-  data.each do |row|
-    pp row
-  end
-  puts "  #{data.size} rows"
-  assert_equal 7, data.size   ## note: include header row in count
-end
-
-
-def test_read11
-  puts "== read: beer11.csv:"
-  table = CsvReader.read( "#{CsvReader.test_data_dir}/beer11.csv" )
+def test_read_hash11
+  puts "== read (hash): beer11.csv:"
+  table = CsvHashReader.read( "#{CsvReader.test_data_dir}/beer11.csv" )
   pp table
   pp table.to_a   ## note: includes header (first row with column names)
 
@@ -90,28 +91,29 @@ def test_header11
 end
 
 
-def test_foreach
-  puts "== foreach: beer.csv:"
-  CsvReader.foreach( "#{CsvReader.test_data_dir}/beer.csv" ) do |row|
-    pp row
-    pp row.fields
-  end
-  assert true
-end
 
-def test_foreach11
+def test_foreach
   puts "== foreach: beer11.csv:"
   CsvReader.foreach( "#{CsvReader.test_data_dir}/beer11.csv" ) do |row|
+    pp row      ## note: is Array (no .fields available!!!!!)
+  end
+  assert true
+end
+
+def test_foreach_hash
+  puts "== foreach (hash): beer.csv:"
+  CsvHashReader.foreach( "#{CsvReader.test_data_dir}/beer.csv" ) do |row|
     pp row
     pp row.fields
   end
   assert true
 end
 
-def test_foreach_header_false
-  puts "== foreach (headers: false): beer11.csv:"
-  CsvReader.foreach( "#{CsvReader.test_data_dir}/beer11.csv", headers: false ) do |row|
-    pp row      ## note: is Array (no .fields available!!!!!)
+def test_foreach_hash11
+  puts "== foreach (hash): beer11.csv:"
+  CsvHashReader.foreach( "#{CsvReader.test_data_dir}/beer11.csv" ) do |row|
+    pp row
+    pp row.fields
   end
   assert true
 end

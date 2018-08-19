@@ -96,21 +96,7 @@ end   # module Csvv
 
 class CsvReader
 
-  ####################
-  # helper methods
-  def self.unwrap( row_or_array )   ## unwrap row - find a better name? why? why not?
-    ## return row values as array of strings
-    if row_or_array.is_a?( CSV::Row )
-      row = row_or_array
-      row.fields   ## gets array of string of field values
-    else  ## assume "classic" array of strings
-      array = row_or_array
-    end
-  end
-
-
-
-  def self.foreach( path, sep: Csv.config.sep, headers: true )
+  def self.foreach( path, sep: Csv.config.sep, headers: false )
     csv_options = Csv.config.default_options.merge(
                      headers: headers,
                      col_sep: sep,
@@ -122,8 +108,7 @@ class CsvReader
     end
   end
 
-
-  def self.read( path, sep: Csv.config.sep, headers: true )
+  def self.read( path, sep: Csv.config.sep, headers: false )
     ## note: use our own file.open
     ##   always use utf-8 for now
     ##    check/todo: add skip option bom too - why? why not?
@@ -131,7 +116,7 @@ class CsvReader
     parse( txt, sep: sep, headers: headers )
   end
 
-  def self.parse( txt, sep: Csv.config.sep, headers: true )
+  def self.parse( txt, sep: Csv.config.sep, headers: false )
     csv_options = Csv.config.default_options.merge(
                      headers: headers,
                      col_sep: sep
@@ -139,6 +124,7 @@ class CsvReader
     ## pp csv_options
     CSV.parse( txt, csv_options )
   end
+
 
   def self.parse_line( txt, sep: Csv.config.sep )
     ## note: do NOT include headers option (otherwise single row gets skipped as first header row :-)
@@ -149,7 +135,6 @@ class CsvReader
     ## pp csv_options
     CSV.parse_line( txt, csv_options )
   end
-
 
 
   def self.header( path, sep: Csv.config.sep )   ## use header or headers - or use both (with alias)?
@@ -185,4 +170,38 @@ class CsvReader
       ##   hash record does NOT work for single line/row
       parse_line( lines, sep: sep )
     end  # method self.header
+
+    ####################
+    # helper methods
+    def self.unwrap( row_or_array )   ## unwrap row - find a better name? why? why not?
+      ## return row values as array of strings
+      if row_or_array.is_a?( CSV::Row )
+        row = row_or_array
+        row.fields   ## gets array of string of field values
+      else  ## assume "classic" array of strings
+        array = row_or_array
+      end
+    end
 end # class CsvReader
+
+
+
+class CsvHashReader
+
+def self.read( path, sep: Csv.config.sep, headers: true )
+  CsvReader.read( path, sep: sep, headers: headers )
+end
+
+def self.parse( txt, sep: Csv.config.sep, headers: true )
+  CsvReader.parse( txt, sep: sep, headers: headers )
+end
+
+def self.foreach( path, sep: Csv.config.sep, headers: true, &block )
+  CsvReader.foreach( path, sep: sep, headers: headers, &block )
+end
+
+def self.header( path, sep: Csv.config.sep )   ## add header too? why? why not?
+  CsvReader.header( path, sep: sep )
+end
+
+end # class CsvHashReader
