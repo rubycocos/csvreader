@@ -164,7 +164,7 @@ see [`TabReader` »](https://github.com/datatxt/tabreader).
 
 Two major design bugs and many many minor.
 
-1) The CSV class uses `line.split(`,`)` with some kludges (†) with the claim its faster.
+(1) The CSV class uses `line.split(`,`)` with some kludges (†) with the claim its faster.
 What?! The right way: CSV needs its own purpose-built parser. There's no other
 way you can handle all the (edge) cases with double quotes and escaped doubled up
 double quotes. Period.
@@ -175,7 +175,7 @@ Or handling double quotes inside values and so on and on.
 
 (†): kludge - a workaround or quick-and-dirty solution that is clumsy, inelegant, inefficient, difficult to extend and hard to maintain
 
-2) The CSV class returns `nil` for `,,` but an empty string (`""`)
+(2) The CSV class returns `nil` for `,,` but an empty string (`""`)
 for `"","",""`. The right way: All values are always strings. Period.
 
 If you want to use `nil` you MUST configure a string (or strings)
