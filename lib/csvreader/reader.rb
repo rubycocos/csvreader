@@ -6,6 +6,34 @@ module Csv    ## check: rename to CsvSettings / CsvPref / CsvGlobals or similar 
   ## STD_CSV_ENGINE = CSV   ## to avoid name confusion use longer name - why? why not? find a better name?
   ## use __CSV__ or similar? or just ::CSV ??
 
+
+class Dialect   ## todo: use a module - it's just a namespace/module now - why? why not?
+  ###
+  # (auto-)add these flavors/dialects:
+  #     :tab                   -> uses TabReader(!)
+  #     :strict|:rfc4180
+  #     :unix                   -> uses unix-style escapes e.g. \n \" etc.
+  #     :windows|:excel
+  #     :guess|:auto     -> guess (auto-detect) separator - why? why not?
+
+  ##  e.g. use Dialect.registry[:unix] = { ... } etc.
+  ##   note use @@ - there is only one registry
+  def self.registry() @@registry ||={} end
+
+  ## add built-in dialects:
+  ##    trim - use strip? why? why not? use alias?
+  registry[:tab]     = {}   ##{ class: TabReader }
+  registry[:strict]  = { strict: true, trim: false }   ## add no comments, blank lines, etc. ???
+  registry[:rfc4180] = :strict    ## alternative name
+  registry[:windows] = {}
+  registry[:excel]   = :windows
+  registry[:unix]    = {}
+
+  ## todo: add some more
+end  # class Dialect
+
+
+
   class Configuration
 
     puts "CSV::VERSION:"
@@ -23,6 +51,9 @@ module Csv    ## check: rename to CsvSettings / CsvPref / CsvGlobals or similar 
 
 
     attr_accessor :sep   ## col_sep (column separator)
+    attr_accessor :na    ## not available (string or array of strings or nil) - rename to nas/nils/nulls - why? why not?
+    attr_accessor :trim        ### allow ltrim/rtrim/trim - why? why not?
+    attr_accessor :dialect
 
     def initialize
       @sep = ','
@@ -31,6 +62,8 @@ module Csv    ## check: rename to CsvSettings / CsvPref / CsvGlobals or similar 
 
       self  ## return self for chaining
     end
+
+    def trim?() @trim; end   ## strip leading and trailing spaces
 
     def blank?( line )
       ## note:  blank line does NOT include "blank" with spaces only!!
@@ -96,24 +129,18 @@ end   # module Csvv
 
 class CsvReader
 
-  def self.foreach( path, sep: Csv.config.sep, headers: false )
+  def self.parse_line( txt, sep:        Csv.config.sep,
+                            trim:       Csv.config.trim?,
+                            na:         Csv.config.na,
+                            dialect:    Csv.config.dialect,
+                            converters: nil)
+    ## note: do NOT include headers option (otherwise single row gets skipped as first header row :-)
     csv_options = Csv.config.default_options.merge(
-                     headers: headers,
-                     col_sep: sep,
-                     external_encoding: 'utf-8'  ## note:  always (auto-)add utf-8 external encoding for now!!!
+                    headers: false,  ## note: always turn off headers!!!!!!
+                    col_sep: sep
     )
-
-    CSV.foreach( path, csv_options ) do |row|
-      yield( row )    ## check/todo: use block.call( row ) ## why? why not?
-    end
-  end
-
-  def self.read( path, sep: Csv.config.sep, headers: false )
-    ## note: use our own file.open
-    ##   always use utf-8 for now
-    ##    check/todo: add skip option bom too - why? why not?
-    txt = File.open( path, 'r:utf-8' )
-    parse( txt, sep: sep, headers: headers )
+    ## pp csv_options
+    CSV.parse_line( txt, csv_options )
   end
 
   def self.parse( txt, sep: Csv.config.sep, headers: false )
@@ -125,17 +152,30 @@ class CsvReader
     CSV.parse( txt, csv_options )
   end
 
-
-  def self.parse_line( txt, sep: Csv.config.sep )
-    ## note: do NOT include headers option (otherwise single row gets skipped as first header row :-)
-    csv_options = Csv.config.default_options.merge(
-                    headers: false,  ## note: always turn off headers!!!!!!
-                    col_sep: sep
-    )
-    ## pp csv_options
-    CSV.parse_line( txt, csv_options )
+  def self.read( path, sep: Csv.config.sep, headers: false )
+    ## note: use our own file.open
+    ##   always use utf-8 for now
+    ##    check/todo: add skip option bom too - why? why not?
+    txt = File.open( path, 'r:bom|utf-8' )
+    parse( txt, sep: sep, headers: headers )
   end
 
+  def self.foreach( path, sep: Csv.config.sep, headers: false )
+    csv_options = Csv.config.default_options.merge(
+                     headers: headers,
+                     col_sep: sep,
+                     external_encoding: 'utf-8'  ## note:  always (auto-)add utf-8 external encoding for now!!!
+    )
+
+    ##  todo/check/fix:
+    ##  can use bom e.g. 'bom|utf-8' - how?
+    ##   raises ArgumentError: unknown encoding name - bom|utf-8
+
+
+    CSV.foreach( path, csv_options ) do |row|
+      yield( row )    ## check/todo: use block.call( row ) ## why? why not?
+    end
+  end
 
   def self.header( path, sep: Csv.config.sep )   ## use header or headers - or use both (with alias)?
       # read first lines (only)
@@ -148,7 +188,7 @@ class CsvReader
       ##  - NOT a blank line
 
       lines = ''
-      File.open( path, 'r:utf-8' ) do |f|
+      File.open( path, 'r:bom|utf-8' ) do |f|
 
         ## todo/fix: how to handle empty files or files without headers?!
 
@@ -171,29 +211,18 @@ class CsvReader
       parse_line( lines, sep: sep )
     end  # method self.header
 
-    ####################
-    # helper methods
-    def self.unwrap( row_or_array )   ## unwrap row - find a better name? why? why not?
-      ## return row values as array of strings
-      if row_or_array.is_a?( CSV::Row )
-        row = row_or_array
-        row.fields   ## gets array of string of field values
-      else  ## assume "classic" array of strings
-        array = row_or_array
-      end
-    end
 end # class CsvReader
 
 
 
 class CsvHashReader
 
-def self.read( path, sep: Csv.config.sep, headers: true )
-  CsvReader.read( path, sep: sep, headers: headers )
-end
-
 def self.parse( txt, sep: Csv.config.sep, headers: true )
   CsvReader.parse( txt, sep: sep, headers: headers )
+end
+
+def self.read( path, sep: Csv.config.sep, headers: true )
+  CsvReader.read( path, sep: sep, headers: headers )
 end
 
 def self.foreach( path, sep: Csv.config.sep, headers: true, &block )
