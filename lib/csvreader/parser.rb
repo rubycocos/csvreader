@@ -113,7 +113,7 @@ def parse_field( io, trim: true )
     end
 
 		## note: always eat-up all trailing spaces (" ") and tabs (\t)
-		skip_spaces( io ) unless io.eof?
+		skip_spaces( io )
 		puts "end double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
   else
 		puts "start reg field - peek >#{io.peek}< (#{io.peek.ord})"
@@ -159,19 +159,25 @@ end
 
 
 def skip_newlines( io )
+	return if io.eof?
+	
 	while (c=io.peek; c=="\n" || c=="\r")
 		io.getc    ## eat-up all \n and \r
 	end
 end
 
 
-def skip_eol( io )
-  while (c=io.peek; !(c=="\n" || c=="\r" || io.eof?))
+def skip_until_eol( io )
+	return if io.eof?
+
+	while (c=io.peek; !(c=="\n" || c=="\r" || io.eof?))
 	  io.getc    ## eat-up all until end of line
 	end
 end
 
 def skip_spaces( io )
+  return if io.eof?
+
   while (c=io.peek; c==" " || c=="\t")
 	  io.getc   ## note: always eat-up all spaces (" ") and tabs (\t)
   end
@@ -205,11 +211,11 @@ def parse_lines( io, trim: true, comments: true, blanks: true, limit: nil )
 
     if comments && io.peek == "#"  			## comment line
 			puts "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"
-			skip_eol( io )
-			skip_newlines( io )  unless io.eof?
+			skip_until_eol( io )
+			skip_newlines( io )
     elsif blanks && (c=io.peek; c=="\n" || c=="\r" || io.eof?)
 			puts "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"
-			skip_newlines( io )  unless io.eof?
+			skip_newlines( io )
     else  # undo (ungetc spaces)
 			puts "start record - peek >#{io.peek}< (#{io.peek.ord})"
 
