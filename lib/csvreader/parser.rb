@@ -6,11 +6,11 @@ class Parser
 
 ## char constants
 DOUBLE_QUOTE = "\""
-COMMENT      = "#"    ## use COMMENT_HASH or HASH or ??
-SPACE        = " "
-TAB          = "\t"
-LF	         = "\n"    ## 0A (hex)  10 (dec)
-CR	         = "\r"    ## 0D (hex)  13 (dec)
+COMMENT      = "#"      ## use COMMENT_HASH or HASH or ??
+SPACE        = " "      ##   \s == ASCII 32 (dec)            =    (Space)
+TAB          = "\t"     ##   \t == ASCII 0x09 (hex)          = HT (Tab/horizontal tab)
+LF	         = "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line feed)
+CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
 
 
 def self.parse( data )
