@@ -164,7 +164,7 @@ see [`TabReader` »](https://github.com/datatxt/tabreader).
 
 Two major design bugs and many many minor.
 
-(1) The CSV class uses [`line.split(',')`](https://github.com/ruby/csv/blob/master/lib/csv.rb#L1248) with some kludges (†) with the claim its faster.
+(1) The CSV class uses [`line.split(',')`](https://github.com/ruby/csv/blob/master/lib/csv.rb#L1248) with some kludges (†) with the claim it's faster.
 What?! The right way: CSV needs its own purpose-built parser. There's no other
 way you can handle all the (edge) cases with double quotes and escaped doubled up
 double quotes. Period.
@@ -205,7 +205,7 @@ value with "quotes", another value
 =>
 
 ``` ruby
-["value with \"quotes\", "another value"]
+["value with \"quotes\"", "another value"]
 ```
 
 and some more.
