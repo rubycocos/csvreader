@@ -169,7 +169,7 @@ What?! The right way: CSV needs its own purpose-built parser. There's no other
 way you can handle all the (edge) cases with double quotes and escaped doubled up
 double quotes. Period.
 
-For example, the CSV class cannot handle leading or trailing spaces   
+For example, the CSV class cannot handle leading or trailing spaces
 for double quoted values `1,•"2","3"•`.
 Or handling double quotes inside values and so on and on.
 
