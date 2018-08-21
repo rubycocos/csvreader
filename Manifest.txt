@@ -4,10 +4,14 @@ Manifest.txt
 README.md
 Rakefile
 lib/csvreader.rb
+lib/csvreader/buffer.rb
+lib/csvreader/parser.rb
 lib/csvreader/reader.rb
 lib/csvreader/version.rb
 test/data/beer.csv
 test/data/beer11.csv
 test/data/shakespeare.csv
 test/helper.rb
+test/test_parser.rb
 test/test_reader.rb
+test/test_reader_hash.rb

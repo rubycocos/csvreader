@@ -4,6 +4,15 @@ class CsvReader
 class Parser
 
 
+## char constants
+DOUBLE_QUOTE = "\""
+COMMENT      = "#"    ## use COMMENT_HASH or HASH or ??
+SPACE        = " "
+TAB          = "\t"
+LF	         = "\n"    ## 0A (hex)  10 (dec)
+CR	         = "\r"    ## 0D (hex)  13 (dec)
+
+
 def self.parse( data )
   puts "parse:"
   pp data
@@ -52,10 +61,10 @@ def parse_field( io, trim: true )
   value = ""
   value << parse_spaces( io ) ## add leading spaces
 
-  if (c=io.peek; c=="," || c=="\n" || c=="\r" || io.eof?) ## empty field
+  if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
     value = value.strip    if trim ## strip all spaces
      ## return value; do nothing
-  elsif io.peek == "\""   ## DOUBLE_QUOTE
+  elsif io.peek == DOUBLE_QUOTE
     puts "start double_quote field - value >#{value}<"
     value = value.strip   ## note always strip/trim leading spaces in quoted value
 
@@ -63,7 +72,7 @@ def parse_field( io, trim: true )
     io.getc  ## eat-up double_quote
 
     loop do
-      while (c=io.peek; !(c=="\"" || io.eof?))
+      while (c=io.peek; !(c==DOUBLE_QUOTE || io.eof?))
         value << io.getc   ## eat-up everything unit quote (")
       end
 
@@ -71,7 +80,7 @@ def parse_field( io, trim: true )
 
       io.getc ## eat-up double_quote
 
-      if io.peek == "\""  ## doubled up quote?
+      if io.peek == DOUBLE_QUOTE  ## doubled up quote?
         value << io.getc   ## add doube quote and continue!!!!
       else
         break
@@ -86,7 +95,7 @@ def parse_field( io, trim: true )
     ## consume simple value
     ##   until we hit "," or "\n" or "\r"
     ##    note: will eat-up quotes too!!!
-    while (c=io.peek; !(c=="," || c=="\n" || c=="\r" || io.eof?))
+    while (c=io.peek; !(c=="," || c==LF || c==CR || io.eof?))
       puts "  add char >#{io.peek}< (#{io.peek.ord})"
       value << io.getc   ## eat-up all spaces (" ") and tabs (\t)
     end
@@ -109,7 +118,7 @@ def parse_record( io, trim: true )
 
      if io.eof?
         break
-     elsif (c=io.peek; c=="\n" || c=="\r")
+     elsif (c=io.peek; c==LF || c==CR)
        skip_newlines( io )
        break
      elsif io.peek == ","
@@ -127,7 +136,7 @@ end
 def skip_newlines( io )
   return if io.eof?
 
-  while (c=io.peek; c=="\n" || c=="\r")
+  while (c=io.peek; c==LF || c==CR)
     io.getc    ## eat-up all \n and \r
   end
 end
@@ -136,7 +145,7 @@ end
 def skip_until_eol( io )
   return if io.eof?
 
-  while (c=io.peek; !(c=="\n" || c=="\r" || io.eof?))
+  while (c=io.peek; !(c==LF || c==CR || io.eof?))
     io.getc    ## eat-up all until end of line
   end
 end
@@ -144,7 +153,7 @@ end
 def skip_spaces( io )
   return if io.eof?
 
-  while (c=io.peek; c==" " || c=="\t")
+  while (c=io.peek; c==SPACE || c==TAB)
     io.getc   ## note: always eat-up all spaces (" ") and tabs (\t)
   end
 end
@@ -155,7 +164,7 @@ end
 def parse_spaces( io )  ## helper method
   spaces = ""
   ## add leading spaces
-  while (c=io.peek; c==" " || c=="\t")
+  while (c=io.peek; c==SPACE || c==TAB)
     spaces << io.getc   ## eat-up all spaces (" ") and tabs (\t)
   end
   spaces
@@ -186,11 +195,11 @@ def parse_lines( io_maybe, trim: true,
       spaces = parse_spaces( io )
     end
 
-    if comments && io.peek == "#"        ## comment line
+    if comments && io.peek == COMMENT        ## comment line
       puts "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"
       skip_until_eol( io )
       skip_newlines( io )
-    elsif blanks && (c=io.peek; c=="\n" || c=="\r" || io.eof?)
+    elsif blanks && (c=io.peek; c==LF || c==CR || io.eof?)
       puts "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"
       skip_newlines( io )
     else  # undo (ungetc spaces)
