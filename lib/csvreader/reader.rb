@@ -12,6 +12,7 @@ class Dialect   ## todo: use a module - it's just a namespace/module now - why? 
   #     :unix                   -> uses unix-style escapes e.g. \n \" etc.
   #     :windows|:excel
   #     :guess|:auto     -> guess (auto-detect) separator - why? why not?
+  #     :mysql    -> add mysql flavor (see apache commons csv - why? why not?)
 
   ##  e.g. use Dialect.registry[:unix] = { ... } etc.
   ##   note use @@ - there is only one registry
