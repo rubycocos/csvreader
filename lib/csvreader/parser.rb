@@ -13,19 +13,23 @@ LF	         = "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line f
 CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
 
 
-def self.parse( data )
+
+def self.parse( data, sep:  Csv.config.sep,
+                      trim: Csv.config.trim? )
   puts "parse:"
   pp data
 
   parser = new
-  parser.parse( data )
+  parser.parse( data, sep: sep, trim: trim )
 end
 
-def self.parse_line( data )
+
+def self.parse_line( data, sep:  Csv.config.sep,
+                           trim: Csv.config.trim? )
   puts "parse_line:"
 
   parser = new
-  records = parser.parse( data, limit: 1 )
+  records = parser.parse( data, sep: sep, trim: trim, limit: 1 )
 
   ## unwrap record if empty return nil - why? why not?
   ##  return empty record e.g. [] - why? why not?
@@ -34,40 +38,41 @@ end
 
 
 
-def self.read( path )
+def self.read( path, sep:  Csv.config.sep,
+                     trim: Csv.config.trim? )
   parser = new
   File.open( path, 'r:bom|utf-8' ) do |file|
-    parser.parse( file )
+    parser.parse( file, sep: sep, trim: trim )
   end
 end
 
-def self.foreach( path, &block )
+def self.foreach( path, sep:  Csv.config.sep,
+                        trim: Csv.config.trim?, &block )
   parser = new
   File.open( path, 'r:bom|utf-8' ) do |file|
-    parser.foreach( file, &block )
+    parser.foreach( file, sep: sep, trim: trim, &block )
   end
 end
 
-def self.parse_lines( data, &block )
+
+#### fix!!! remove - replace with parse with (optional) block!!!!!
+def self.parse_lines( data, sep:  Csv.config.sep,
+                            trim: Csv.config.trim?, &block )
   parser = new
-  parser.parse_lines( data, &block )
+  parser.parse_lines( data, sep: sep, trim: trim, &block )
 end
 
 
 
 
 
-def parse_field( io, trim: true )
+def parse_field( io, sep: ',' )
   value = ""
-  value << parse_spaces( io ) ## add leading spaces
+  skip_spaces( io )   ## strip leading spaces
 
   if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
-    value = value.strip    if trim ## strip all spaces
      ## return value; do nothing
   elsif io.peek == DOUBLE_QUOTE
-    puts "start double_quote field - value >#{value}<"
-    value = value.strip   ## note always strip/trim leading spaces in quoted value
-
     puts "start double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
     io.getc  ## eat-up double_quote
 
@@ -99,7 +104,7 @@ def parse_field( io, trim: true )
       puts "  add char >#{io.peek}< (#{io.peek.ord})"
       value << io.getc   ## eat-up all spaces (" ") and tabs (\t)
     end
-    value = value.strip    if trim ## strip all spaces
+    value = value.strip   ## strip all trailing spaces
     puts "end reg field - peek >#{io.peek}< (#{io.peek.ord})"
   end
 
@@ -108,11 +113,53 @@ end
 
 
 
-def parse_record( io, trim: true )
+
+def parse_field_strict( io )
+  value = ""
+
+  if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
+     ## return value; do nothing
+  elsif io.peek == DOUBLE_QUOTE
+    puts "start double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    io.getc  ## eat-up double_quote
+
+    loop do
+      while (c=io.peek; !(c==DOUBLE_QUOTE || io.eof?))
+        value << io.getc   ## eat-up everything unit quote (")
+      end
+
+      break if io.eof?
+
+      io.getc ## eat-up double_quote
+
+      if io.peek == DOUBLE_QUOTE  ## doubled up quote?
+        value << io.getc   ## add doube quote and continue!!!!
+      else
+        break
+      end
+    end
+    puts "end double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+  else
+    puts "start reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    ## consume simple value
+    ##   until we hit "," or "\n" or "\r" or stroy "\"" double quote
+    while (c=io.peek; !(c=="," || c==LF || c==CR || c==DOUBLE_QUOTE || io.eof?))
+      puts "  add char >#{io.peek}< (#{io.peek.ord})"
+      value << io.getc
+    end
+    puts "end reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+  end
+
+  value
+end
+
+
+
+def parse_record( io, sep: ',' )
   values = []
 
   loop do
-     value = parse_field( io, trim: trim )
+     value = parse_field( io, sep: sep )
      puts "value: »#{value}«"
      values << value
 
@@ -133,6 +180,32 @@ def parse_record( io, trim: true )
 end
 
 
+def parse_record_strict( io )
+  values = []
+
+  loop do
+     value = parse_field_strict( io )
+     puts "value: »#{value}«"
+     values << value
+
+     if io.eof?
+        break
+     elsif (c=io.peek; c==LF || c==CR)
+       skip_newline( io )   ## note: singular / single newline only (NOT plural)
+       break
+     elsif io.peek == ","
+       io.getc   ## eat-up FS(,)
+     else
+       puts "*** csv parse error (strict): found >#{io.peek} (#{io.peek.ord})< - FS (,) or RS (\\n) expected!!!!"
+       exit(1)
+     end
+  end
+
+  values
+end
+
+
+
 def skip_newlines( io )
   return if io.eof?
 
@@ -140,6 +213,22 @@ def skip_newlines( io )
     io.getc    ## eat-up all \n and \r
   end
 end
+
+
+def skip_newline( io )    ## note: singular (strict) version
+  return if io.eof?
+
+  ## only skip CR LF or LF or CR
+  if io.peek == CR
+    io.getc ## eat-up
+    io.getc  if io.peek == LF
+  elsif io.peek == LF
+    io.getc ## eat-up
+  else
+    # do nothing
+  end
+end
+
 
 
 def skip_until_eol( io )
@@ -161,22 +250,10 @@ end
 
 
 
-def parse_spaces( io )  ## helper method
-  spaces = ""
-  ## add leading spaces
-  while (c=io.peek; c==SPACE || c==TAB)
-    spaces << io.getc   ## eat-up all spaces (" ") and tabs (\t)
-  end
-  spaces
-end
+def parse_lines( io_maybe, sep:  ',',
+                           trim: true, &block )
 
-
-
-
-def parse_lines( io_maybe, trim: true,
-                           comments: true,
-                           blanks: true,   &block )
-
+  ##
   ## find a better name for io_maybe
   ##   make sure io is a wrapped into BufferIO!!!!!!
   if io_maybe.is_a?( BufferIO )    ### allow (re)use of BufferIO if managed from "outside"
@@ -185,50 +262,81 @@ def parse_lines( io_maybe, trim: true,
     io = BufferIO.new( io_maybe )
   end
 
+  ## for now use - trim == false for strict version flag alias
+  ##   todo/fix: add strict flag - why? why not?
+  strict = trim ? false : true
+
+  if strict
+    parse_lines_strict( io, sep: sep, &block )
+  else
+    parse_lines_human( io, sep: sep, &block )
+  end
+end  ## parse_lines
+
+
+
+
+def parse_lines_human( io, sep: ',', &block )
 
   loop do
     break if io.eof?
 
-    ## hack: use own space buffer for peek( x ) lookahead (more than one char)
-    ## check for comments or blank lines
-    if comments || blanks
-      spaces = parse_spaces( io )
-    end
+    skip_spaces( io )
 
-    if comments && io.peek == COMMENT        ## comment line
+    if io.peek == COMMENT        ## comment line
       puts "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"
       skip_until_eol( io )
       skip_newlines( io )
-    elsif blanks && (c=io.peek; c==LF || c==CR || io.eof?)
+    elsif (c=io.peek; c==LF || c==CR || io.eof?)
       puts "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"
       skip_newlines( io )
-    else  # undo (ungetc spaces)
+    else
       puts "start record - peek >#{io.peek}< (#{io.peek.ord})"
 
-      if comments || blanks
-        ## note: MUST ungetc in "reverse" order
-        ##   ##   buffer is last in/first out queue!!!!
-        spaces.reverse.each_char { |space| io.ungetc( space ) }
-      end
-
-      record = parse_record( io, trim: trim )
-
+      record = parse_record( io, sep: sep )
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
     end
   end  # loop
-end # method parse_lines
+end # method parse_lines_human
+
+
+
+def parse_lines_strict( io, sep: ',', &block )
+
+  ## no leading and trailing whitespaces trimmed/stripped
+  ## no comments skipped
+  ## no blanks skipped
+  ## - follows strict rules of
+  ##  note: this csv format is NOT recommended;
+  ##    please, use a format with comments, leading and trailing whitespaces, etc.
+  ##    only added for checking compatibility
+
+  loop do
+    break if io.eof?
+
+    puts "start record (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+
+    record = parse_record_strict( io, sep: sep )
+
+    ## note: requires block - enforce? how? why? why not?
+    block.call( record )   ## yield( record )
+  end  # loop
+end # method parse_lines_strict
 
 
 
 
-def parse( io_maybe, trim: true,
-               comments: true,
-               blanks: true,
-               limit: nil )
+
+## fix: use csv.defaults in args!!
+##   fix: add optional block  - lets you use it like foreach!!!
+##    make foreach an alias of parse with block - why? why not?
+def parse( io_maybe, sep: ',',
+                     trim: true,
+                     limit: nil )
   records = []
 
-  parse_lines( io_maybe, trim: trim, comments: comments, blanks: blanks ) do |record|
+  parse_lines( io_maybe, sep: sep, trim: trim ) do |record|
     records << record
 
     ## set limit to 1 for processing "single" line (that is, get one record)
@@ -239,12 +347,11 @@ def parse( io_maybe, trim: true,
 end ## method parse
 
 
-def foreach( io_maybe, trim: true,
-                 comments: true,
-                 blanks: true,    &block )
-  parse_lines( io_maybe, trim: trim, comments: comments, blanks: blanks, &block )
+## fix: use csv.defaults in args!!
+def foreach( io_maybe, sep: ',',
+                       trim: true, &block )
+  parse_lines( io_maybe, sep: sep, trim: trim, &block )
 end
-
 
 
 end # class Parser
