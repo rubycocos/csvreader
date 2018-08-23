@@ -330,3 +330,16 @@ If true, ignore whitespace immediately following the delimiter (i.e. left-trim a
 
 #### rtrim (boolean)
 If true, ignore whitespace immediately preceding the delimiter (i.e. right-trim all fields). Defaults to false. Does not remove whitespace in a quoted field.
+
+
+## More CSV Readers
+
+- Panda CSV Reader  - <https://pandas.pydata.org/pandas-docs/stable/generated/pandas.read_csv.html>
+- Perl CSV Reader -  <https://metacpan.org/pod/Text::CSV> 
+- Racket CSV Reader - <https://docs.racket-lang.org/csv-reading>
+- Rust CSV Reader - <https://docs.rs/csv>
+- add more here
+
+todo: add options here (inline) for more CSV readers
+
+
