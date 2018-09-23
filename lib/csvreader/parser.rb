@@ -64,6 +64,36 @@ end
 
 
 
+attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
+
+def initialize( sep:         Csv.config.sep,
+                quote:       nil,
+                doublequote: true,
+                escape:      nil,
+                trim:        Csv.config.trim? )
+  @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
+  @config[:sep]  = sep
+  @config[:trim] = trim
+end
+
+def strict?
+  ## note:  use for separate two different parsers / code paths:
+  ##   - human with trim leading and trailing whitespace and
+  ##   - strict with no leading and trailing whitespaces allowed
+
+  ## for now use - trim == false for strict version flag alias
+  ##   todo/fix: add strict flag - why? why not?
+  @config[:trim] ? false : true
+end
+
+
+DEFAULT = new( sep: ',', trim: true )
+RFC4180 = new( sep: ',', trim: false )
+EXCEL   = new( sep: ',', trim: false )
+
+def self.default()  DEFAULT; end    ## alternative alias for DEFAULT
+def self.rfc4180()  RFC4180; end    ## alternative alias for DEFAULT
+
 
 
 def parse_field( io, sep: ',' )
@@ -114,7 +144,7 @@ end
 
 
 
-def parse_field_strict( io )
+def parse_field_strict( io, sep: ',' )
   value = ""
 
   if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
@@ -155,7 +185,7 @@ end
 
 
 
-def parse_record( io, sep: ',' )
+def parse_record( io, sep: config[:sep] )
   values = []
 
   loop do
@@ -180,7 +210,7 @@ def parse_record( io, sep: ',' )
 end
 
 
-def parse_record_strict( io )
+def parse_record_strict( io, sep: config[:sep] )
   values = []
 
   loop do
@@ -250,10 +280,7 @@ end
 
 
 
-def parse_lines( io_maybe, sep:  ',',
-                           trim: true, &block )
-
-  ##
+def parse_lines( io_maybe, sep: config[:sep], &block )
   ## find a better name for io_maybe
   ##   make sure io is a wrapped into BufferIO!!!!!!
   if io_maybe.is_a?( BufferIO )    ### allow (re)use of BufferIO if managed from "outside"
@@ -262,11 +289,7 @@ def parse_lines( io_maybe, sep:  ',',
     io = BufferIO.new( io_maybe )
   end
 
-  ## for now use - trim == false for strict version flag alias
-  ##   todo/fix: add strict flag - why? why not?
-  strict = trim ? false : true
-
-  if strict
+  if strict?
     parse_lines_strict( io, sep: sep, &block )
   else
     parse_lines_human( io, sep: sep, &block )
@@ -276,7 +299,7 @@ end  ## parse_lines
 
 
 
-def parse_lines_human( io, sep: ',', &block )
+def parse_lines_human( io, sep: config[:sep], &block )
 
   loop do
     break if io.eof?
@@ -302,7 +325,7 @@ end # method parse_lines_human
 
 
 
-def parse_lines_strict( io, sep: ',', &block )
+def parse_lines_strict( io, sep: config[:sep], &block )
 
   ## no leading and trailing whitespaces trimmed/stripped
   ## no comments skipped
@@ -327,16 +350,12 @@ end # method parse_lines_strict
 
 
 
-
-## fix: use csv.defaults in args!!
 ##   fix: add optional block  - lets you use it like foreach!!!
 ##    make foreach an alias of parse with block - why? why not?
-def parse( io_maybe, sep: ',',
-                     trim: true,
-                     limit: nil )
+def parse( io_maybe, sep: config[:sep], limit: nil )
   records = []
 
-  parse_lines( io_maybe, sep: sep, trim: trim ) do |record|
+  parse_lines( io_maybe, sep: sep  ) do |record|
     records << record
 
     ## set limit to 1 for processing "single" line (that is, get one record)
@@ -347,10 +366,8 @@ def parse( io_maybe, sep: ',',
 end ## method parse
 
 
-## fix: use csv.defaults in args!!
-def foreach( io_maybe, sep: ',',
-                       trim: true, &block )
-  parse_lines( io_maybe, sep: sep, trim: trim, &block )
+def foreach( io_maybe, sep: config[:sep], &block )
+  parse_lines( io_maybe, sep: sep, &block )
 end
 
 
