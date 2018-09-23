@@ -7,7 +7,7 @@ module Csv    ## check: rename to CsvSettings / CsvPref / CsvGlobals or similar 
 
 ## todo/fix:
 ##   move dialect to its own file!
-  
+
 class Dialect   ## todo: use a module - it's just a namespace/module now - why? why not?
   ###
   # (auto-)add these flavors/dialects:
@@ -30,8 +30,8 @@ class Dialect   ## todo: use a module - it's just a namespace/module now - why? 
   #   withIgnoreEmptyLines(true)
   #
   #  EXCEL
-  #    Excel file format (using a comma as the value delimiter). 
-  #     Note that the actual value delimiter used by Excel is locale dependent, 
+  #    Excel file format (using a comma as the value delimiter).
+  #     Note that the actual value delimiter used by Excel is locale dependent,
   #     it might be necessary to customize this format to accommodate to your regional settings.
   #     For example for parsing or generating a CSV file on a French system the following format will be used:
   #      CSVFormat fmt = CSVFormat.EXCEL.withDelimiter(';');
@@ -45,7 +45,7 @@ class Dialect   ## todo: use a module - it's just a namespace/module now - why? 
   #
   #  MYSQL
   #   Default MySQL format used by the SELECT INTO OUTFILE and LOAD DATA INFILE operations.
-  #   This is a tab-delimited format with a LF character as the line separator. 
+  #   This is a tab-delimited format with a LF character as the line separator.
   #   Values are not quoted and special characters are escaped with '\'. The default NULL string is "\\N".
   #  Settings are:
   #    withSep('\t')
@@ -54,7 +54,7 @@ class Dialect   ## todo: use a module - it's just a namespace/module now - why? 
   #    withIgnoreEmptyLines(false)
   #    withEscape('\\')
   #    withNullString("\\N")
-  #    withQuoteMode(QuoteMode.ALL_NON_NULL) 
+  #    withQuoteMode(QuoteMode.ALL_NON_NULL)
   #
   #  POSTGRESQL_CSV
   #    Default PostgreSQL CSV format used by the COPY operation.
@@ -71,7 +71,7 @@ class Dialect   ## todo: use a module - it's just a namespace/module now - why? 
   #
   #  POSTGRESQL_TEXT
   #    Default PostgreSQL text format used by the COPY operation.
-  #    This is a tab-delimited format with a LF character as the line separator. 
+  #    This is a tab-delimited format with a LF character as the line separator.
   #    Values are double quoted and special characters are escaped with '"'. The default NULL string is "\\N".
   #  Settings are:
   #    withSep('\t')
@@ -97,10 +97,10 @@ class Dialect   ## todo: use a module - it's just a namespace/module now - why? 
   #     withQuote('"')
   #     withRecordSeparator("\r\n")
   #     withIgnoreSurroundingSpaces(true)
-  
-  
-  
-  
+
+
+
+
   ##  e.g. use Dialect.registry[:unix] = { ... } etc.
   ##   note use @@ - there is only one registry
   def self.registry() @@registry ||={} end
@@ -198,17 +198,74 @@ end   # module Csvv
 
 class CsvReader
 
-  def self.parse_line( txt, sep:        Csv.config.sep,
-                            trim:       Csv.config.trim?,
-                            na:         Csv.config.na,
-                            dialect:    Csv.config.dialect,
-                            converters: nil)
-    ## note: do NOT include headers option (otherwise single row gets skipped as first header row :-)
-    csv_options = Csv.config.default_options.merge(
-                    col_sep: sep
-    )
-    ## pp csv_options
-    Parser.parse_line( txt )  ##, csv_options )
+  def initialize( parser )
+    @parser = parser
+  end
+
+  DEFAULT = new( Parser::DEFAULT )
+  RFC4180 = new( Parser::RFC4180 )
+  EXCEL   = new( Parser::EXCEL )
+
+  def self.default()  DEFAULT; end    ## alternative alias for DEFAULT
+  def self.rfc4180()  RFC4180; end    ## alternative alias for RFC4180
+  def self.excel()    EXCEL; end      ## alternative alias for EXCEL
+
+
+  #####################
+  ## convenience helpers defaulting to default csv dialect/format reader
+  ##
+  ##   CsvReader.parse_line is the same as
+  ##     CsvReader::DEFAULT.parse_line or CsvReader.default.parse_line
+  ##
+
+  def self.parse_line( data, sep: nil,
+                             converters: nil )
+     DEFAULT.parse_line( data, sep: sep, converters: converters )
+  end
+
+  def self.parse( data, sep: nil,
+                        converters: nil )
+     DEFAULT.parse( data, sep: sep, converters: converters )
+  end
+
+  #### fix!!! remove - replace with parse with (optional) block!!!!!
+  def self.parse_lines( data, sep: nil,
+                              converters: nil, &block )
+     DEFAULT.parse_lines( data, sep: sep, converters: nil, &block )
+  end
+
+  def self.read( path, sep: nil,
+                       converters: nil )
+     DEFAULT.read( path, sep: sep, converters: converters )
+  end
+
+  def self.header( path, sep: nil )
+     DEFAULT.header( path, sep: sep )
+  end
+
+  def self.foreach( path, sep: nil,
+                          converters: nil, &block )
+     DEFAULT.foreach( path, sep: sep, converters: converters, &block )
+  end
+
+
+
+  #############################
+  ## all "high-level" reader methods
+  ##
+  ## note: allow "overriding" of separator
+  ##    if sep is not nil otherwise use default dialect/format separator
+
+
+  def parse_line( data, sep: nil,
+                        converters: nil )
+    sep = @parser.config[:sep]  if sep.nil?
+
+    records = @parser.parse( data, sep: sep, limit: 1 )
+
+    ## unwrap record if empty return nil - why? why not?
+    ##  return empty record e.g. [] - why? why not?
+    records.size == 0 ? nil : records.first
   end
 
 
@@ -216,23 +273,22 @@ class CsvReader
   ##  todo/fix: "unify" parse and parse_lines  !!!
   ##    check for block_given? - why? why not?
 
-  def self.parse( txt, sep: Csv.config.sep )
-    csv_options = Csv.config.default_options.merge(
-                     col_sep: sep
-    )
-    ## pp csv_options
-    Parser.parse( txt )  ###, csv_options )
+  def parse( data, sep: nil,
+                   converters: nil )
+    sep = @parser.config[:sep]  if sep.nil?
+    @parser.parse( data, sep: sep )
   end
 
-  def self.parse_lines( txt, sep: Csv.config.sep, &block )
-    csv_options = Csv.config.default_options.merge(
-                     col_sep: sep
-    )
-    ## pp csv_options
-    Parser.parse_lines( txt, &block )  ###, csv_options )
+  #### fix!!! remove - replace with parse with (optional) block!!!!!
+  def parse_lines( data, sep: nil,
+                         converters: nil, &block )
+    sep = @parser.config[:sep]  if sep.nil?
+    @parser.parse_lines( data, sep: sep, &block )
   end
 
-  def self.read( path, sep: Csv.config.sep )
+
+  def read( path, sep: nil,
+                  converters: nil )
     ## note: use our own file.open
     ##   always use utf-8 for now
     ##    check/todo: add skip option bom too - why? why not?
@@ -240,33 +296,28 @@ class CsvReader
     parse( txt, sep: sep )
   end
 
+  def foreach( path, sep: nil,
+                     converters: nil, &block )
+    sep = @parser.config[:sep]  if sep.nil?
 
-  def self.foreach( path, sep: Csv.config.sep, &block )
-    csv_options = Csv.config.default_options.merge(
-                     col_sep: sep
-    )
-
-    Parser.foreach( path, &block ) ###, csv_options )
+    File.open( path, 'r:bom|utf-8' ) do |file|
+      @parser.foreach( file, sep: sep, &block )
+    end
   end
 
 
-  def self.header( path, sep: Csv.config.sep )   ## use header or headers - or use both (with alias)?
-      # read first lines (only)
-      #  and parse with csv to get header from csv library itself
-      #
-      #  check - if there's an easier or built-in way for the csv library
 
-      ## readlines until
-      ##  - NOT a comments line or
-      ##  - NOT a blank line
+  def header( path, sep: nil )   ## use header or headers - or use both (with alias)?
+     # read first lines (only)
+     #  and parse with csv to get header from csv library itself
 
      record = nil
      File.open( path, 'r:bom|utf-8' ) do |file|
-        record = Parser.parse_line( file )
+        record = parse_line( file, sep: sep )
      end
 
-     record  ## todo/fix: return nil for empty - why? why not?
-    end  # method self.header
+     record  ## todo/fix: returns nil for empty - why? why not?
+  end  # method self.header
 
 end # class CsvReader
 
@@ -276,13 +327,13 @@ end # class CsvReader
 class CsvHashReader
 
 
-def self.parse( txt, sep: Csv.config.sep, headers: nil )
+def self.parse( data, sep: nil, headers: nil )
 
   ## pass in headers as array e.g. ['A', 'B', 'C']
   names = headers ? headers : nil
 
   records = []
-  CsvReader.parse_lines( txt ) do |values|     # sep: sep
+  CsvReader.parse_lines( data ) do |values|     # sep: sep
     if names.nil?
       names = values   ## store header row / a.k.a. field/column names
     else
@@ -294,13 +345,13 @@ def self.parse( txt, sep: Csv.config.sep, headers: nil )
 end
 
 
-def self.read( path, sep: Csv.config.sep, headers: nil )
+def self.read( path, sep: nil, headers: nil )
   txt = File.open( path, 'r:bom|utf-8' ).read
   parse( txt, sep: sep, headers: headers )
 end
 
 
-def self.foreach( path, sep: Csv.config.sep, headers: nil, &block )
+def self.foreach( path, sep: nil, headers: nil, &block )
 
   ## pass in headers as array e.g. ['A', 'B', 'C']
   names = headers ? headers : nil
@@ -316,7 +367,7 @@ def self.foreach( path, sep: Csv.config.sep, headers: nil, &block )
 end
 
 
-def self.header( path, sep: Csv.config.sep )   ## add header too? why? why not?
+def self.header( path, sep: sep )   ## add header too? why? why not?
   ## same as "classic" header method - delegate/reuse :-)
   CsvReader.header( path, sep: sep )
 end

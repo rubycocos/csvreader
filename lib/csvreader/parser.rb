@@ -1,6 +1,23 @@
 # encoding: utf-8
 
 class CsvReader
+
+
+
+## todo: move logger to its own file!!!
+class Logger
+  def initialize( clazz )
+    @clazz = clazz
+  end
+
+  def debug( msg )
+    puts "[debug] #{msg}"  if @clazz.debug?
+  end
+end # class Logger
+
+
+
+
 class Parser
 
 
@@ -13,54 +30,15 @@ LF	         = "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line f
 CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
 
 
+###################################
+## add simple logger with debug flag/switch
+#
+#  use Parser.debug = true   # to turn on
+def self.logger() @@logger ||= Logger.new( self ); end
+def self.debug=(value) @@debug = value; end
+def self.debug?() @@debug ||= false; end
+def logger()  self.class.logger; end
 
-def self.parse( data, sep:  Csv.config.sep,
-                      trim: Csv.config.trim? )
-  puts "parse:"
-  pp data
-
-  parser = new
-  parser.parse( data, sep: sep, trim: trim )
-end
-
-
-def self.parse_line( data, sep:  Csv.config.sep,
-                           trim: Csv.config.trim? )
-  puts "parse_line:"
-
-  parser = new
-  records = parser.parse( data, sep: sep, trim: trim, limit: 1 )
-
-  ## unwrap record if empty return nil - why? why not?
-  ##  return empty record e.g. [] - why? why not?
-  records.size == 0 ? nil : records.first
-end
-
-
-
-def self.read( path, sep:  Csv.config.sep,
-                     trim: Csv.config.trim? )
-  parser = new
-  File.open( path, 'r:bom|utf-8' ) do |file|
-    parser.parse( file, sep: sep, trim: trim )
-  end
-end
-
-def self.foreach( path, sep:  Csv.config.sep,
-                        trim: Csv.config.trim?, &block )
-  parser = new
-  File.open( path, 'r:bom|utf-8' ) do |file|
-    parser.foreach( file, sep: sep, trim: trim, &block )
-  end
-end
-
-
-#### fix!!! remove - replace with parse with (optional) block!!!!!
-def self.parse_lines( data, sep:  Csv.config.sep,
-                            trim: Csv.config.trim?, &block )
-  parser = new
-  parser.parse_lines( data, sep: sep, trim: trim, &block )
-end
 
 
 
@@ -76,8 +54,9 @@ def initialize( sep:         Csv.config.sep,
   @config[:trim] = trim
 end
 
+
 def strict?
-  ## note:  use for separate two different parsers / code paths:
+  ## note:  use trim for separating two different parsers / code paths:
   ##   - human with trim leading and trailing whitespace and
   ##   - strict with no leading and trailing whitespaces allowed
 
@@ -92,18 +71,20 @@ RFC4180 = new( sep: ',', trim: false )
 EXCEL   = new( sep: ',', trim: false )
 
 def self.default()  DEFAULT; end    ## alternative alias for DEFAULT
-def self.rfc4180()  RFC4180; end    ## alternative alias for DEFAULT
+def self.rfc4180()  RFC4180; end    ## alternative alias for RFC4180
+def self.excel()    EXCEL; end      ## alternative alias for EXCEL
 
 
 
-def parse_field( io, sep: ',' )
+
+def parse_field( io, sep: config[:sep] )
   value = ""
   skip_spaces( io )   ## strip leading spaces
 
   if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
      ## return value; do nothing
   elsif io.peek == DOUBLE_QUOTE
-    puts "start double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
     io.getc  ## eat-up double_quote
 
     loop do
@@ -124,18 +105,18 @@ def parse_field( io, sep: ',' )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
     skip_spaces( io )
-    puts "end double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "end double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
   else
-    puts "start reg field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start reg field - peek >#{io.peek}< (#{io.peek.ord})"
     ## consume simple value
     ##   until we hit "," or "\n" or "\r"
     ##    note: will eat-up quotes too!!!
     while (c=io.peek; !(c=="," || c==LF || c==CR || io.eof?))
-      puts "  add char >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"
       value << io.getc   ## eat-up all spaces (" ") and tabs (\t)
     end
     value = value.strip   ## strip all trailing spaces
-    puts "end reg field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "end reg field - peek >#{io.peek}< (#{io.peek.ord})"
   end
 
   value
@@ -144,13 +125,13 @@ end
 
 
 
-def parse_field_strict( io, sep: ',' )
+def parse_field_strict( io, sep: config[:sep] )
   value = ""
 
   if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
      ## return value; do nothing
   elsif io.peek == DOUBLE_QUOTE
-    puts "start double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
     io.getc  ## eat-up double_quote
 
     loop do
@@ -168,16 +149,16 @@ def parse_field_strict( io, sep: ',' )
         break
       end
     end
-    puts "end double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "end double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
   else
-    puts "start reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
     ## consume simple value
     ##   until we hit "," or "\n" or "\r" or stroy "\"" double quote
     while (c=io.peek; !(c=="," || c==LF || c==CR || c==DOUBLE_QUOTE || io.eof?))
-      puts "  add char >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"
       value << io.getc
     end
-    puts "end reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "end reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
   end
 
   value
@@ -190,7 +171,7 @@ def parse_record( io, sep: config[:sep] )
 
   loop do
      value = parse_field( io, sep: sep )
-     puts "value: »#{value}«"
+     logger.debug "value: »#{value}«"
      values << value
 
      if io.eof?
@@ -215,7 +196,7 @@ def parse_record_strict( io, sep: config[:sep] )
 
   loop do
      value = parse_field_strict( io )
-     puts "value: »#{value}«"
+     logger.debug "value: »#{value}«"
      values << value
 
      if io.eof?
@@ -280,23 +261,6 @@ end
 
 
 
-def parse_lines( io_maybe, sep: config[:sep], &block )
-  ## find a better name for io_maybe
-  ##   make sure io is a wrapped into BufferIO!!!!!!
-  if io_maybe.is_a?( BufferIO )    ### allow (re)use of BufferIO if managed from "outside"
-    io = io_maybe
-  else
-    io = BufferIO.new( io_maybe )
-  end
-
-  if strict?
-    parse_lines_strict( io, sep: sep, &block )
-  else
-    parse_lines_human( io, sep: sep, &block )
-  end
-end  ## parse_lines
-
-
 
 
 def parse_lines_human( io, sep: config[:sep], &block )
@@ -307,14 +271,14 @@ def parse_lines_human( io, sep: config[:sep], &block )
     skip_spaces( io )
 
     if io.peek == COMMENT        ## comment line
-      puts "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"
       skip_until_eol( io )
       skip_newlines( io )
     elsif (c=io.peek; c==LF || c==CR || io.eof?)
-      puts "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"
       skip_newlines( io )
     else
-      puts "start record - peek >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "start record - peek >#{io.peek}< (#{io.peek.ord})"
 
       record = parse_record( io, sep: sep )
       ## note: requires block - enforce? how? why? why not?
@@ -338,7 +302,7 @@ def parse_lines_strict( io, sep: config[:sep], &block )
   loop do
     break if io.eof?
 
-    puts "start record (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start record (strict) - peek >#{io.peek}< (#{io.peek.ord})"
 
     record = parse_record_strict( io, sep: sep )
 
@@ -349,9 +313,28 @@ end # method parse_lines_strict
 
 
 
+def parse_lines( io_maybe, sep: config[:sep], &block )
+  ## find a better name for io_maybe
+  ##   make sure io is a wrapped into BufferIO!!!!!!
+  if io_maybe.is_a?( BufferIO )    ### allow (re)use of BufferIO if managed from "outside"
+    io = io_maybe
+  else
+    io = BufferIO.new( io_maybe )
+  end
+
+  if strict?
+    parse_lines_strict( io, sep: sep, &block )
+  else
+    parse_lines_human( io, sep: sep, &block )
+  end
+end  ## parse_lines
+
 
 ##   fix: add optional block  - lets you use it like foreach!!!
 ##    make foreach an alias of parse with block - why? why not?
+##
+##   unifiy with (make one) parse and parse_lines!!!! - why? why not?
+
 def parse( io_maybe, sep: config[:sep], limit: nil )
   records = []
 
@@ -359,6 +342,7 @@ def parse( io_maybe, sep: config[:sep], limit: nil )
     records << record
 
     ## set limit to 1 for processing "single" line (that is, get one record)
+    ##  use break instead of return records - why? why not?
     return records   if limit && limit >= records.size
   end
 
