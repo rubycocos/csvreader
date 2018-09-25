@@ -3,6 +3,7 @@
 require 'csv'
 require 'json'
 require 'pp'
+require 'logger'
 
 
 ###

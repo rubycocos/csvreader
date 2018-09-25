@@ -10,7 +10,7 @@ require 'helper'
 class TestParserRfc4180 < MiniTest::Test
 
 def setup
-  CsvReader::Parser.debug = true   ## turn on "global" logging - move to helper - why? why not?
+  CsvReader::Parser.logger.level = :debug   ## turn on "global" logging - move to helper - why? why not?
 end
 
 def parser
@@ -35,5 +35,61 @@ def test_parse
    assert_equal records, parser.parse( "a,b,c\r1,2,3\r4,5,6" )
    assert_equal records, parser.parse( "a,b,c\r\n1,2,3\r\n4,5,6\r\n" )
 end
+
+def test_parse_semicolon
+   records = [["a", "b", "c"],
+              ["1", "2", "3"],
+              ["4", "5", "6"]]
+
+   ## don't care about newlines (\r\n) ??? - fix? why? why not?
+   assert_equal records, parser.parse( "a;b;c\n1;2;3\n4;5;6",         sep: ';' )
+   assert_equal records, parser.parse( "a;b;c\n1;2;3\n4;5;6\n",       sep: ';' )
+   assert_equal records, parser.parse( "a;b;c\r1;2;3\r4;5;6",         sep: ';' )
+   assert_equal records, parser.parse( "a;b;c\r\n1;2;3\r\n4;5;6\r\n", sep: ';' )
+end
+
+def test_parse_tab
+   records = [["a", "b", "c"],
+              ["1", "2", "3"],
+              ["4", "5", "6"]]
+
+   ## don't care about newlines (\r\n) ??? - fix? why? why not?
+   assert_equal records, parser.parse( "a\tb\tc\n1\t2\t3\n4\t5\t6",         sep: "\t" )
+   assert_equal records, parser.parse( "a\tb\tc\n1\t2\t3\n4\t5\t6\n",       sep: "\t" )
+   assert_equal records, parser.parse( "a\tb\tc\r1\t2\t3\r4\t5\t6",         sep: "\t" )
+   assert_equal records, parser.parse( "a\tb\tc\r\n1\t2\t3\r\n4\t5\t6\r\n", sep: "\t" )
+end
+
+
+
+def test_parse_empties
+  assert_equal [["","",""],["","",""]], parser.parse( %Q{"","",""\n,,} )
+
+  parser.config[:quoted_empty] = nil
+
+  assert_nil       parser.config[:quoted_empty]
+  assert_equal "", parser.config[:unquoted_empty]
+
+  assert_equal [[nil,nil,nil," "],["","",""," "]], parser.parse( %Q{"","",""," "\n,,, } )
+
+
+  parser.config[:unquoted_empty] = nil
+
+  assert_nil parser.config[:quoted_empty]
+  assert_nil parser.config[:unquoted_empty]
+
+  assert_equal [[nil,nil,nil," "],[nil,nil,nil," "]], parser.parse( %Q{"","",""," "\n,,, } )
+
+
+  ## reset to defaults
+  parser.config[:quoted_empty]   = ""
+  parser.config[:unquoted_empty] = ""
+
+  assert_equal "", parser.config[:quoted_empty]
+  assert_equal "", parser.config[:unquoted_empty]
+
+  assert_equal [["","",""],["","",""]], parser.parse( %Q{"","",""\n,,} )
+end
+
 
 end # class TestParserRfc4180

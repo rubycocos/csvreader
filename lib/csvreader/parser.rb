@@ -4,18 +4,6 @@ class CsvReader
 
 
 
-## todo: move logger to its own file!!!
-class Logger
-  def initialize( clazz )
-    @clazz = clazz
-  end
-
-  def debug( msg )
-    puts "[debug] #{msg}"  if @clazz.debug?
-  end
-end # class Logger
-
-
 
 
 class Parser
@@ -23,6 +11,7 @@ class Parser
 
 ## char constants
 DOUBLE_QUOTE = "\""
+BACKSLASH    = "\\"    ## use BACKSLASH_ESCAPE ??
 COMMENT      = "#"      ## use COMMENT_HASH or HASH or ??
 SPACE        = " "      ##   \s == ASCII 32 (dec)            =    (Space)
 TAB          = "\t"     ##   \t == ASCII 0x09 (hex)          = HT (Tab/horizontal tab)
@@ -34,25 +23,36 @@ CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage retur
 ## add simple logger with debug flag/switch
 #
 #  use Parser.debug = true   # to turn on
-def self.logger() @@logger ||= Logger.new( self ); end
-def self.debug=(value) @@debug = value; end
-def self.debug?() @@debug ||= false; end
-def logger()  self.class.logger; end
+#
+#  todo/fix: use logutils instead of std logger - why? why not?
 
+def self.logger() @@logger ||= Logger.new( STDOUT ); end
+def logger()  self.class.logger; end
 
 
 
 attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
-def initialize( sep:         Csv.config.sep,
-                quote:       nil,
+def initialize( sep:         ',',
+                quote:       DOUBLE_QUOTE, ## note: set to nil for no quote
                 doublequote: true,
-                escape:      nil,
-                trim:        Csv.config.trim? )
+                escape:      BACKSLASH,   ## note: set to nil for no escapes
+                trim:        true,   ## note: will toggle between human/default and strict mode parser!!!
+                na:          ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
+                quoted_empty:   '',   ## note: only available in strict mode (e.g. trim=false)
+                unquoted_empty: ''    ## note: only available in strict mode (e.g. trim=false)
+               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
-  @config[:sep]  = sep
-  @config[:trim] = trim
+  @config[:sep]          = sep
+  @config[:quote]        = quote
+  @config[:doublequote]  = doublequote
+  @config[:escape]  = escape
+  @config[:trim]         = trim
+  @config[:na]     = na
+  @config[:quoted_empty] = quoted_empty
+  @config[:unquoted_empty] = unquoted_empty
 end
+
 
 
 def strict?
@@ -77,14 +77,16 @@ def self.excel()    EXCEL; end      ## alternative alias for EXCEL
 
 
 
-def parse_field( io, sep: config[:sep] )
+def parse_field( io, sep: )
+  logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
+
   value = ""
   skip_spaces( io )   ## strip leading spaces
 
   if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
      ## return value; do nothing
   elsif io.peek == DOUBLE_QUOTE
-    logger.debug "start double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start double_quote field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
     io.getc  ## eat-up double_quote
 
     loop do
@@ -105,18 +107,18 @@ def parse_field( io, sep: config[:sep] )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
     skip_spaces( io )
-    logger.debug "end double_quote field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "end double_quote field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
   else
-    logger.debug "start reg field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start reg field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
     ## consume simple value
     ##   until we hit "," or "\n" or "\r"
     ##    note: will eat-up quotes too!!!
     while (c=io.peek; !(c=="," || c==LF || c==CR || io.eof?))
-      logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
       value << io.getc   ## eat-up all spaces (" ") and tabs (\t)
     end
     value = value.strip   ## strip all trailing spaces
-    logger.debug "end reg field - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "end reg field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
   end
 
   value
@@ -125,17 +127,20 @@ end
 
 
 
-def parse_field_strict( io, sep: config[:sep] )
+def parse_field_strict( io, sep: )
+  logger.debug "parse field (strict) - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
+
   value = ""
 
-  if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
+  if (c=io.peek; c==sep || c==LF || c==CR || io.eof?) ## empty unquoted field
+     value = config[:unquoted_empty]   ## defaults to "" (might be set to nil if needed)
      ## return value; do nothing
-  elsif io.peek == DOUBLE_QUOTE
-    logger.debug "start double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+  elsif config[:quote] && io.peek == config[:quote]
+    logger.debug "start quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
     io.getc  ## eat-up double_quote
 
     loop do
-      while (c=io.peek; !(c==DOUBLE_QUOTE || io.eof?))
+      while (c=io.peek; !(c==config[:quote] || io.eof?))
         value << io.getc   ## eat-up everything unit quote (")
       end
 
@@ -143,22 +148,25 @@ def parse_field_strict( io, sep: config[:sep] )
 
       io.getc ## eat-up double_quote
 
-      if io.peek == DOUBLE_QUOTE  ## doubled up quote?
+      if config[:doublequote] && io.peek == config[:quote]  ## doubled up quote?
         value << io.getc   ## add doube quote and continue!!!!
       else
         break
       end
     end
-    logger.debug "end double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+
+    value = config[:quoted_empty]  if value == ""   ## defaults to "" (might be set to nil if needed)
+
+    logger.debug "end double_quote field (strict) - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
   else
-    logger.debug "start reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
     ## consume simple value
     ##   until we hit "," or "\n" or "\r" or stroy "\"" double quote
-    while (c=io.peek; !(c=="," || c==LF || c==CR || c==DOUBLE_QUOTE || io.eof?))
-      logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"
+    while (c=io.peek; !(c==sep || c==LF || c==CR || c==config[:quote] || io.eof?))
+      logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
       value << io.getc
     end
-    logger.debug "end reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "end reg field (strict) - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
   end
 
   value
@@ -166,12 +174,12 @@ end
 
 
 
-def parse_record( io, sep: config[:sep] )
+def parse_record( io, sep: )
   values = []
 
   loop do
      value = parse_field( io, sep: sep )
-     logger.debug "value: »#{value}«"
+     logger.debug "value: »#{value}«"  if logger.debug?
      values << value
 
      if io.eof?
@@ -191,12 +199,13 @@ def parse_record( io, sep: config[:sep] )
 end
 
 
-def parse_record_strict( io, sep: config[:sep] )
+
+def parse_record_strict( io, sep: )
   values = []
 
   loop do
-     value = parse_field_strict( io )
-     logger.debug "value: »#{value}«"
+     value = parse_field_strict( io, sep: sep )
+     logger.debug "value: »#{value}«"  if logger.debug?
      values << value
 
      if io.eof?
@@ -204,8 +213,8 @@ def parse_record_strict( io, sep: config[:sep] )
      elsif (c=io.peek; c==LF || c==CR)
        skip_newline( io )   ## note: singular / single newline only (NOT plural)
        break
-     elsif io.peek == ","
-       io.getc   ## eat-up FS(,)
+     elsif io.peek == sep
+       io.getc   ## eat-up FS (,)
      else
        puts "*** csv parse error (strict): found >#{io.peek} (#{io.peek.ord})< - FS (,) or RS (\\n) expected!!!!"
        exit(1)
@@ -263,7 +272,7 @@ end
 
 
 
-def parse_lines_human( io, sep: config[:sep], &block )
+def parse_lines_human( io, sep:, &block )
 
   loop do
     break if io.eof?
@@ -271,14 +280,14 @@ def parse_lines_human( io, sep: config[:sep], &block )
     skip_spaces( io )
 
     if io.peek == COMMENT        ## comment line
-      logger.debug "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
       skip_until_eol( io )
       skip_newlines( io )
     elsif (c=io.peek; c==LF || c==CR || io.eof?)
-      logger.debug "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
       skip_newlines( io )
     else
-      logger.debug "start record - peek >#{io.peek}< (#{io.peek.ord})"
+      logger.debug "start record - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
 
       record = parse_record( io, sep: sep )
       ## note: requires block - enforce? how? why? why not?
@@ -289,7 +298,7 @@ end # method parse_lines_human
 
 
 
-def parse_lines_strict( io, sep: config[:sep], &block )
+def parse_lines_strict( io, sep:, &block )
 
   ## no leading and trailing whitespaces trimmed/stripped
   ## no comments skipped
@@ -302,7 +311,7 @@ def parse_lines_strict( io, sep: config[:sep], &block )
   loop do
     break if io.eof?
 
-    logger.debug "start record (strict) - peek >#{io.peek}< (#{io.peek.ord})"
+    logger.debug "start record (strict) - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
 
     record = parse_record_strict( io, sep: sep )
 
@@ -330,6 +339,7 @@ def parse_lines( io_maybe, sep: config[:sep], &block )
 end  ## parse_lines
 
 
+
 ##   fix: add optional block  - lets you use it like foreach!!!
 ##    make foreach an alias of parse with block - why? why not?
 ##
@@ -342,17 +352,12 @@ def parse( io_maybe, sep: config[:sep], limit: nil )
     records << record
 
     ## set limit to 1 for processing "single" line (that is, get one record)
-    ##  use break instead of return records - why? why not?
-    return records   if limit && limit >= records.size
+    break  if limit && limit >= records.size
   end
 
   records
 end ## method parse
 
-
-def foreach( io_maybe, sep: config[:sep], &block )
-  parse_lines( io_maybe, sep: sep, &block )
-end
 
 
 end # class Parser

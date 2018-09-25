@@ -10,7 +10,7 @@ require 'helper'
 class TestParser < MiniTest::Test
 
 def setup
-  CsvReader::Parser.debug = true   ## turn on "global" logging - move to helper - why? why not?
+  CsvReader::Parser.logger.level = :debug   ## turn on "global" logging - move to helper - why? why not?
 end
 
 def parser

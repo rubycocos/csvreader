@@ -1,5 +1,18 @@
 # Notes
 
+## Todos
+
+- [ ]  add null values/na option
+- [ ]  add unix-style backslash escape
+- [ ]  add support for converters (see std csv library)
+- [ ]  add Csv shortcuts e.g. Csv.read, etc.
+- [ ]  hash reader - add rest and rest_value for how to handle missing values?
+- [ ]  hash reader - handle duplicate header names - how?
+- [ ]  hash reader - handle empty header names - how?
+
+
+
+
 ## More csv readers in ruby
 
 ### Hippie CSV

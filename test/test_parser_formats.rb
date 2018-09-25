@@ -10,7 +10,7 @@ require 'helper'
 class TestParserFormats < MiniTest::Test
 
 def setup
-  CsvReader::Parser.debug = true   ## turn on "global" logging - move to helper - why? why not?
+  CsvReader::Parser.logger.level = :debug   ## turn on "global" logging - move to helper - why? why not?
 end
 
 def parser
@@ -46,7 +46,7 @@ def test_parse_whitespace
                  ["1", "2", "3"]], parser.rfc4180.parse( " a, b ,c \n\n1,2,3" )
     assert_equal [[" a", " b ", "c "],
                   [" "],
-                  ["",""]
+                  ["",""],
                   ["1", "2", "3"]], parser.rfc4180.parse( " a, b ,c \n \n,\n1,2,3" )
 end
 
