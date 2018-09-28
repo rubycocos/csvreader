@@ -9,9 +9,6 @@ require 'helper'
 
 class TestParserRfc4180 < MiniTest::Test
 
-def setup
-  CsvReader::Parser.logger.level = :debug   ## turn on "global" logging - move to helper - why? why not?
-end
 
 def parser
   CsvReader::Parser::RFC4180

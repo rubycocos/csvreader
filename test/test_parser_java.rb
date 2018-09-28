@@ -19,10 +19,6 @@ LF	= "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line feed)
 CR	= "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
 
 
-def setup
-  CsvReader::Parser.logger.level = :debug   ## turn on "global" logging - move to helper - why? why not?
-end
-
 
 def parser
   CsvReader::Parser
@@ -78,8 +74,6 @@ end
 
 
 def test_comments_and_empty_lines
-  ## withCommentMarker('#').withIgnoreEmptyLines(false)
-
   parser.rfc4180.config[:comment] = '#'
 
   assert_equal [[ "1", "2", "3", "" ], ## 1
@@ -117,32 +111,34 @@ end
 
 def test_backslash_with_escaping
   ## simple token with escaping enabled
-  ##  assertTrue(format.isEscapeCharacterSet());
   assert_equal [[ "a", ",", "b\\" ],
                 [ ",", "\nc", "d\r" ],
                 [ "e" ]],
-                parser.default.parse( "a,\\,,b\\\\\n\\,,\\\nc,d\\\r\ne" )
+                parser.default.parse( "a,\\,,b\\\\\n" +
+                                      "\\,,\\\nc,d\\\r\n" +
+                                      "e" )
 
   parser.rfc4180.config[:escape] = "\\"
   assert_equal [[ "a", ",", "b\\" ],
                 [ ",", "\nc", "d\r" ],
                 [ "e" ]],
-                parser.rfc4180.parse( "a,\\,,b\\\\\n\\,,\\\nc,d\\\r\ne" )
+                parser.rfc4180.parse( "a,\\,,b\\\\\n" +
+                                      "\\,,\\\nc,d\\\r\n" +
+                                      "e" )
   parser.rfc4180.config[:escape] = nil
 end
 
 
 def test_backslash_without_escaping
   ## simple token with escaping not enabled
-  ## assertFalse(format.isEscapeCharacterSet());
-
   assert_equal [[ "a",
                   "\\", ## an unquoted single backslash is not an escape char
                   "",
                   "b\\" ## an unquoted single backslash is not an escape char
                 ],
                 [ "\\", "", "" ]],
-               parser.rfc4180.parse( "a,\\,,b\\\n\\,," )
+               parser.rfc4180.parse( "a,\\,,b\\\n" +
+                                     "\\,," )
 end
 
 
@@ -155,7 +151,10 @@ def test_next_token4
                 [ "a", " foo", "b" ],
                 [ "a", "foo ", "b" ],
                 [ "a", " foo ", "b" ]],
-                parser.default.parse( "a,\"foo\",b\na,   \" foo\",b\na,\"foo \"  ,b\na,  \" foo \"  ,b" )
+                parser.default.parse( "a,\"foo\",b\n" +
+                                      "a,   \" foo\",b\n" +
+                                      "a,\"foo \"  ,b\n" +
+                                      "a,  \" foo \"  ,b" )
 end
 
 
@@ -164,11 +163,14 @@ def test_next_token5
    assert_equal [[ "a", "foo\n", "b" ],
                  [ "foo\n  baar ,,," ],
                  [ "\n\t \n" ]],
-                 parser.default.parse( "a,\"foo\n\",b\n\"foo\n  baar ,,,\"\n\"\n\t \n\"" )
+                 parser.default.parse( "a,\"foo\n\",b\n" +
+                                       "\"foo\n  baar ,,,\"\n" +
+                                       "\"\n\t \n\"" )
 end
 
 
 def test_separator_is_tab
+  parser.rfc4180.config[:sep] = "\t"
   assert_equal [["one",
                  "two",
                  "",
@@ -176,13 +178,13 @@ def test_separator_is_tab
                  " five",
                  " six" ]],
                  parser.rfc4180.parse( "one\ttwo\t\tfour \t five\t six" )
+  parser.rfc4180.config[:sep] = ","   ## reset back to comma
 end
 
 
 
 
 def test_escaped_cr
-    # todo: turn on escape ("\\") - turn on by default - yes? no? why? why not?
     assert_equal [[ "character" + CR + "Escaped" ]],
                  parser.default.parse( "character\\" + CR + "Escaped" )
 end
@@ -197,7 +199,6 @@ end
 
 
 def test_escaped_lf
-    # todo: turn on escape ("\\") - turn on by default - yes? no? why? why not?
     assert_equal [[ "character" + LF + "Escaped" ]],
                  parser.default.parse( "character\\" + LF + "Escaped" )
 end

@@ -9,10 +9,6 @@ require 'helper'
 
 class TestReader < MiniTest::Test
 
-def setup
-  CsvReader::Parser.logger.level = :debug   ## turn on "global" logging - move to helper - why? why not?
-end
-
 
 def test_read
   puts "== read: beer.csv:"
