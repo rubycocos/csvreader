@@ -1,6 +1,27 @@
+# encoding: utf-8
+
+###
+#  to run use
+#     ruby -I ./lib -I ./test test/test_parser_java.rb
+
+
+require 'helper'
+
 ##########################
-# try some tests from apache commons csv reader
+# try some tests from apache java (commons) csv reader
 #  see https://github.com/apache/commons-csv/blob/master/src/test/java/org/apache/commons/csv/LexerTest.java
+
+
+class TestParserJava < MiniTest::Test
+
+
+LF	= "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line feed)
+CR	= "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
+
+
+def setup
+  CsvReader::Parser.logger.level = :debug   ## turn on "global" logging - move to helper - why? why not?
+end
 
 
 def parser
@@ -53,8 +74,13 @@ def test_comments
 end
 
 
+
+
+
 def test_comments_and_empty_lines
   ## withCommentMarker('#').withIgnoreEmptyLines(false)
+
+  parser.rfc4180.config[:comment] = '#'
 
   assert_equal [[ "1", "2", "3", "" ], ## 1
                 [ "" ], ## 1b
@@ -84,6 +110,25 @@ def test_comments_and_empty_lines
                   "\n" + ## 6c
                   "# Final comment\n" ## 7
               )
+
+  parser.rfc4180.config[:comment] = nil    ## reset to defaults
+end
+
+
+def test_backslash_with_escaping
+  ## simple token with escaping enabled
+  ##  assertTrue(format.isEscapeCharacterSet());
+  assert_equal [[ "a", ",", "b\\" ],
+                [ ",", "\nc", "d\r" ],
+                [ "e" ]],
+                parser.default.parse( "a,\\,,b\\\\\n\\,,\\\nc,d\\\r\ne" )
+
+  parser.rfc4180.config[:escape] = "\\"
+  assert_equal [[ "a", ",", "b\\" ],
+                [ ",", "\nc", "d\r" ],
+                [ "e" ]],
+                parser.rfc4180.parse( "a,\\,,b\\\\\n\\,,\\\nc,d\\\r\ne" )
+  parser.rfc4180.config[:escape] = nil
 end
 
 
@@ -101,15 +146,6 @@ def test_backslash_without_escaping
 end
 
 
-def test_backslash_with_escaping
-  ## simple token with escaping enabled
-
-  ##  assertTrue(format.isEscapeCharacterSet());
-  assert_equal [[ "a", ",", "b\\" ],
-                [ ",", "\nc", "d\r" ],
-                [ "e" ]],
-                parser.rfc4180.parse( "a,\\,,b\\\\\n\\,,\\\nc,d\\\r\ne" )
-end
 
 
 
@@ -144,9 +180,6 @@ end
 
 
 
-## static final char CR = '\r';
-## static final char LF = '\n';
-## static final String CRLF = "\r\n";
 
 def test_escaped_cr
     # todo: turn on escape ("\\") - turn on by default - yes? no? why? why not?
@@ -185,3 +218,5 @@ def test_escaped_mysql_null_value
     assert_equal [[ "character\\NEscaped" ]],
                  parser.default.parse( "character\\NEscaped" )
 end
+
+end # class TestParserJava

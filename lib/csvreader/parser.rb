@@ -36,11 +36,12 @@ attr_reader :config   ## todo/fix: change config to proper dialect class/struct 
 def initialize( sep:         ',',
                 quote:       DOUBLE_QUOTE, ## note: set to nil for no quote
                 doublequote: true,
-                escape:      BACKSLASH,   ## note: set to nil for no escapes
                 trim:        true,   ## note: will toggle between human/default and strict mode parser!!!
                 na:          ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
                 quoted_empty:   '',   ## note: only available in strict mode (e.g. trim=false)
-                unquoted_empty: ''    ## note: only available in strict mode (e.g. trim=false)
+                unquoted_empty: '' ,   ## note: only available in strict mode (e.g. trim=false)
+                comment:     nil,    ## note: only available in strict mode (always on in default/human/std mode)
+                escape:      nil    ## note: only available in strict mode (alway on in default/human/std mode); set to nil for no escapes
                )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
   @config[:sep]          = sep
@@ -51,6 +52,7 @@ def initialize( sep:         ',',
   @config[:na]     = na
   @config[:quoted_empty] = quoted_empty
   @config[:unquoted_empty] = unquoted_empty
+  @config[:comment] = comment
 end
 
 
@@ -77,6 +79,56 @@ def self.excel()    EXCEL; end      ## alternative alias for EXCEL
 
 
 
+def parse_escape( io )
+  value = ""
+  if io.peek == BACKSLASH
+    io.getc ## eat-up backslash
+    if (c=io.peek; c==BACKSLASH || c==LF || c==CR || c==',' || c=='"' )
+      value << io.getc     ## add escaped char (e.g. lf, cr, etc.)
+    else
+      ## unknown escape sequence; no special handling/escaping
+      value << BACKSLASH
+    end
+  else
+    puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - BACKSLASH (\\) expected in parse_escape!!!!"
+    exit(1)
+  end
+  value
+end
+
+
+def parse_doublequote( io )
+  value = ""
+  if io.peek == DOUBLE_QUOTE
+    io.getc  ## eat-up double_quote
+
+    loop do
+      while (c=io.peek; !(c==DOUBLE_QUOTE || c==BACKSLASH || io.eof?))
+        value << io.getc   ## eat-up everything until hitting double_quote (") or backslash (escape)
+      end
+
+      if io.eof?
+        break
+      elsif io.peek == BACKSLASH
+        value << parse_escape( io )
+      else   ## assume io.peek == DOUBLE_QUOTE
+        io.getc ## eat-up double_quote
+        if io.peek == DOUBLE_QUOTE  ## doubled up quote?
+          value << io.getc   ## add doube quote and continue!!!!
+        else
+          break
+        end
+      end
+    end
+  else
+    puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!"
+    exit(1)
+  end
+  value
+end
+
+
+
 def parse_field( io, sep: )
   logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
 
@@ -87,23 +139,7 @@ def parse_field( io, sep: )
      ## return value; do nothing
   elsif io.peek == DOUBLE_QUOTE
     logger.debug "start double_quote field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-    io.getc  ## eat-up double_quote
-
-    loop do
-      while (c=io.peek; !(c==DOUBLE_QUOTE || io.eof?))
-        value << io.getc   ## eat-up everything unit quote (")
-      end
-
-      break if io.eof?
-
-      io.getc ## eat-up double_quote
-
-      if io.peek == DOUBLE_QUOTE  ## doubled up quote?
-        value << io.getc   ## add doube quote and continue!!!!
-      else
-        break
-      end
-    end
+    value << parse_doublequote( io )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
     skip_spaces( io )
@@ -114,8 +150,12 @@ def parse_field( io, sep: )
     ##   until we hit "," or "\n" or "\r"
     ##    note: will eat-up quotes too!!!
     while (c=io.peek; !(c=="," || c==LF || c==CR || io.eof?))
-      logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-      value << io.getc   ## eat-up all spaces (" ") and tabs (\t)
+      if io.peek == BACKSLASH
+        value << parse_escape( io )
+      else
+        logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+        value << io.getc   ## note: eat-up all spaces (" ") and tabs (\t) too (strip trailing spaces at the end)
+      end
     end
     value = value.strip   ## strip all trailing spaces
     logger.debug "end reg field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
@@ -313,10 +353,15 @@ def parse_lines_strict( io, sep:, &block )
 
     logger.debug "start record (strict) - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
 
-    record = parse_record_strict( io, sep: sep )
-
-    ## note: requires block - enforce? how? why? why not?
-    block.call( record )   ## yield( record )
+    if config[:comment] && io.peek == config[:comment]        ## comment line
+      logger.debug "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+      skip_until_eol( io )
+      skip_newline( io )
+    else
+      record = parse_record_strict( io, sep: sep )
+      ## note: requires block - enforce? how? why? why not?
+      block.call( record )   ## yield( record )
+    end
   end  # loop
 end # method parse_lines_strict
 
