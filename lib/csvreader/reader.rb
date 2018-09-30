@@ -24,20 +24,14 @@ class CsvReader
   ##     CsvReader::DEFAULT.parse_line or CsvReader.default.parse_line
   ##
 
+  def self.parse( data, sep: nil,
+                        converters: nil, &block )
+     DEFAULT.parse( data, sep: sep, converters: converters, &block )
+  end
+
   def self.parse_line( data, sep: nil,
                              converters: nil )
      DEFAULT.parse_line( data, sep: sep, converters: converters )
-  end
-
-  def self.parse( data, sep: nil,
-                        converters: nil )
-     DEFAULT.parse( data, sep: sep, converters: converters )
-  end
-
-  #### fix!!! remove - replace with parse with (optional) block!!!!!
-  def self.parse_lines( data, sep: nil,
-                              converters: nil, &block )
-     DEFAULT.parse_lines( data, sep: sep, converters: nil, &block )
   end
 
   def self.read( path, sep: nil,
@@ -62,31 +56,15 @@ class CsvReader
   ## note: allow "overriding" of separator
   ##    if sep is not nil otherwise use default dialect/format separator
 
-
-  ##
-  ##  todo/fix: "unify" parse and parse_lines  !!!
-  ##    check for block_given? - why? why not?
-
   def parse( data, sep: nil, limit: nil,
-                   converters: nil )
+                   converters: nil, &block )
     kwargs = {
       limit:      limit,
       ##  converters: converters  ## todo: add converters
     }
     kwargs[:sep] = sep    unless sep.nil?   ## note: only add separator if present/defined (not nil)
 
-    @parser.parse( data, kwargs )
-  end
-
-  #### fix!!! remove - replace with parse with (optional) block!!!!!
-  def parse_lines( data, sep: nil,
-                         converters: nil, &block )
-    kwargs = {
-      ##  converters: converters  ## todo: add converters
-    }
-    kwargs[ :sep] = sep    unless sep.nil?   ## note: only add separator if present/defined (not nil)
-
-    @parser.parse_lines( data, kwargs, &block )
+    @parser.parse( data, kwargs, &block )
   end
 
 
@@ -112,11 +90,9 @@ class CsvReader
   def foreach( path, sep: nil,
                      converters: nil, &block )
     File.open( path, 'r:bom|utf-8' ) do |file|
-      parse_lines( file, sep: sep, &block )
+      parse( file, sep: sep, &block )
     end
   end
-
-
 
   def header( path, sep: nil )   ## use header or headers - or use both (with alias)?
      # read first lines (only)
@@ -131,56 +107,3 @@ class CsvReader
   end  # method self.header
 
 end # class CsvReader
-
-
-
-
-class CsvHashReader
-
-
-def self.parse( data, sep: nil, headers: nil )
-
-  ## pass in headers as array e.g. ['A', 'B', 'C']
-  names = headers ? headers : nil
-
-  records = []
-  CsvReader.parse_lines( data, sep: sep ) do |values|     # sep: sep
-    if names.nil?
-      names = values   ## store header row / a.k.a. field/column names
-    else
-      record = names.zip( values ).to_h    ## todo/fix: check for more values than names/headers!!!
-      records << record
-    end
-  end
-  records
-end
-
-
-def self.read( path, sep: nil, headers: nil )
-  txt = File.open( path, 'r:bom|utf-8' ).read
-  parse( txt, sep: sep, headers: headers )
-end
-
-
-def self.foreach( path, sep: nil, headers: nil, &block )
-
-  ## pass in headers as array e.g. ['A', 'B', 'C']
-  names = headers ? headers : nil
-
-  CsvReader.foreach( path, sep: sep ) do |values|     # sep: sep
-    if names.nil?
-      names = values   ## store header row / a.k.a. field/column names
-    else
-      record = names.zip( values ).to_h    ## todo/fix: check for more values than names/headers!!!
-      block.call( record )
-    end
-  end
-end
-
-
-def self.header( path, sep: nil )   ## add header too? why? why not?
-  ## same as "classic" header method - delegate/reuse :-)
-  CsvReader.header( path, sep: sep )
-end
-
-end # class CsvHashReader

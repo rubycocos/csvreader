@@ -33,7 +33,7 @@ def initialize( sep:         ',',
                 quoted_empty:   '',
                 unquoted_empty: '',
                 comment:     nil,    ## note: comment char e.g. #
-                escape:      nil    ## note: set to nil for no escapes
+                escape:      false   ## true/false
                )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
   @config[:sep]          = sep
@@ -48,10 +48,39 @@ end
 
 
 
-def parse_escape( input )
+
+def parse( data, sep: config[:sep], limit: nil, &block )
+  ## note: data - will wrap either a String or IO object passed in data
+
+  ##   make sure data (string or io) is a wrapped into Buffer!!!!!!
+  if data.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
+    input = data
+  else
+    input = Buffer.new( data )
+  end
+
+
+  if block_given?
+    parse_lines( input, sep: sep, limit: limit, &block )
+  else
+    records = []
+
+    parse_lines( input, sep: sep, limit: limit  ) do |record|
+      records << record
+    end
+
+    records
+  end
+
+end ## method parse
+
+
+
+private
+
+def parse_escape( input, sep: )
   value = ""
 
-  sep   = config[:sep]
   quote = config[:quote]
 
   if input.peek == BACKSLASH
@@ -70,12 +99,12 @@ end
 
 
 
-def parse_quote( input )
+def parse_quote( input, sep: )
   value = ""
 
-  quote       = config[:quote]
-  doublequote = config[:doublequote]
-  escape      = config[:escape]
+  quote       = config[:quote]         # char (e.g.",') | nil
+  doublequote = config[:doublequote]   # true|false
+  escape      = config[:escape]        # true|false
 
   if input.peek == quote
     input.getc  ## eat-up double_quote
@@ -88,7 +117,7 @@ def parse_quote( input )
       if input.eof?
         break
       elsif input.peek == BACKSLASH
-        value << parse_escape( input )
+        value << parse_escape( input, sep: sep )
       else   ## assume input.peek == DOUBLE_QUOTE
         input.getc ## eat-up double_quote
         if doublequote && input.peek == quote  ## doubled up quote?
@@ -119,7 +148,7 @@ def parse_field( input, sep: )
      ## return value; do nothing
   elsif quote && input.peek == quote
     logger.debug "start quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
-    value << parse_quote( input )
+    value << parse_quote( input, sep: sep )
 
     value = config[:quoted_empty]  if value == ""   ## defaults to "" (might be set to nil if needed)
 
@@ -130,7 +159,7 @@ def parse_field( input, sep: )
     ##   until we hit "," or "\n" or "\r" or stray (double) quote e.g (")
     while (c=input.peek; !(c==sep || c==LF || c==CR || input.eof? || (quote && c==quote)))
       if escape && input.peek == BACKSLASH
-        value << parse_escape( input )
+        value << parse_escape( input, sep: sep )
       else
         logger.debug "  add char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
         value << input.getc
@@ -194,20 +223,9 @@ end
 
 
 
-def parse_lines( input_maybe, sep: config[:sep], &block )
-  ## find a better name for input_maybe
-  ##   make sure input is a wrapped into Buffer!!!!!!
-  if input_maybe.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
-    input = input_maybe
-  else
-    input = Buffer.new( input_maybe )
-  end
+def parse_lines( input, sep:, limit: nil, &block )
 
-
-  ## todo/check: always pass along sep in methods (for easy overwrite/override) - why? why not?
-  old_sep = config[:sep]
-  config[:sep] = sep    if sep != config[:sep]
-
+  records = 0    ## keep track of records
 
   ## no leading and trailing whitespaces trimmed/stripped
   ## no comments skipped
@@ -232,32 +250,13 @@ def parse_lines( input_maybe, sep: config[:sep], &block )
       record = parse_record( input, sep: sep )
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
+      records += 1
+      ## set limit to 1 for processing "single" line (that is, get one record)
+      break if limit && limit >= records
     end
   end  # loop
 
-  ## restore sep(arator) if differnt
-  config[:sep] = old_sep    if old_sep != config[:sep]
 end # method parse_lines
-
-
-
-##   fix: add optional block  - lets you use it like foreach!!!
-##    make foreach an alias of parse with block - why? why not?
-##
-##   unifiy with (make one) parse and parse_lines!!!! - why? why not?
-
-def parse( input_maybe, sep: config[:sep], limit: nil )
-  records = []
-
-  parse_lines( input_maybe, sep: sep  ) do |record|
-    records << record
-
-    ## set limit to 1 for processing "single" line (that is, get one record)
-    break  if limit && limit >= records.size
-  end
-
-  records
-end ## method parse
 
 
 end # class ParserStrict

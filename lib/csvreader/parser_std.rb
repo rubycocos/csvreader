@@ -33,14 +33,40 @@ def logger()  self.class.logger; end
 
 attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
-def initialize( na:          ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
+def initialize( na: ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
   @config[:na]     = na
 end
 
 
+def parse( data, limit: nil, &block )
 
+  ## note: data - will wrap either a String or IO object passed in data
+
+  ##   make sure data (string or io) is a wrapped into Buffer!!!!!!
+  if data.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
+    input = data
+  else
+    input = Buffer.new( data )
+  end
+
+  if block_given?
+    parse_lines( input, limit: limit, &block )
+  else
+    records = []
+
+    parse_lines( input, limit: limit ) do |record|
+      records << record
+    end
+
+    records
+  end
+end ## method parse
+
+
+
+private
 
 def parse_escape( input )
   value = ""
@@ -92,8 +118,8 @@ end
 
 
 
-def parse_field( input, sep: )
-  logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
+def parse_field( input )
+  logger.debug "parse field"  if logger.debug?
 
   value = ""
   skip_spaces( input )   ## strip leading spaces
@@ -131,11 +157,11 @@ end
 
 
 
-def parse_record( input, sep: )
+def parse_record( input )
   values = []
 
   loop do
-     value = parse_field( input, sep: sep )
+     value = parse_field( input )
      logger.debug "value: »#{value}«"  if logger.debug?
      values << value
 
@@ -193,24 +219,9 @@ end
 
 
 
-def parse_lines( input_maybe, sep: ',', &block )
+def parse_lines( input, limit: nil, &block )
 
-  ## check/todo/fix: do NOT allow tab (\t)  a sep(arator)
-  ##    if you use tab, use the parser_strict!!!!
-
-  ## remove sep: config - why? why not?  yes, remove for now (keep it simple)!!!
-  ##   allow semicolon (;) - why? why not? needed?
-  ##
-  ##   use parser_strict/flex for semicolon and more!!!
-
-
-  ## find a better name for input_maybe
-  ##   make sure input is a wrapped into Buffer!!!!!!
-  if input_maybe.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
-    input = input_maybe
-  else
-    input = Buffer.new( input_maybe )
-  end
+  records = 0    ## keep track of records
 
   loop do
     break if input.eof?
@@ -227,32 +238,15 @@ def parse_lines( input_maybe, sep: ',', &block )
     else
       logger.debug "start record - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
 
-      record = parse_record( input, sep: sep )
+      record = parse_record( input )
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
+      records += 1
+      ## set limit to 1 for processing "single" line (that is, get one record)
+      break if limit && limit >= records
     end
   end  # loop
 end # method parse_lines
-
-
-##   fix: add optional block  - lets you use it like foreach!!!
-##    make foreach an alias of parse with block - why? why not?
-##
-##   unifiy with (make one) parse and parse_lines!!!! - why? why not?
-
-def parse( input_maybe, sep: ',', limit: nil )
-  records = []
-
-  parse_lines( input_maybe, sep: sep  ) do |record|
-    records << record
-
-    ## set limit to 1 for processing "single" line (that is, get one record)
-    break  if limit && limit >= records.size
-  end
-
-  records
-end ## method parse
-
 
 
 end # class ParserStd
