@@ -50,5 +50,17 @@ def self.parse_lines( data, sep:  Csv.config.sep,
   parser.parse_lines( data, sep: sep, trim: trim, &block )
 end
 
+
+
+
+def skip_newlines( io )
+  return if io.eof?
+
+  while (c=io.peek; c==LF || c==CR)
+    io.getc    ## eat-up all \n and \r
+  end
+end
+
+
 end # class Parser
 end # class CsvReader

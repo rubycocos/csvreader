@@ -1,7 +1,12 @@
 # encoding: utf-8
 
 class CsvReader
-class BufferIO   ## todo: find a better name - why? why not? is really just for reading (keep io?)
+class Buffer   ## todo: find a better name:
+               ##   BufferedReader
+               ##   BufferedInput
+               ##   BufferI
+               ## - why? why not? is really just for reading (keep io?)
+
   def initialize( data )
     # create the IO object we will read from
     @io = data.is_a?(String) ? StringIO.new(data) : data

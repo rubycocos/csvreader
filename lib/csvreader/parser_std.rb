@@ -33,62 +33,60 @@ def logger()  self.class.logger; end
 
 attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
-def initialize( sep: ',',
-                na:          ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
-               )
+def initialize( na:          ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
+              )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
-  @config[:sep]    = sep
   @config[:na]     = na
 end
 
 
 
 
-def parse_escape( io )
+def parse_escape( input )
   value = ""
-  if io.peek == BACKSLASH
-    io.getc ## eat-up backslash
-    if (c=io.peek; c==BACKSLASH || c==LF || c==CR || c==',' || c=='"' )
-      logger.debug "  add escaped char >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-      value << io.getc     ## add escaped char (e.g. lf, cr, etc.)
+  if input.peek == BACKSLASH
+    input.getc ## eat-up backslash
+    if (c=input.peek; c==BACKSLASH || c==LF || c==CR || c==',' || c=='"' )
+      logger.debug "  add escaped char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+      value << input.getc     ## add escaped char (e.g. lf, cr, etc.)
     else
       ## unknown escape sequence; no special handling/escaping
-      logger.debug "  add backspace (unknown escape seq) >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+      logger.debug "  add backspace (unknown escape seq) >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       value << BACKSLASH
     end
   else
-    puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - BACKSLASH (\\) expected in parse_escape!!!!"
+    puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - BACKSLASH (\\) expected in parse_escape!!!!"
     exit(1)
   end
   value
 end
 
 
-def parse_doublequote( io )
+def parse_doublequote( input )
   value = ""
-  if io.peek == DOUBLE_QUOTE
-    io.getc  ## eat-up double_quote
+  if input.peek == DOUBLE_QUOTE
+    input.getc  ## eat-up double_quote
 
     loop do
-      while (c=io.peek; !(c==DOUBLE_QUOTE || c==BACKSLASH || io.eof?))
-        value << io.getc   ## eat-up everything until hitting double_quote (") or backslash (escape)
+      while (c=input.peek; !(c==DOUBLE_QUOTE || c==BACKSLASH || input.eof?))
+        value << input.getc   ## eat-up everything until hitting double_quote (") or backslash (escape)
       end
 
-      if io.eof?
+      if input.eof?
         break
-      elsif io.peek == BACKSLASH
-        value << parse_escape( io )
-      else   ## assume io.peek == DOUBLE_QUOTE
-        io.getc ## eat-up double_quote
-        if io.peek == DOUBLE_QUOTE  ## doubled up quote?
-          value << io.getc   ## add doube quote and continue!!!!
+      elsif input.peek == BACKSLASH
+        value << parse_escape( input )
+      else   ## assume input.peek == DOUBLE_QUOTE
+        input.getc ## eat-up double_quote
+        if input.peek == DOUBLE_QUOTE  ## doubled up quote?
+          value << input.getc   ## add doube quote and continue!!!!
         else
           break
         end
       end
     end
   else
-    puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!"
+    puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!"
     exit(1)
   end
   value
@@ -96,38 +94,38 @@ end
 
 
 
-def parse_field( io, sep: )
+def parse_field( input, sep: )
   logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
 
   value = ""
-  skip_spaces( io )   ## strip leading spaces
+  skip_spaces( input )   ## strip leading spaces
 
-  if (c=io.peek; c=="," || c==LF || c==CR || io.eof?) ## empty field
+  if (c=input.peek; c=="," || c==LF || c==CR || input.eof?) ## empty field
      ## return value; do nothing
-  elsif io.peek == DOUBLE_QUOTE
-    logger.debug "start double_quote field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-    value << parse_doublequote( io )
+  elsif input.peek == DOUBLE_QUOTE
+    logger.debug "start double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+    value << parse_doublequote( input )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
-    skip_spaces( io )
-    logger.debug "end double_quote field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+    skip_spaces( input )
+    logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   else
-    logger.debug "start reg field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+    logger.debug "start reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     ## consume simple value
     ##   until we hit "," or "\n" or "\r"
     ##    note: will eat-up quotes too!!!
-    while (c=io.peek; !(c=="," || c==LF || c==CR || io.eof?))
-      if io.peek == BACKSLASH
-        value << parse_escape( io )
+    while (c=input.peek; !(c=="," || c==LF || c==CR || input.eof?))
+      if input.peek == BACKSLASH
+        value << parse_escape( input )
       else
-        logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-        value << io.getc   ## note: eat-up all spaces (" ") and tabs (\t) too (strip trailing spaces at the end)
+        logger.debug "  add char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+        value << input.getc   ## note: eat-up all spaces (" ") and tabs (\t) too (strip trailing spaces at the end)
       end
     end
     ##  note: only strip **trailing** spaces (space and tab only)
     ##    do NOT strip newlines etc. might have been added via escape! e.g. \\\n
     value = value.sub( /[ \t]+$/, '' )
-    logger.debug "end reg field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+    logger.debug "end reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   end
 
   value
@@ -135,23 +133,23 @@ end
 
 
 
-def parse_record( io, sep: )
+def parse_record( input, sep: )
   values = []
 
   loop do
-     value = parse_field( io, sep: sep )
+     value = parse_field( input, sep: sep )
      logger.debug "value: »#{value}«"  if logger.debug?
      values << value
 
-     if io.eof?
+     if input.eof?
         break
-     elsif (c=io.peek; c==LF || c==CR)
-       skip_newlines( io )
+     elsif (c=input.peek; c==LF || c==CR)
+       skip_newline( input )
        break
-     elsif io.peek == ","
-       io.getc   ## eat-up FS(,)
+     elsif input.peek == ","
+       input.getc   ## eat-up FS(,)
      else
-       puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - FS (,) or RS (\\n) expected!!!!"
+       puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - FS (,) or RS (\\n) expected!!!!"
        exit(1)
      end
   end
@@ -161,38 +159,44 @@ end
 
 
 
+def skip_newline( input )    ## note: singular (strict) version
+  return if input.eof?
 
-
-def skip_newlines( io )
-  return if io.eof?
-
-  while (c=io.peek; c==LF || c==CR)
-    io.getc    ## eat-up all \n and \r
-  end
-end
-
-def skip_until_eol( io )
-  return if io.eof?
-
-  while (c=io.peek; !(c==LF || c==CR || io.eof?))
-    io.getc    ## eat-up all until end of line
-  end
-end
-
-def skip_spaces( io )
-  return if io.eof?
-
-  while (c=io.peek; c==SPACE || c==TAB)
-    io.getc   ## note: always eat-up all spaces (" ") and tabs (\t)
+  ## only skip CR LF or LF or CR
+  if input.peek == CR
+    input.getc ## eat-up
+    input.getc  if input.peek == LF
+  elsif input.peek == LF
+    input.getc ## eat-up
+  else
+    # do nothing
   end
 end
 
 
 
+def skip_until_eol( input )
+  return if input.eof?
+
+  while (c=input.peek; !(c==LF || c==CR || input.eof?))
+    input.getc    ## eat-up all until end of line
+  end
+end
+
+def skip_spaces( input )
+  return if input.eof?
+
+  while (c=input.peek; c==SPACE || c==TAB)
+    input.getc   ## note: always eat-up all spaces (" ") and tabs (\t)
+  end
+end
 
 
 
-def parse_lines( io_maybe, sep: config[:sep], &block )
+
+
+
+def parse_lines( input_maybe, sep: ',', &block )
 
   ## check/todo/fix: do NOT allow tab (\t)  a sep(arator)
   ##    if you use tab, use the parser_strict!!!!
@@ -203,30 +207,30 @@ def parse_lines( io_maybe, sep: config[:sep], &block )
   ##   use parser_strict/flex for semicolon and more!!!
 
 
-  ## find a better name for io_maybe
-  ##   make sure io is a wrapped into BufferIO!!!!!!
-  if io_maybe.is_a?( BufferIO )    ### allow (re)use of BufferIO if managed from "outside"
-    io = io_maybe
+  ## find a better name for input_maybe
+  ##   make sure input is a wrapped into Buffer!!!!!!
+  if input_maybe.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
+    input = input_maybe
   else
-    io = BufferIO.new( io_maybe )
+    input = Buffer.new( input_maybe )
   end
 
   loop do
-    break if io.eof?
+    break if input.eof?
 
-    skip_spaces( io )
+    skip_spaces( input )
 
-    if io.peek == COMMENT        ## comment line
-      logger.debug "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-      skip_until_eol( io )
-      skip_newlines( io )
-    elsif (c=io.peek; c==LF || c==CR || io.eof?)
-      logger.debug "skipping blank - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-      skip_newlines( io )
+    if input.peek == COMMENT        ## comment line
+      logger.debug "skipping comment - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+      skip_until_eol( input )
+      skip_newline( input )
+    elsif (c=input.peek; c==LF || c==CR || input.eof?)
+      logger.debug "skipping blank - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+      skip_newline( input )
     else
-      logger.debug "start record - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+      logger.debug "start record - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
 
-      record = parse_record( io, sep: sep )
+      record = parse_record( input, sep: sep )
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
     end
@@ -239,10 +243,10 @@ end # method parse_lines
 ##
 ##   unifiy with (make one) parse and parse_lines!!!! - why? why not?
 
-def parse( io_maybe, sep: config[:sep], limit: nil )
+def parse( input_maybe, sep: ',', limit: nil )
   records = []
 
-  parse_lines( io_maybe, sep: sep  ) do |record|
+  parse_lines( input_maybe, sep: sep  ) do |record|
     records << record
 
     ## set limit to 1 for processing "single" line (that is, get one record)

@@ -48,22 +48,22 @@ end
 
 
 
-def parse_escape( io )
+def parse_escape( input )
   value = ""
 
   sep   = config[:sep]
   quote = config[:quote]
 
-  if io.peek == BACKSLASH
-    io.getc ## eat-up backslash
-    if (c=io.peek; c==BACKSLASH || c==LF || c==CR || c==sep || (quote && c==quote) )
-      value << io.getc     ## add escaped char (e.g. lf, cr, etc.)
+  if input.peek == BACKSLASH
+    input.getc ## eat-up backslash
+    if (c=input.peek; c==BACKSLASH || c==LF || c==CR || c==sep || (quote && c==quote) )
+      value << input.getc     ## add escaped char (e.g. lf, cr, etc.)
     else
       ## unknown escape sequence; no special handling/escaping
       value << BACKSLASH
     end
   else
-    puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - BACKSLASH (\\) expected in parse_escape!!!!"
+    puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - BACKSLASH (\\) expected in parse_escape!!!!"
     exit(1)
   end
   value
@@ -71,36 +71,36 @@ end
 
 
 
-def parse_quote( io )
+def parse_quote( input )
   value = ""
 
   quote       = config[:quote]
   doublequote = config[:doublequote]
   escape      = config[:escape]
 
-  if io.peek == quote
-    io.getc  ## eat-up double_quote
+  if input.peek == quote
+    input.getc  ## eat-up double_quote
 
     loop do
-      while (c=io.peek; !(c==quote || io.eof? || (escape && c==BACKSLASH)))
-        value << io.getc   ## eat-up everything until hitting double_quote (") or backslash (escape)
+      while (c=input.peek; !(c==quote || input.eof? || (escape && c==BACKSLASH)))
+        value << input.getc   ## eat-up everything until hitting double_quote (") or backslash (escape)
       end
 
-      if io.eof?
+      if input.eof?
         break
-      elsif io.peek == BACKSLASH
-        value << parse_escape( io )
-      else   ## assume io.peek == DOUBLE_QUOTE
-        io.getc ## eat-up double_quote
-        if doublequote && io.peek == quote  ## doubled up quote?
-          value << io.getc   ## add doube quote and continue!!!!
+      elsif input.peek == BACKSLASH
+        value << parse_escape( input )
+      else   ## assume input.peek == DOUBLE_QUOTE
+        input.getc ## eat-up double_quote
+        if doublequote && input.peek == quote  ## doubled up quote?
+          value << input.getc   ## add doube quote and continue!!!!
         else
           break
         end
       end
     end
   else
-    puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!"
+    puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!"
     exit(1)
   end
   value
@@ -108,7 +108,7 @@ end
 
 
 
-def parse_field( io, sep: )
+def parse_field( input, sep: )
   value = ""
 
   quote  = config[:quote]
@@ -116,52 +116,52 @@ def parse_field( io, sep: )
 
   logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
 
-  if (c=io.peek; c==sep || c==LF || c==CR || io.eof?) ## empty unquoted field
+  if (c=input.peek; c==sep || c==LF || c==CR || input.eof?) ## empty unquoted field
      value = config[:unquoted_empty]   ## defaults to "" (might be set to nil if needed)
      ## return value; do nothing
-  elsif quote && io.peek == quote
-    logger.debug "start quote field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-    value << parse_quote( io )
+  elsif quote && input.peek == quote
+    logger.debug "start quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+    value << parse_quote( input )
 
     value = config[:quoted_empty]  if value == ""   ## defaults to "" (might be set to nil if needed)
 
-    logger.debug "end double_quote field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+    logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   else
-    logger.debug "start reg field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+    logger.debug "start reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     ## consume simple value
     ##   until we hit "," or "\n" or "\r" or stray (double) quote e.g (")
-    while (c=io.peek; !(c==sep || c==LF || c==CR || io.eof? || (quote && c==quote)))
-      if escape && io.peek == BACKSLASH
-        value << parse_escape( io )
+    while (c=input.peek; !(c==sep || c==LF || c==CR || input.eof? || (quote && c==quote)))
+      if escape && input.peek == BACKSLASH
+        value << parse_escape( input )
       else
-        logger.debug "  add char >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-        value << io.getc
+        logger.debug "  add char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+        value << input.getc
       end
     end
-    logger.debug "end reg field - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+    logger.debug "end reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   end
 
   value
 end
 
 
-def parse_record( io, sep: )
+def parse_record( input, sep: )
   values = []
 
   loop do
-     value = parse_field( io, sep: sep )
+     value = parse_field( input, sep: sep )
      logger.debug "value: »#{value}«"  if logger.debug?
      values << value
 
-     if io.eof?
+     if input.eof?
         break
-     elsif (c=io.peek; c==LF || c==CR)
-       skip_newline( io )   ## note: singular / single newline only (NOT plural)
+     elsif (c=input.peek; c==LF || c==CR)
+       skip_newline( input )   ## note: singular / single newline only (NOT plural)
        break
-     elsif io.peek == sep
-       io.getc   ## eat-up FS (,)
+     elsif input.peek == sep
+       input.getc   ## eat-up FS (,)
      else
-       puts "*** csv parse error: found >#{io.peek} (#{io.peek.ord})< - FS (,) or RS (\\n) expected!!!!"
+       puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - FS (,) or RS (\\n) expected!!!!"
        exit(1)
      end
   end
@@ -171,15 +171,15 @@ end
 
 
 
-def skip_newline( io )    ## note: singular (strict) version
-  return if io.eof?
+def skip_newline( input )    ## note: singular (strict) version
+  return if input.eof?
 
   ## only skip CR LF or LF or CR
-  if io.peek == CR
-    io.getc ## eat-up
-    io.getc  if io.peek == LF
-  elsif io.peek == LF
-    io.getc ## eat-up
+  if input.peek == CR
+    input.getc ## eat-up
+    input.getc  if input.peek == LF
+  elsif input.peek == LF
+    input.getc ## eat-up
   else
     # do nothing
   end
@@ -187,23 +187,23 @@ end
 
 
 
-def skip_until_eol( io )
-  return if io.eof?
+def skip_until_eol( input )
+  return if input.eof?
 
-  while (c=io.peek; !(c==LF || c==CR || io.eof?))
-    io.getc    ## eat-up all until end of line
+  while (c=input.peek; !(c==LF || c==CR || input.eof?))
+    input.getc    ## eat-up all until end of line
   end
 end
 
 
 
-def parse_lines( io_maybe, sep: config[:sep], &block )
-  ## find a better name for io_maybe
-  ##   make sure io is a wrapped into BufferIO!!!!!!
-  if io_maybe.is_a?( BufferIO )    ### allow (re)use of BufferIO if managed from "outside"
-    io = io_maybe
+def parse_lines( input_maybe, sep: config[:sep], &block )
+  ## find a better name for input_maybe
+  ##   make sure input is a wrapped into Buffer!!!!!!
+  if input_maybe.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
+    input = input_maybe
   else
-    io = BufferIO.new( io_maybe )
+    input = Buffer.new( input_maybe )
   end
 
 
@@ -223,16 +223,16 @@ def parse_lines( io_maybe, sep: config[:sep], &block )
   comment = config[:comment]
 
   loop do
-    break if io.eof?
+    break if input.eof?
 
-    logger.debug "start record - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
+    logger.debug "start record - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
 
-    if comment && io.peek == comment        ## comment line
-      logger.debug "skipping comment - peek >#{io.peek}< (#{io.peek.ord})"  if logger.debug?
-      skip_until_eol( io )
-      skip_newline( io )
+    if comment && input.peek == comment        ## comment line
+      logger.debug "skipping comment - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+      skip_until_eol( input )
+      skip_newline( input )
     else
-      record = parse_record( io, sep: sep )
+      record = parse_record( input, sep: sep )
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
     end
@@ -249,10 +249,10 @@ end # method parse_lines
 ##
 ##   unifiy with (make one) parse and parse_lines!!!! - why? why not?
 
-def parse( io_maybe, sep: config[:sep], limit: nil )
+def parse( input_maybe, sep: config[:sep], limit: nil )
   records = []
 
-  parse_lines( io_maybe, sep: sep  ) do |record|
+  parse_lines( input_maybe, sep: sep  ) do |record|
     records << record
 
     ## set limit to 1 for processing "single" line (that is, get one record)

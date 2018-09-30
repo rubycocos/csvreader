@@ -69,15 +69,24 @@ class CsvReader
 
   def parse( data, sep: nil, limit: nil,
                    converters: nil )
-    sep = @parser.config[:sep]  if sep.nil?
-    @parser.parse( data, sep: sep, limit: limit )
+    kwargs = {
+      limit:      limit,
+      ##  converters: converters  ## todo: add converters
+    }
+    kwargs[:sep] = sep    unless sep.nil?   ## note: only add separator if present/defined (not nil)
+
+    @parser.parse( data, kwargs )
   end
 
   #### fix!!! remove - replace with parse with (optional) block!!!!!
   def parse_lines( data, sep: nil,
                          converters: nil, &block )
-    sep = @parser.config[:sep]  if sep.nil?
-    @parser.parse_lines( data, sep: sep, &block )
+    kwargs = {
+      ##  converters: converters  ## todo: add converters
+    }
+    kwargs[ :sep] = sep    unless sep.nil?   ## note: only add separator if present/defined (not nil)
+
+    @parser.parse_lines( data, kwargs, &block )
   end
 
 
@@ -135,7 +144,7 @@ def self.parse( data, sep: nil, headers: nil )
   names = headers ? headers : nil
 
   records = []
-  CsvReader.parse_lines( data ) do |values|     # sep: sep
+  CsvReader.parse_lines( data, sep: sep ) do |values|     # sep: sep
     if names.nil?
       names = values   ## store header row / a.k.a. field/column names
     else
@@ -158,7 +167,7 @@ def self.foreach( path, sep: nil, headers: nil, &block )
   ## pass in headers as array e.g. ['A', 'B', 'C']
   names = headers ? headers : nil
 
-  CsvReader.foreach( path ) do |values|     # sep: sep
+  CsvReader.foreach( path, sep: sep ) do |values|     # sep: sep
     if names.nil?
       names = values   ## store header row / a.k.a. field/column names
     else
