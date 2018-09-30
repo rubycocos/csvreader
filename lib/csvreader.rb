@@ -1,7 +1,6 @@
 # encoding: utf-8
 
-require 'csv'
-require 'json'
+
 require 'pp'
 require 'logger'
 
@@ -14,6 +13,12 @@ require 'csvreader/parser_std'      # best practices pre-configured out-of-the-b
 require 'csvreader/parser_strict'   # flexible (strict - no leading/trailing space triming, blanks, etc.), configure for different formats/dialects
 require 'csvreader/parser'
 require 'csvreader/reader'
+
+
+## add convenience / shortcut alias
+Csv     = CsvReader
+CsvHash = CsvHashReader
+
 
 
 puts CsvReader.banner   # say hello

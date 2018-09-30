@@ -55,8 +55,7 @@ def parse_escape( input )
       value << BACKSLASH
     end
   else
-    puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - BACKSLASH (\\) expected in parse_escape!!!!"
-    exit(1)
+    raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - BACKSLASH (\\) expected in parse_escape!!!!" )
   end
   value
 end
@@ -86,8 +85,7 @@ def parse_doublequote( input )
       end
     end
   else
-    puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!"
-    exit(1)
+    raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!" )
   end
   value
 end
@@ -149,8 +147,7 @@ def parse_record( input, sep: )
      elsif input.peek == ","
        input.getc   ## eat-up FS(,)
      else
-       puts "*** csv parse error: found >#{input.peek} (#{input.peek.ord})< - FS (,) or RS (\\n) expected!!!!"
-       exit(1)
+       raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - FS (,) or RS (\\n) expected!!!!" )
      end
   end
 
