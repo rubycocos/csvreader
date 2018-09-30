@@ -13,8 +13,8 @@ class CsvHashReader
   def self.rfc4180()  RFC4180; end    ## alternative alias for RFC4180
 
 
-  def self.parse( data, sep: nil, headers: nil )
-    DEFAULT.parse( data, sep: sep, headers: headers )
+  def self.parse( data, sep: nil, headers: nil, &block )
+    DEFAULT.parse( data, sep: sep, headers: headers, &block )
   end
 
   def self.read( path, sep: nil, headers: nil )

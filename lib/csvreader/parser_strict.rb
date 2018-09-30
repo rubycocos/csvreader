@@ -27,22 +27,22 @@ def logger()  self.class.logger; end
 attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
 def initialize( sep:         ',',
-                quote:       '"',  ## note: set to nil for no quote
+                quote:       '"',  ## note: set to false/nil for no quote
                 doublequote: true,
-                na:          ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
-                quoted_empty:   '',
-                unquoted_empty: '',
-                comment:     nil,    ## note: comment char e.g. #
-                escape:      false   ## true/false
+                escape:      false,   ## true/false
+                null:          ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
+                quoted_empty_null:   false,
+                unquoted_empty_null: false,
+                comment:     false   ## note: comment char e.g. # or false/nil
                )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
   @config[:sep]          = sep
   @config[:quote]        = quote
   @config[:doublequote]  = doublequote
   @config[:escape]  = escape
-  @config[:na]     = na
-  @config[:quoted_empty] = quoted_empty
-  @config[:unquoted_empty] = unquoted_empty
+  @config[:null]     = null
+  @config[:quoted_empty_null]  = quoted_empty_null
+  @config[:unquoted_empty_null] = unquoted_empty_null
   @config[:comment] = comment
 end
 
@@ -144,13 +144,13 @@ def parse_field( input, sep: )
   logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
 
   if (c=input.peek; c==sep || c==LF || c==CR || input.eof?) ## empty unquoted field
-     value = config[:unquoted_empty]   ## defaults to "" (might be set to nil if needed)
-     ## return value; do nothing
+    value = nil   if config[:unquoted_empty_null]
+    ## return value; do nothing
   elsif quote && input.peek == quote
     logger.debug "start quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     value << parse_quote( input, sep: sep )
 
-    value = config[:quoted_empty]  if value == ""   ## defaults to "" (might be set to nil if needed)
+    value = nil   if config[:quoted_empty_null] && value == ""
 
     logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   else
