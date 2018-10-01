@@ -74,7 +74,7 @@ end
 
 
 def test_comments_and_empty_lines
-  parser.rfc4180.config[:comment] = '#'
+  parser.strict.comment = '#'
 
   assert_equal [[ "1", "2", "3", "" ], ## 1
                 [ "" ], ## 1b
@@ -88,7 +88,7 @@ def test_comments_and_empty_lines
                 [ "" ], ## 6b
                 [ "" ]  ## 6c
                ],
-               parser.rfc4180.parse(
+               parser.strict.parse(
                   "1,2,3,\n" + ## 1
                   "\n" +       ## 1b
                   "\n" +       ## 1c
@@ -105,7 +105,7 @@ def test_comments_and_empty_lines
                   "# Final comment\n" ## 7
               )
 
-  parser.rfc4180.config[:comment] = nil    ## reset to defaults
+  parser.strict.comment = false    ## reset to defaults
 end
 
 
@@ -113,19 +113,18 @@ def test_backslash_with_escaping
   ## simple token with escaping enabled
   assert_equal [[ "a", ",", "b\\" ],
                 [ ",", "\nc", "d\r" ],
-                [ "e" ]],
-                parser.default.parse( "a,\\,,b\\\\\n" +
-                                      "\\,,\\\nc,d\\\r\n" +
-                                      "e" )
+                [ "e" ]], parser.default.parse( "a,\\,,b\\\\\n" +
+                                                "\\,,\\\nc,d\\\r\n" +
+                                                "e" )
 
-  parser.rfc4180.config[:escape] = "\\"
+
+  parser.strict.escape = "\\"
   assert_equal [[ "a", ",", "b\\" ],
                 [ ",", "\nc", "d\r" ],
-                [ "e" ]],
-                parser.rfc4180.parse( "a,\\,,b\\\\\n" +
-                                      "\\,,\\\nc,d\\\r\n" +
-                                      "e" )
-  parser.rfc4180.config[:escape] = nil
+                [ "e" ]], parser.strict.parse( "a,\\,,b\\\\\n" +
+                                               "\\,,\\\nc,d\\\r\n" +
+                                               "e" )
+  parser.strict.escape = false
 end
 
 
@@ -136,12 +135,10 @@ def test_backslash_without_escaping
                   "",
                   "b\\" ## an unquoted single backslash is not an escape char
                 ],
-                [ "\\", "", "" ]],
-               parser.rfc4180.parse( "a,\\,,b\\\n" +
-                                     "\\,," )
+                [ "\\", "", "" ]], parser.strict.parse( "a,\\,,b\\\n" +
+                                                        "\\,," )
+
 end
-
-
 
 
 
@@ -170,15 +167,14 @@ end
 
 
 def test_separator_is_tab
-  parser.rfc4180.sep = "\t"
+  parser.strict.sep = "\t"
   assert_equal [["one",
                  "two",
                  "",
                  "four ",
                  " five",
-                 " six" ]],
-                 parser.rfc4180.parse( "one\ttwo\t\tfour \t five\t six" )
-  parser.rfc4180.sep = ","   ## reset back to comma
+                 " six" ]], parser.strict.parse( "one\ttwo\t\tfour \t five\t six" )
+  parser.strict.sep = ","   ## reset back to comma
 end
 
 

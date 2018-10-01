@@ -55,7 +55,9 @@ end
 ## config convenience helpers
 ##   e.g. use like  Csv.mysql.sep = ','   etc.   instead of
 ##                  Csv.mysql.config[:sep] = ','
-def sep=( value )  @config[:sep]=value; end
+def sep=( value )      @config[:sep]=value; end
+def comment=( value )  @config[:comment]=value; end
+def escape=( value )   @config[:escape]=value; end
 
 
 

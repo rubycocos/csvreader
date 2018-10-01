@@ -34,17 +34,17 @@ def test_parse_whitespace
 
 
    ## strict rfc4180 - no trim leading or trailing spaces or blank lines
-   assert_equal records,   parser.rfc4180.parse( "a,b,c\n1,2,3" )
+   assert_equal records,   parser.strict.parse( "a,b,c\n1,2,3" )
    assert_equal [["a", "b", "c"],
                  [""],
-                 ["1", "2", "3"]], parser.rfc4180.parse( "a,b,c\n\n1,2,3" )
+                 ["1", "2", "3"]], parser.strict.parse( "a,b,c\n\n1,2,3" )
    assert_equal [[" a", " b ", "c "],
                  [""],
-                 ["1", "2", "3"]], parser.rfc4180.parse( " a, b ,c \n\n1,2,3" )
+                 ["1", "2", "3"]], parser.strict.parse( " a, b ,c \n\n1,2,3" )
     assert_equal [[" a", " b ", "c "],
                   [" "],
                   ["",""],
-                  ["1", "2", "3"]], parser.rfc4180.parse( " a, b ,c \n \n,\n1,2,3" )
+                  ["1", "2", "3"]], parser.strict.parse( " a, b ,c \n \n,\n1,2,3" )
 end
 
 
@@ -54,13 +54,13 @@ def test_parse_empties
     ## strict rfc4180 - no trim leading or trailing spaces or blank lines
     assert_equal [[""],
                   [" "],
-                  [" "]], parser.rfc4180.parse( "\n \n \n" )
+                  [" "]], parser.strict.parse( "\n \n \n" )
     assert_equal [[""],
                   [" "],
-                  [" "]], parser.rfc4180.parse( "\n \n " )
+                  [" "]], parser.strict.parse( "\n \n " )
 
-    assert_equal [[""]], parser.rfc4180.parse( "\n" )
-    assert_equal [],     parser.rfc4180.parse( "" )
+    assert_equal [[""]], parser.strict.parse( "\n" )
+    assert_equal [],     parser.strict.parse( "" )
 end
 
 end # class TestParserFormats

@@ -9,11 +9,13 @@ class CsvReader
   end
 
   DEFAULT = new( Parser::DEFAULT )
+  STRICT  = new( Parser::STRICT )
   RFC4180 = new( Parser::RFC4180 )
   EXCEL   = new( Parser::EXCEL )
   TAB     = new( Parser::TAB )
 
   def self.default()  DEFAULT; end    ## alternative alias for DEFAULT
+  def self.strict()   STRICT; end     ## alternative alias for RFC4180
   def self.rfc4180()  RFC4180; end    ## alternative alias for RFC4180
   def self.excel()    EXCEL; end      ## alternative alias for EXCEL
   def self.tab()      TAB; end        ## alternative alias for TAB

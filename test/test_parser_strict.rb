@@ -2,22 +2,22 @@
 
 ###
 #  to run use
-#     ruby -I ./lib -I ./test test/test_parser_rfc4180.rb
+#     ruby -I ./lib -I ./test test/test_parser_strict.rb
 
 
 require 'helper'
 
-class TestParserRfc4180 < MiniTest::Test
+class TestParserStrict < MiniTest::Test
 
 
 def parser
-  CsvReader::Parser::RFC4180
+  CsvReader::Parser::STRICT
 end
 
 
-def test_parser_rfc4180
-  pp CsvReader::Parser::RFC4180
-  pp CsvReader::Parser.rfc4180
+def test_parser_strict
+  pp CsvReader::Parser::STRICT
+  pp CsvReader::Parser.strict
   assert true
 end
 
@@ -89,4 +89,4 @@ def test_parse_empties
 end
 
 
-end # class TestParserRfc4180
+end # class TestParserStrict
