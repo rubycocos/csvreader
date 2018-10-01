@@ -26,23 +26,30 @@ CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage retur
 #
 #  todo/fix: use logutils instead of std logger - why? why not?
 
-def self.logger() @@logger ||= Logger.new( STDOUT ); end
+def self.build_logger()
+  l = Logger.new( STDOUT )
+  l.level = :info    ## set to :info on start; note: is 0 (debug) by default
+  l
+end
+def self.logger() @@logger ||= build_logger; end
 def logger()  self.class.logger; end
+
 
 
 
 attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
-def initialize( na: ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
+def initialize( null: ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
-  @config[:na]     = na
+  @config[:null] = null   ## null values
 end
 
 
-def parse( data, limit: nil, &block )
+def parse( data, **kwargs, &block )
 
   ## note: data - will wrap either a String or IO object passed in data
+  ## note: kwargs NOT used for now (but required for "protocol/interface" by other parsers)
 
   ##   make sure data (string or io) is a wrapped into Buffer!!!!!!
   if data.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
@@ -52,11 +59,11 @@ def parse( data, limit: nil, &block )
   end
 
   if block_given?
-    parse_lines( input, limit: limit, &block )
+    parse_lines( input, &block )
   else
     records = []
 
-    parse_lines( input, limit: limit ) do |record|
+    parse_lines( input ) do |record|
       records << record
     end
 
@@ -219,9 +226,7 @@ end
 
 
 
-def parse_lines( input, limit: nil, &block )
-
-  records = 0    ## keep track of records
+def parse_lines( input, &block )
 
   loop do
     break if input.eof?
@@ -241,9 +246,6 @@ def parse_lines( input, limit: nil, &block )
       record = parse_record( input )
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
-      records += 1
-      ## set limit to 1 for processing "single" line (that is, get one record)
-      break if limit && limit >= records
     end
   end  # loop
 end # method parse_lines

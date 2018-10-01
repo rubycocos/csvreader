@@ -16,5 +16,5 @@ class CsvReader
 end
 
 
-CsvReader::ParserStd.logger.level    = :debug   ## turn on "global" logging
-CsvReader::ParserStrict.logger.level = :debug   ## turn on "global" logging
+## CsvReader::ParserStd.logger.level    = :debug   ## turn on "global" logging
+## CsvReader::ParserStrict.logger.level = :debug   ## turn on "global" logging

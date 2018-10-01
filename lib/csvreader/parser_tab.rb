@@ -4,17 +4,19 @@ class CsvReader
 
 class ParserTab
 
-def parse( data, limit: nil, &block )
+def parse( data, **kwargs, &block )
 
   ## note: input: required each_line (string or io/file for example)
+  ## note: kwargs NOT used for now (but required for "protocol/interface" by other parsers)
+
   input = data   ## assume it's a string or io/file handle
 
   if block_given?
-    parse_lines( input, limit: limit, &block )
+    parse_lines( input, &block )
   else
     records = []
 
-    parse_lines( input, limit: limit ) do |record|
+    parse_lines( input ) do |record|
       records << record
     end
 
@@ -26,11 +28,8 @@ end ## method parse
 
 private
 
-def parse_lines( input, limit: nil, &block )
+def parse_lines( input, &block )
 
-  records = 0    ## keep track of records
-
-  ##
   ## note: each line only works with \n (windows) or \r\n (unix)
   ##   will NOT work with \r (old mac, any others?) only!!!!
   input.each_line do |line|
@@ -50,9 +49,6 @@ def parse_lines( input, limit: nil, &block )
 
     ## note: requires block - enforce? how? why? why not?
     block.call( values )
-    records += 1
-    ## set limit to 1 for processing "single" line (that is, get one record)
-    break if limit && limit >= records
   end
 end # method parse_lines
 

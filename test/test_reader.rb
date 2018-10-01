@@ -10,18 +10,6 @@ require 'helper'
 class TestReader < MiniTest::Test
 
 
-def test_read
-  puts "== read: beer.csv:"
-  rows = CsvReader.read( "#{CsvReader.test_data_dir}/beer.csv" )
-  pp rows
-
-  rows.each do |row|
-    pp row
-  end
-  puts "  #{rows.size} rows"
-  assert_equal 7, rows.size   ## note: include header row in count
-end
-
 
 
 def test_parse_line
@@ -49,6 +37,21 @@ TXT
   pp row
   assert_equal ['Augustiner Bräu München', 'München', 'Edelstoff', '5.6%'], row
 end
+
+
+
+def test_read
+  puts "== read: beer.csv:"
+  rows = CsvReader.read( "#{CsvReader.test_data_dir}/beer.csv" )
+  pp rows
+
+  rows.each do |row|
+    pp row
+  end
+  puts "  #{rows.size} rows"
+  assert_equal 7, rows.size   ## note: include header row in count
+end
+
 
 def test_header
   puts "== header: beer.csv:"

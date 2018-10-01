@@ -22,18 +22,13 @@ class CsvReader
   #####################
   ## convenience helpers defaulting to default csv dialect/format reader
   ##
-  ##   CsvReader.parse_line is the same as
-  ##     CsvReader::DEFAULT.parse_line or CsvReader.default.parse_line
+  ##   CsvReader.parse is the same as
+  ##     CsvReader::DEFAULT.parse or CsvReader.default.parse
   ##
 
   def self.parse( data, sep: nil,
                         converters: nil, &block )
      DEFAULT.parse( data, sep: sep, converters: converters, &block )
-  end
-
-  def self.parse_line( data, sep: nil,
-                             converters: nil )
-     DEFAULT.parse_line( data, sep: sep, converters: converters )
   end
 
   def self.read( path, sep: nil,
@@ -51,6 +46,20 @@ class CsvReader
   end
 
 
+  ############################
+  ## note: only add parse_line convenience helper for default
+  ##   always use parse (do NOT use parse_line)  - why? why not?
+  def self.parse_line( data, sep: nil,
+                             converters: nil )
+     records = []
+     DEFAULT.parse( data, sep: sep, converters: converters ) do |record|
+       records << record
+       break   # only parse first record
+     end
+     records.size == 0 ? nil : records.first
+  end
+
+
 
   #############################
   ## all "high-level" reader methods
@@ -58,26 +67,15 @@ class CsvReader
   ## note: allow "overriding" of separator
   ##    if sep is not nil otherwise use default dialect/format separator
 
-  def parse( data, sep: nil, limit: nil,
+  def parse( data, sep: nil,
                    converters: nil, &block )
     kwargs = {
-      limit:      limit,
       ##  converters: converters  ## todo: add converters
     }
-    kwargs[:sep] = sep    unless sep.nil?   ## note: only add separator if present/defined (not nil)
+    ## note: only add separator if present/defined (not nil)
+    kwargs[:sep] = sep    if sep && @parser.respond_to?( :'sep=' )
 
     @parser.parse( data, kwargs, &block )
-  end
-
-
-
-  def parse_line( data, sep: nil,
-                        converters: nil )
-    records = parse( data, sep: sep, limit: 1 )
-
-    ## unwrap record if empty return nil - why? why not?
-    ##  return empty record e.g. [] - why? why not?
-    records.size == 0 ? nil : records.first
   end
 
   def read( path, sep: nil,
@@ -100,12 +98,18 @@ class CsvReader
      # read first lines (only)
      #  and parse with csv to get header from csv library itself
 
-     record = nil
+     records = []
      File.open( path, 'r:bom|utf-8' ) do |file|
-        record = parse_line( file, sep: sep )
+        parse( file, sep: sep ) do |record|
+          records << record
+          break   ## only parse/read first record
+        end
      end
 
-     record  ## todo/fix: returns nil for empty - why? why not?
+     ## unwrap record if empty return nil - why? why not?
+     ##  return empty record e.g. [] - why? why not?
+     ##  returns nil for empty (for now) - why? why not?
+     records.size == 0 ? nil : records.first
   end  # method self.header
 
 end # class CsvReader

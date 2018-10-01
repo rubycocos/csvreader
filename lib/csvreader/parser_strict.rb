@@ -19,7 +19,12 @@ CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage retur
 #
 #  todo/fix: use logutils instead of std logger - why? why not?
 
-def self.logger() @@logger ||= Logger.new( STDOUT ); end
+def self.build_logger()
+  l = Logger.new( STDOUT )
+  l.level = :info    ## set to :info on start; note: is 0 (debug) by default
+  l
+end
+def self.logger() @@logger ||= build_logger; end
 def logger()  self.class.logger; end
 
 
@@ -46,10 +51,15 @@ def initialize( sep:         ',',
   @config[:comment] = comment
 end
 
+#########################################
+## config convenience helpers
+##   e.g. use like  Csv.mysql.sep = ','   etc.   instead of
+##                  Csv.mysql.config[:sep] = ','
+def sep=( value )  @config[:sep]=value; end
 
 
 
-def parse( data, sep: config[:sep], limit: nil, &block )
+def parse( data, sep: config[:sep], &block )
   ## note: data - will wrap either a String or IO object passed in data
 
   ##   make sure data (string or io) is a wrapped into Buffer!!!!!!
@@ -61,11 +71,11 @@ def parse( data, sep: config[:sep], limit: nil, &block )
 
 
   if block_given?
-    parse_lines( input, sep: sep, limit: limit, &block )
+    parse_lines( input, sep: sep, &block )
   else
     records = []
 
-    parse_lines( input, sep: sep, limit: limit  ) do |record|
+    parse_lines( input, sep: sep ) do |record|
       records << record
     end
 
@@ -223,10 +233,7 @@ end
 
 
 
-def parse_lines( input, sep:, limit: nil, &block )
-
-  records = 0    ## keep track of records
-
+def parse_lines( input, sep:, &block )
   ## no leading and trailing whitespaces trimmed/stripped
   ## no comments skipped
   ## no blanks skipped
@@ -250,9 +257,6 @@ def parse_lines( input, sep:, limit: nil, &block )
       record = parse_record( input, sep: sep )
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
-      records += 1
-      ## set limit to 1 for processing "single" line (that is, get one record)
-      break if limit && limit >= records
     end
   end  # loop
 

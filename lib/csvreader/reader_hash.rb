@@ -70,7 +70,7 @@ def parse_lines( data, sep: nil, headers: nil, &block)
   kwargs = {
     ##  converters: converters  ## todo: add converters
   }
-  kwargs[:sep] = sep    unless sep.nil?   ## note: only add separator if present/defined (not nil)
+  kwargs[:sep] = sep   if sep && @parser.respond_to?( :'sep=' )   ## note: only add separator if present/defined (not nil)
 
   @parser.parse( data, kwargs ) do |values|     # sep: sep
     if names.nil?

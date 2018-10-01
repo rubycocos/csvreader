@@ -170,7 +170,7 @@ end
 
 
 def test_separator_is_tab
-  parser.rfc4180.config[:sep] = "\t"
+  parser.rfc4180.sep = "\t"
   assert_equal [["one",
                  "two",
                  "",
@@ -178,7 +178,7 @@ def test_separator_is_tab
                  " five",
                  " six" ]],
                  parser.rfc4180.parse( "one\ttwo\t\tfour \t five\t six" )
-  parser.rfc4180.config[:sep] = ","   ## reset back to comma
+  parser.rfc4180.sep = ","   ## reset back to comma
 end
 
 

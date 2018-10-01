@@ -25,7 +25,7 @@ class Buffer   ## todo: find a better name:
 
   def peek
     if @buf.size == 0 && @io.eof?
-      puts "peek - hitting eof!!!"
+      ## puts "peek - hitting eof!!!"
       return  "\0"   ## return NUL char (0) for now
     end
 
@@ -38,5 +38,5 @@ class Buffer   ## todo: find a better name:
     @buf.first
   end # method peek
 
-end # class BufferIO
+end # class Buffer
 end # class CsvReader
