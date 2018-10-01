@@ -18,21 +18,21 @@ txt <<=TXT
 4,5,6
 TXT
 
-records = CsvReader.parse( txt )     ## or Csv.parse
+records = Csv.parse( txt )     ## or CsvReader.parse
 pp records
 # => [["1","2","3"],
 #     ["5","6","7"]]
 
 # -or-
 
-records = CsvReader.read( "values.csv" )   ## or Csv.read
+records = Csv.read( "values.csv" )   ## or CsvReader.read
 pp records
 # => [["1","2","3"],
 #     ["5","6","7"]]
 
 # -or-
 
-CsvReader.foreach( "values.csv" ) do |rec|    ## or Csv.foreach
+Csv.foreach( "values.csv" ) do |rec|    ## or CsvReader.foreach
   pp rec
 end
 # => ["1","2","3"]
@@ -42,7 +42,7 @@ end
 
 ### What about headers?
 
-Use the `CsvHashReader`
+Use the `CsvHash`
 if the first line is a header (or if missing pass in the headers
 as an array) and you want your records as hashes instead of arrays of strings.
 Example:
@@ -54,7 +54,7 @@ A,B,C
 4,5,6
 TXT
 
-records = CsvHashReader.parse( txt )      ## or CsvHash.parse
+records = CsvHash.parse( txt )      ## or CsvHashReader.parse
 pp records
 
 # -or-
@@ -64,7 +64,7 @@ txt2 <<=TXT
 4,5,6
 TXT
 
-records = CsvHashReader.parse( txt2, headers: ["A","B","C"] )      ## or CsvHash.parse
+records = CsvHash.parse( txt2, headers: ["A","B","C"] )      ## or CsvHashReader.parse
 pp records
 
 # => [{"A": "1", "B": "2", "C": "3"},
@@ -72,14 +72,14 @@ pp records
 
 # -or-
 
-records = CsvHashReader.read( "hash.csv" )     ## or CsvHash.read
+records = CsvHash.read( "hash.csv" )     ## or CsvHashReader.read
 pp records
 # => [{"A": "1", "B": "2", "C": "3"},
 #     {"A": "4", "B": "5", "C": "6"}]
 
 # -or-
 
-CsvHashReader.foreach( "hash.csv" ) do |rec|    ## or CsvHash.foreach
+CsvHash.foreach( "hash.csv" ) do |rec|    ## or CsvHashReader.foreach
   pp rec
 end
 # => {"A": "1", "B": "2", "C": "3"}
@@ -133,11 +133,11 @@ Staatliches Hofbräuhaus München,München,Hofbräu Oktoberfestbier,6.3%
 Pass in the `sep` keyword option. Example:
 
 ``` ruby
-CsvReader.parse( ..., sep: ';' )
-CsvReader.read( ..., sep: ';' )
+Csv.parse( ..., sep: ';' )
+Csv.read( ..., sep: ';' )
 # ...
-CsvReader.parse( ..., sep: '|' )
-CsvReader.read( ..., sep: '|' )
+Csv.parse( ..., sep: '|' )
+Csv.read( ..., sep: '|' )
 # ...
 # and so on
 ```
