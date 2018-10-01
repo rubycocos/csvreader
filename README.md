@@ -11,14 +11,6 @@
 
 ## Usage
 
-``` ruby
-line = "1,2,3"
-values = CsvReader.parse_line( line )
-pp values
-# => ["1","2","3"]
-```
-
-or use the convenience helpers:
 
 ``` ruby
 txt <<=TXT
@@ -26,21 +18,21 @@ txt <<=TXT
 4,5,6
 TXT
 
-records = CsvReader.parse( txt )
+records = CsvReader.parse( txt )     ## or Csv.parse
 pp records
 # => [["1","2","3"],
 #     ["5","6","7"]]
 
 # -or-
 
-records = CsvReader.read( "values.csv" )
+records = CsvReader.read( "values.csv" )   ## or Csv.read
 pp records
 # => [["1","2","3"],
 #     ["5","6","7"]]
 
 # -or-
 
-CsvReader.foreach( "values.csv" ) do |rec|
+CsvReader.foreach( "values.csv" ) do |rec|    ## or Csv.foreach
   pp rec
 end
 # => ["1","2","3"]
@@ -62,7 +54,7 @@ A,B,C
 4,5,6
 TXT
 
-records = CsvHashReader.parse( txt )
+records = CsvHashReader.parse( txt )      ## or CsvHash.parse
 pp records
 
 # -or-
@@ -72,7 +64,7 @@ txt2 <<=TXT
 4,5,6
 TXT
 
-records = CsvHashReader.parse( txt2, headers: ["A","B","C"] )
+records = CsvHashReader.parse( txt2, headers: ["A","B","C"] )      ## or CsvHash.parse
 pp records
 
 # => [{"A": "1", "B": "2", "C": "3"},
@@ -80,14 +72,14 @@ pp records
 
 # -or-
 
-records = CsvHashReader.read( "hash.csv" )
+records = CsvHashReader.read( "hash.csv" )     ## or CsvHash.read
 pp records
 # => [{"A": "1", "B": "2", "C": "3"},
 #     {"A": "4", "B": "5", "C": "6"}]
 
 # -or-
 
-CsvHashReader.foreach( "hash.csv" ) do |rec|
+CsvHashReader.foreach( "hash.csv" ) do |rec|    ## or CsvHash.foreach
   pp rec
 end
 # => {"A": "1", "B": "2", "C": "3"}
@@ -141,11 +133,9 @@ Staatliches Hofbräuhaus München,München,Hofbräu Oktoberfestbier,6.3%
 Pass in the `sep` keyword option. Example:
 
 ``` ruby
-CsvReader.parse_line( ..., sep: ';' )
 CsvReader.parse( ..., sep: ';' )
 CsvReader.read( ..., sep: ';' )
 # ...
-CsvReader.parse_line( ..., sep: '|' )
 CsvReader.parse( ..., sep: '|' )
 CsvReader.read( ..., sep: '|' )
 # ...
