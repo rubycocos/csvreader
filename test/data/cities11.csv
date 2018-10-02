@@ -1,0 +1,12 @@
+#####
+# csv sample from the wikipedia article "Comma-separated values"
+#   see en.wikipedia.org/wiki/Comma-separated_values
+#
+# note:
+#  Double quote processing need only apply if the field starts
+#  with a double quote. Note, however, that double quotes are not
+#  allowed in unquoted fields according to RFC 4180
+
+Los Angeles,   34°03'N,    118°15'W
+New York City, 40°42'46"N, 74°00'21"W
+Paris,         48°51'24"N, 2°21'03"E
