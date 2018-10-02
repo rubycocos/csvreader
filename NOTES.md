@@ -12,6 +12,21 @@
 
 
 
+### Add enumerator/each support
+
+e.g. something like ??
+
+``` ruby
+csv = CsvReader.new( parser, data ).each    ## each without block returns enumerator
+csv.next
+csv.next
+```
+
+Note: Needs a new instance/object since each has ho arguments (uses data/io from instance/object)
+
+
+
+
 
 ## More csv readers in ruby
 
