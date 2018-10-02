@@ -9,6 +9,7 @@
 - [ ]  hash reader - add rest and rest_value for how to handle missing values?
 - [ ]  hash reader - handle duplicate header names - how?
 - [ ]  hash reader - handle empty header names - how?
+- [ ]  add support for tracking line number, record number, field number etc. (useful for errors etc.)
 
 
 
@@ -23,6 +24,18 @@ csv.next
 ```
 
 Note: Needs a new instance/object since each has ho arguments (uses data/io from instance/object)
+
+
+> I was wondering if and/or how this library interacts with Ruby `Enumerator` and `Enumerable` classes? 
+> For example, I noticed a non-standard `#foreach` method which delegates a given block for processing, 
+> but doesn't appear to have a non-block form that returns an `Enumerator`?
+>
+> By contrast, the standard library CSV has the `#each` method, which does return an `Enumerator` when no block is given, 
+> making it extremely friendly for building lazy computational pipelines?
+> https://ruby-doc.org/stdlib-2.3.4/libdoc/csv/rdoc/CSV.html#method-i-each
+>
+> -- Marc (see issue #2)
+
 
 
 
