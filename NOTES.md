@@ -23,7 +23,7 @@ csv.next
 csv.next
 ```
 
-Note: Needs a new instance/object since each has ho arguments (uses data/io from instance/object)
+Note: Needs a new instance/object since each has no arguments (uses data/io from instance/object)
 
 
 > I was wondering if and/or how this library interacts with Ruby `Enumerator` and `Enumerable` classes? 
