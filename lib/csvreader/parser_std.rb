@@ -39,11 +39,28 @@ def logger()  self.class.logger; end
 
 attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
+##
+##  todo/check:
+##    null values - include NA - why? why not?
+##        make null values case sensitive or add an option for case sensitive
+##        or better allow a proc as option for checking too!!!
 def initialize( null: ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
+
+  ## note: null values must get handled by parser
+  ##   only get checked for unquoted strings (and NOT for quoted strings)
+  ##   "higher-level" code only knows about strings and has no longer any info if string was quoted or unquoted
   @config[:null] = null   ## null values
 end
+
+#########################################
+## config convenience helpers
+##   e.g. use like  Csv.defaultl.null = '\N'   etc.   instead of
+##                  Csv.default.config[:null] = '\N'
+def null=( value )     @config[:null]=value; end
+
+
 
 
 def parse( data, **kwargs, &block )
@@ -132,6 +149,7 @@ def parse_field( input )
   skip_spaces( input )   ## strip leading spaces
 
   if (c=input.peek; c=="," || c==LF || c==CR || input.eof?) ## empty field
+    value = nil  if is_null?( value )   ## note: allows null = '' that is turn unquoted empty strings into null/nil
      ## return value; do nothing
   elsif input.peek == DOUBLE_QUOTE
     logger.debug "start double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
@@ -156,6 +174,8 @@ def parse_field( input )
     ##  note: only strip **trailing** spaces (space and tab only)
     ##    do NOT strip newlines etc. might have been added via escape! e.g. \\\n
     value = value.sub( /[ \t]+$/, '' )
+    value = nil  if is_null?( value )   ## note: null check only for UNQUOTED (not quoted/escaped) values
+
     logger.debug "end reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   end
 
@@ -249,6 +269,25 @@ def parse_lines( input, &block )
     end
   end  # loop
 end # method parse_lines
+
+
+
+
+def is_null?( value )
+   null = @config[:null]
+   if null.nil?
+     false  ## nothing set; return always false (not null)
+   elsif null.is_a?( Proc )
+     null.call( value )
+   elsif null.is_a?( Array )
+     null.include?( value )
+   elsif null.is_a?( String )
+     value == null
+   else  ## unknown config style / setting
+     ##  todo: issue a warning or error - why? why not?
+     false  ## nothing set; return always false (not null)
+   end
+end
 
 
 end # class ParserStd

@@ -205,15 +205,4 @@ def test_lf
                  parser.default.parse( "character" + LF + "NotEscaped" )
 end
 
-
-
-def test_escaped_mysql_null_value
-  ## MySQL uses \N to symbolize null values. We have to restore this
-
-    ## note: "unknown escape sequences e.g. \N get passed "through" as-is (unescaped)"
-    ##   only supports \n \r  (sep e.g \, or \t)  (quote e.g. \") for now - any others?
-    assert_equal [[ "character\\NEscaped" ]],
-                 parser.default.parse( "character\\NEscaped" )
-end
-
 end # class TestParserJava

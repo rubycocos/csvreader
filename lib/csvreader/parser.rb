@@ -25,7 +25,7 @@ MYSQL   = ParserStrict.new( sep: "\t",
 
 POSTGRES = POSTGRESQL = ParserStrict.new( doublequote: false,
                                           escape: true,
-                                          unquoted_empty_null: true )
+                                          null: "" )
 
 POSTGRES_TEXT = POSTGRESQL_TEXT = ParserStrict.new( sep: "\t",
                                                     quote: false,

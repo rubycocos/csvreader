@@ -60,32 +60,20 @@ end
 
 
 def test_parse_empties
-  assert_equal [["","",""],["","",""]], parser.parse( %Q{"","",""\n,,} )
+  assert_equal [["","",""],["","",""]],
+               parser.parse( %Q{"","",""\n,,} )
 
-  parser.config[:quoted_empty_null] = true
-
-  assert_equal true,  parser.config[:quoted_empty_null]
-  assert_equal false, parser.config[:unquoted_empty_null]
-
-  assert_equal [[nil,nil,nil," "],["","",""," "]], parser.parse( %Q{"","",""," "\n,,, } )
-
-
-  parser.config[:unquoted_empty_null] = true
-
-  assert_equal true, parser.config[:quoted_empty_null]
-  assert_equal true, parser.config[:unquoted_empty_null]
-
-  assert_equal [[nil,nil,nil," "],[nil,nil,nil," "]], parser.parse( %Q{"","",""," "\n,,, } )
-
+  parser.null = ""
+  assert_equal [["","",""," "],[nil,nil,nil," "]],
+               parser.parse( %Q{"","",""," "\n,,, } )
+  parser.null = [""]   ## try array (allows multiple null values)
+  assert_equal [[nil,nil,nil," "],["","",""," "]],
+               parser.parse( %Q{,,, \n"","",""," "} )
 
   ## reset to defaults
-  parser.config[:quoted_empty_null]   = false
-  parser.config[:unquoted_empty_null] = false
-
-  assert_equal false, parser.config[:quoted_empty_null]
-  assert_equal false, parser.config[:unquoted_empty_null]
-
-  assert_equal [["","",""],["","",""]], parser.parse( %Q{"","",""\n,,} )
+  parser.null = nil
+  assert_equal [["","",""],["","",""]],
+               parser.parse( %Q{"","",""\n,,} )
 end
 
 

@@ -35,9 +35,7 @@ def initialize( sep:         ',',
                 quote:       '"',  ## note: set to false/nil for no quote
                 doublequote: true,
                 escape:      false,   ## true/false
-                null:          ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
-                quoted_empty_null:   false,
-                unquoted_empty_null: false,
+                null:        nil,     ## note: set to nil for no null vales / not availabe (na)
                 comment:     false   ## note: comment char e.g. # or false/nil
                )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
@@ -46,8 +44,6 @@ def initialize( sep:         ',',
   @config[:doublequote]  = doublequote
   @config[:escape]  = escape
   @config[:null]     = null
-  @config[:quoted_empty_null]  = quoted_empty_null
-  @config[:unquoted_empty_null] = unquoted_empty_null
   @config[:comment] = comment
 end
 
@@ -55,9 +51,12 @@ end
 ## config convenience helpers
 ##   e.g. use like  Csv.mysql.sep = ','   etc.   instead of
 ##                  Csv.mysql.config[:sep] = ','
-def sep=( value )      @config[:sep]=value; end
-def comment=( value )  @config[:comment]=value; end
-def escape=( value )   @config[:escape]=value; end
+def sep=( value )         @config[:sep]=value; end
+def quote=( value )       @config[:quote]=value; end
+def doublequote=( value ) @config[:doublequote]=value; end
+def escape=( value )      @config[:escape]=value; end
+def null=( value )        @config[:null]=value; end
+def comment=( value )     @config[:comment]=value; end
 
 
 
@@ -156,14 +155,11 @@ def parse_field( input, sep: )
   logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
 
   if (c=input.peek; c==sep || c==LF || c==CR || input.eof?) ## empty unquoted field
-    value = nil   if config[:unquoted_empty_null]
+    value = nil  if is_null?( value )   ## note: allows null = '' that is turn unquoted empty strings into null/nil
     ## return value; do nothing
   elsif quote && input.peek == quote
     logger.debug "start quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     value << parse_quote( input, sep: sep )
-
-    value = nil   if config[:quoted_empty_null] && value == ""
-
     logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   else
     logger.debug "start reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
@@ -177,6 +173,8 @@ def parse_field( input, sep: )
         value << input.getc
       end
     end
+
+    value = nil  if is_null?( value )   ## note: null check only for UNQUOTED (not quoted/escaped) values
     logger.debug "end reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   end
 
@@ -263,6 +261,23 @@ def parse_lines( input, sep:, &block )
   end  # loop
 
 end # method parse_lines
+
+
+def is_null?( value )
+   null = @config[:null]
+   if null.nil?
+     false  ## nothing set; return always false (not null)
+   elsif null.is_a?( Proc )
+     null.call( value )
+   elsif null.is_a?( Array )
+     null.include?( value )
+   elsif null.is_a?( String )
+     value == null
+   else  ## unknown config style / setting
+     ##  todo: issue a warning or error - why? why not?
+     false  ## nothing set; return always false (not null)
+   end
+end
 
 
 end # class ParserStrict
