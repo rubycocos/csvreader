@@ -77,4 +77,17 @@ def test_foreach
   assert true
 end
 
+
+def test_enum
+  csv = CsvReader.new( "a,b,c" )
+  enum = csv.to_enum
+  assert_equal ["a","b","c"], enum.next
+
+  ## test Csv == CsvReader class alias
+  csv = Csv.new( "a,b,c" )
+  enum = csv.to_enum
+  assert_equal ["a","b","c"], enum.next
+end
+
+
 end # class TestReader
