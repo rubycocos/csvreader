@@ -4,6 +4,8 @@
 require 'pp'
 require 'logger'
 require 'forwardable'
+require 'stringio'
+require 'date'
 
 
 ###
@@ -17,6 +19,7 @@ require 'csvreader/parser'
 require 'csvreader/builder'
 require 'csvreader/reader'
 require 'csvreader/reader_hash'
+require 'csvreader/converter'
 
 
 
