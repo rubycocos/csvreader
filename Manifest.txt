@@ -6,6 +6,7 @@ Rakefile
 lib/csvreader.rb
 lib/csvreader/buffer.rb
 lib/csvreader/builder.rb
+lib/csvreader/converter.rb
 lib/csvreader/parser.rb
 lib/csvreader/parser_std.rb
 lib/csvreader/parser_strict.rb
@@ -20,6 +21,7 @@ test/data/cities11.csv
 test/data/customers11.csv
 test/data/shakespeare.csv
 test/helper.rb
+test/test_converter.rb
 test/test_parser.rb
 test/test_parser_formats.rb
 test/test_parser_java.rb
@@ -27,4 +29,6 @@ test/test_parser_null.rb
 test/test_parser_strict.rb
 test/test_parser_tab.rb
 test/test_reader.rb
+test/test_reader_converters.rb
 test/test_reader_hash.rb
+test/test_reader_hash_converters.rb

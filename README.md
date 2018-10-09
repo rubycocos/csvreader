@@ -176,7 +176,7 @@ Built-in header converters include:
 | Converter    | Comments            |
 |--------------|---------------------|
 | `:downcase`  |   downcase strings  |
-| `:symbol`    |   convert strings to symbols (and downcase and remove non-alphanumeric) |
+| `:symbol`    |   convert strings to symbols (and downcase and remove non-alphanumerics) |
 
 
 
@@ -248,7 +248,7 @@ pp records
 
 More strict pre-configured variants include:
 
-`Csv.mysl` uses:
+`Csv.mysql` uses:
 
 ``` ruby
 ParserStrict.new( sep: "\t",
