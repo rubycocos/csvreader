@@ -26,6 +26,9 @@ class Converter
 
 
   CONVERTERS  = {
+       ##
+       ##  todo/fix: use regex INTEGER_MATCH / FLOAT_MATCH
+       ##    to avoid rescue (with exception and stacktrace) for every try!!!
            integer: ->(value) {  Integer( value ) rescue value },
            float:   ->(value) {  Float( value ) rescue value },
            numeric:   [:integer, :float],
@@ -43,7 +46,33 @@ class Converter
                value
              end
            },
-           all:  [:date_time, :numeric],
+
+           ## new - add null and boolean (any others): why? why not?
+           null: -> (value) {
+              ## turn empty strings into nil
+              ##  rename to blank_to_nil or empty_to_nil or add both?
+              ##  todo: add NIL, nil too? or #NA, N/A etc. - why? why not?
+              if value.empty? || ['NULL', 'null', 'N/A', 'n/a', '#NA', '#na' ].include?( value )
+                 nil
+              else
+                value
+              end
+           },
+           boolean: -> (value) {
+             ## check yaml for possible true/value values - any missing?
+             ##  add more (or less) - why? why not?
+             if ['TRUE', 'true', 't', 'ON', 'on', 'YES', 'yes'].include?( value )
+               true
+             elsif
+               ['FALSE', 'false', 'f', 'OFF', 'off', 'NO', 'no'].include?( value )
+               false
+             else
+               value
+             end
+           },
+           bool: [:boolean],  ## bool convenience alias for boolean
+
+           all:  [:null, :boolean, :date_time, :numeric],
          }
 
 
@@ -84,19 +113,18 @@ def initialize( converters, registry=CONVERTERS )
    end
 
    def to_a() @converters; end    ## todo: rename to/use converters attribute name - why? why not?
+   def empty?() @converters.empty?; end
 
-
-  def convert( value, index=nil )
+  def convert( value, index_or_header=nil )
     return value if value.nil?
 
     @converters.each do |converter|
         value = if converter.arity == 1  # straight converter
               converter.call( value )
-            else  # FieldInfo converter
-              ## todo: add/use FieldInfo struct why? why not?
-              ## ## FieldInfo.new(index, lineno, header)]
-              ##   for now just use field number/index (zero-based) starting with 0,1,2,etc.
-              converter.call( value, index )
+            else
+              ## note: for CsvReader pass in the zero-based field/column index (integer)
+              ##       for CsvHashReader pass in the header/field/column name (string)
+              converter.call( value, index_or_header )
             end
         break unless value.is_a?( String )  # note: short-circuit pipeline for speed
     end

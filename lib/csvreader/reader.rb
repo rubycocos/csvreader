@@ -2,22 +2,6 @@
 
 class CsvReader
 
-  DEFAULT = CsvBuilder.new( Parser::DEFAULT )
-  STRICT  = CsvBuilder.new( Parser::STRICT )
-  RFC4180 = CsvBuilder.new( Parser::RFC4180 )
-  EXCEL   = CsvBuilder.new( Parser::EXCEL )
-  TAB     = CsvBuilder.new( Parser::TAB )
-
-  def self.default()  DEFAULT; end    ## alternative alias for DEFAULT
-  def self.strict()   STRICT; end     ## alternative alias for RFC4180
-  def self.rfc4180()  RFC4180; end    ## alternative alias for RFC4180
-  def self.excel()    EXCEL; end      ## alternative alias for EXCEL
-  def self.tab()      TAB; end        ## alternative alias for TAB
-
-
-
-
-
 #######
 ##  csv reader
 
@@ -25,8 +9,11 @@ class CsvReader
                    sep: nil,
                    converters: nil,
                    parser: nil, &block )   ## rename path to filename or name - why? why not?
+
         f = File.open( path, mode )
-        csv = new(f, sep: sep, converters: converters, parser: parser )
+        csv = new(f, sep: sep,
+                     converters: converters,
+                     parser: parser )
 
         # handle blocks like Ruby's open(), not like the (old old) CSV library
         if block_given?
@@ -127,10 +114,16 @@ class CsvReader
           # create the IO object we will read from
           @io = data.is_a?(String) ? StringIO.new(data) : data
 
-          @sep        = sep
-          @converters = converters
+          @sep = sep
+
+          @converters  = Converter.new( converters )
 
           @parser = parser.nil? ? Parser::DEFAULT : parser
+    end
+
+    def has_converters?
+      ## check array / pipeline of converters is empty (size=0 e.g. is [])
+      @converters.empty? == false;
     end
 
 
@@ -152,13 +145,23 @@ class CsvReader
 
      def each( &block )
        if block_given?
-         kwargs = {
-           ##  converters: converters  ## todo: add converters
-         }
+         kwargs = {}
          ## note: only add separator if present/defined (not nil)
          kwargs[:sep] = @sep    if @sep && @parser.respond_to?( :'sep=' )
 
-         @parser.parse( @io, kwargs, &block )
+         if has_converters?
+           ## add "post"-processing with converters pipeline
+           ##   that is, convert all strings to integer, float, date, ... if wanted
+           @parser.parse( @io, kwargs ) do |raw_record|
+             record = []
+             raw_record.each_with_index do | value, i |
+               record << @converters.convert( value, i )
+             end
+             block.call( record )
+           end
+         else
+           @parser.parse( @io, kwargs, &block )
+         end
        else
          to_enum
        end

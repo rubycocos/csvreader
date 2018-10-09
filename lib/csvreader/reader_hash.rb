@@ -6,15 +6,6 @@ class CsvHashReader
     @parser = parser
   end
 
-  DEFAULT = new( CsvReader::Parser::DEFAULT )
-  STRICT  = new( CsvReader::Parser::STRICT )
-  RFC4180 = new( CsvReader::Parser::RFC4180 )
-
-  def self.default()  DEFAULT; end    ## alternative alias for DEFAULT
-  def self.strict()   STRICT;  end    ## alternative alias for STRICT
-  def self.rfc4180()  RFC4180; end    ## alternative alias for RFC4180
-
-
 
   def self.parse( data, sep: nil, headers: nil, &block )
     DEFAULT.parse( data, sep: sep, headers: headers, &block )
