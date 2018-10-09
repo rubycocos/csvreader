@@ -40,6 +40,67 @@ end
 ```
 
 
+### What about converters?
+
+Use the converters keyword option to (auto-)convert strings to nulls, booleans, integers, floats, dates, etc.
+Example:
+
+``` ruby
+txt <<=TXT
+1,2,3
+true,false,null
+TXT
+
+records = Csv.parse( txt, :converters => :all )     ## or CsvReader.parse
+pp records
+# => [[1,2,3],
+#     [true,false,nil]]
+```
+
+
+Built-in converters include:
+
+| Converter    | Comments          |
+|--------------|-------------------|
+| `:integer`   |   convert matching strings to integer |
+| `:float`     |   convert matching strings to float   |
+| `:numeric`   |   shortcut for `[:integer, :float]`   |
+| `:date`      |   convert matching strings to `Date` (year/month/day) |
+| `:date_time` |   convert matching strings to `DateTime` |
+| `:null`      |   convert matching strings to null (`nil`) |
+| `:boolean`   |   convert matching strings to boolean (`true` or `false`) |
+| `:all`       |   shortcut for `[:null, :boolean, :date_time, :numeric]` |
+
+
+
+### What about Enumerable?
+
+Yes, every reader includes `Enumerable` and runs on `each`.
+Use `new` or `open` without a block
+to get the enumerator (iterator).
+Example:
+
+
+``` ruby
+csv = Csv.new( "a,b,c" )
+it  = csv.to_enum
+pp it.next  
+# => ["a","b","c"]
+
+# -or-
+
+csv = Csv.open( "values.csv" )
+it  = csv.to_enum
+pp it.next
+# => ["1","2","3"]
+pp it.next
+# => ["5","6","7"]
+```
+
+
+
+
+
 ### What about headers?
 
 Use the `CsvHash`
@@ -88,6 +149,9 @@ end
 
 
 
+
+
+
 ## Frequently Asked Questions (FAQ) and Answers
 
 ### Q: What's CSV the right way? What best practices can I use?  
@@ -128,25 +192,41 @@ Staatliches Hofbräuhaus München,München,Hofbräu Oktoberfestbier,6.3%
 
 
 
-### Q: How can I change the separator to semicolon (`;`) or pipe (`|`)?
+### Q: How can I change the separator to semicolon (`;`) or pipe (`|`) or tab (`\t`)?
 
-Pass in the `sep` keyword option. Example:
+Pass in the `sep` keyword option
+to the "strict" parser. Example:
 
 ``` ruby
-Csv.parse( ..., sep: ';' )
-Csv.read( ..., sep: ';' )
+Csv.strict.parse( ..., sep: ';' )
+Csv.strict.read( ..., sep: ';' )
 # ...
-Csv.parse( ..., sep: '|' )
-Csv.read( ..., sep: '|' )
-# ...
+Csv.strict.parse( ..., sep: '|' )
+Csv.strict.read( ..., sep: '|' )
 # and so on
 ```
 
-
-Note: If you use tab (`\t`) use the `TabReader`! Why? Tab =! CSV. Yes, tab is
+Note: If you use tab (`\t`) use the `TabReader`
+(or for your convenience the built-in `Csv.tab` alias)!
+Why? Tab =! CSV. Yes, tab is
 its own (even) simpler format
 (e.g. no escape rules, no newlines in values, etc.),
-see [`TabReader` »](https://github.com/datatxt/tabreader).
+see [`TabReader` »](https://github.com/csv11/tabreader).
+
+``` ruby
+Csv.tab.parse( ... )  # note: "classic" strict tab format
+Csv.tab.read( ... )
+# ...
+```
+
+If you want double quote escape rules, newlines in quotes values, etc. use
+the "strict" parser with the separator (`sep`) changed to tab (`\t`).
+
+``` ruby
+Csv.strict.parse( ..., sep: "\t" )  # note: csv-like tab format with quotes
+Csv.strict.read( ..., sep: "\t" )
+# ...
+```
 
 
 
