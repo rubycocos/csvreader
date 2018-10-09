@@ -148,6 +148,38 @@ end
 ```
 
 
+### What about symbol keys for hashes?
+
+Yes, use can use the header_converters keyword option.
+Use `:symbol` for (auto-)converting header (strings) to symbols.
+Note: the symbol converter will also downcase all letters and
+remove all non-alphanumeric (e.g. `!?$%`) chars
+and replace spaces with underscores.
+
+Example:
+
+``` ruby
+txt <<=TXT
+a,b,c
+1,2,3
+true,false,null
+TXT
+
+records = CsvHash.parse( txt, :converters => :all, :header_converters => :symbol )  
+pp records
+# => [{a: 1,    b: 2,     c: 3},
+#     {a: true, b: false, c: nil}]
+```
+
+Built-in header converters include:
+
+| Converter    | Comments            |
+|--------------|---------------------|
+| `:downcase`  |   downcase strings  |
+| `:symbol`    |   convert strings to symbols (and downcase and remove non-alphanumeric) |
+
+
+
 
 
 
@@ -190,6 +222,59 @@ Hacker-Pschorr Bräu,München,Münchner Dunkel,5.0%
 Staatliches Hofbräuhaus München,München,Hofbräu Oktoberfestbier,6.3%
 ```
 
+
+
+### Q: How can I change the default format / dialect?
+
+The reader includes more than half a dozen pre-configured formats,
+dialects.
+
+Use strict if you do NOT want to trim leading and trailing spaces
+and if you do NOT want to skip blank lines. Example:
+
+``` ruby
+txt <<=TXT
+1, 2,3
+4,5 ,6
+
+TXT
+
+records = Csv.strict.parse( txt )
+pp records
+# => [["1","•2","3"],
+#     ["4","5•","6"],
+#     [""]]
+```
+
+More strict pre-configured variants include:
+
+`Csv.mysl` uses:
+
+``` ruby
+ParserStrict.new( sep: "\t",
+                  quote: false,
+                  escape: true,
+                  null: "\\N" )
+```
+
+`Csv.postgres` or `Csv.postgresql` uses:
+
+``` ruby
+ParserStrict.new( doublequote: false,
+                  escape: true,
+                  null: "" )
+```
+
+`Csv.postgres_text` or `Csv.postgresql_text` uses:
+
+``` ruby
+ParserStrict.new( sep: "\t",
+                  quote: false,
+                  escape: true,
+                  null: "\\N" )
+```
+
+and so on.
 
 
 ### Q: How can I change the separator to semicolon (`;`) or pipe (`|`) or tab (`\t`)?

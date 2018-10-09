@@ -152,19 +152,27 @@ def_delegators :@io,
      ## note: only add separator if present/defined (not nil)
      kwargs[:sep] = @sep    if @sep && @parser.respond_to?( :'sep=' )
 
-     @parser.parse( @io, kwargs ) do |values|     # sep: sep
-        if @names.nil?
-           @names = values   ## store header row / a.k.a. field/column names
-        else
-          raw_record = @names.zip( values ).to_h    ## todo/fix: check for more values than names/headers!!!
+     @parser.parse( @io, kwargs ) do |raw_values|     # sep: sep
+        if @names.nil?    ## check for (first) headers row
+          if @header_converters.empty?
+            @names = raw_values   ## store header row / a.k.a. field/column names
+          else
+            values = []
+            raw_values.each_with_index do |value,i|
+              values << @header_converters.convert( value, i )
+            end
+            @names = values
+          end
+        else    ## "regular" record
+          raw_record = @names.zip( raw_values ).to_h    ## todo/fix: check for more values than names/headers!!!
           if @converters.empty?
             block.call( raw_record )
           else
             ## add "post"-processing with converters pipeline
             ##   that is, convert all strings to integer, float, date, ... if wanted
-            record = []
+            record = {}
             raw_record.each do | key, value |
-              record << @converters.convert( value, key )
+              record[ key ] = @converters.convert( value, key )
             end
             block.call( record )
           end
