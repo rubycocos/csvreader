@@ -5,12 +5,13 @@ class CsvReader
 #######
 ##  csv reader
 
-    def self.open( path, mode='r:bom|utf-8',
+    def self.open( path, mode=nil,
                    sep: nil,
                    converters: nil,
                    parser: nil, &block )   ## rename path to filename or name - why? why not?
 
-        f = File.open( path, mode )
+        ## note: default mode (if nil/not passed in) to 'r:bom|utf-8'
+        f = File.open( path, mode ? mode : 'r:bom|utf-8' )
         csv = new(f, sep: sep,
                      converters: converters,
                      parser: parser )
@@ -116,15 +117,11 @@ class CsvReader
 
           @sep = sep
 
-          @converters  = Converter.new( converters )
+          @converters  = Converter.create_converters( converters )
 
           @parser = parser.nil? ? Parser::DEFAULT : parser
     end
 
-    def has_converters?
-      ## check array / pipeline of converters is empty (size=0 e.g. is [])
-      @converters.empty? == false;
-    end
 
 
     ### IO and StringIO Delegation ###
@@ -149,7 +146,10 @@ class CsvReader
          ## note: only add separator if present/defined (not nil)
          kwargs[:sep] = @sep    if @sep && @parser.respond_to?( :'sep=' )
 
-         if has_converters?
+         ## check array / pipeline of converters is empty (size=0 e.g. is [])
+         if @converters.empty?
+           @parser.parse( @io, kwargs, &block )
+         else
            ## add "post"-processing with converters pipeline
            ##   that is, convert all strings to integer, float, date, ... if wanted
            @parser.parse( @io, kwargs ) do |raw_record|
@@ -159,8 +159,6 @@ class CsvReader
              end
              block.call( record )
            end
-         else
-           @parser.parse( @io, kwargs, &block )
          end
        else
          to_enum

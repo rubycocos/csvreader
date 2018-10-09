@@ -2,21 +2,21 @@
 
 
 class CsvBuilder  ## rename to CsvReaderBuilder - why? why not?
+
+
   def initialize( parser )
     @parser = parser
   end
 
+  def config() @parser.config; end   ## (auto-)forward to wrapped parser
 
   ## todo/fix:
   ##   add parser config (attribute) setter e.g.
   ##   - sep=(value)
   ##   - comment=(value)
   ##   - and so on!!!
-  ##
-  ##   add config too - why? why not?
 
-
-  def open( path, mode='r:bom|utf-8',
+  def open( path, mode=nil,
                  sep: nil,
                  converters: nil,
                  parser: @parser, &block )
@@ -54,3 +54,67 @@ class CsvBuilder  ## rename to CsvReaderBuilder - why? why not?
                    parser: @parser, &block )
   end
 end # class CsvBuilder
+
+
+
+
+class CsvHashBuilder  ## rename to CsvHashReaderBuilder - why? why not?
+  def initialize( parser )
+    @parser = parser
+  end
+
+  def config() @parser.config; end   ## (auto-)forward to wrapped parser
+
+  ## todo/fix:
+  ##   add parser config (attribute) setter e.g.
+  ##   - sep=(value)
+  ##   - comment=(value)
+  ##   - and so on!!!
+
+
+  def open( path, mode=nil,
+                 headers: nil,
+                 sep: nil,
+                 converters: nil,
+                 header_converters: nil,
+                 parser: @parser, &block )
+      CsvHashReader.open( path, mode,
+                      headers: headers, sep: sep, converters: converters,
+                      header_converters: header_converters,
+                      parser: @parser, &block )
+  end
+
+  def read( path, headers: nil,
+                  sep: nil,
+                  converters: nil,
+                  header_converters: nil )
+    CsvHashReader.read( path,
+                  headers: headers,
+                  sep: sep, converters: converters,
+                  header_converters: header_converters,
+                  parser: @parser )
+  end
+
+  def foreach( path, headers: nil,
+                     sep: nil,
+                     converters: nil,
+                     header_converters: nil, &block )
+    CsvHashReader.foreach( path,
+                     headers: headers,
+                     sep: sep, converters: converters,
+                     header_converters: header_converters,
+                     parser: @parser, &block )
+  end
+
+
+  def parse( data, headers: nil,
+                   sep: nil,
+                   converters: nil,
+                   header_converters: nil, &block )
+    CsvHashReader.parse( data,
+                   headers: headers,
+                   sep: sep, converters: converters,
+                   header_converters: header_converters,
+                   parser: @parser, &block )
+  end
+end # class CsvHashBuilder

@@ -2,78 +2,180 @@
 
 class CsvHashReader
 
-  def initialize( parser )
-    @parser = parser
-  end
 
+def self.open( path, mode=nil,
+               headers: nil,
+               sep: nil,
+               converters: nil,
+               header_converters: nil,
+               parser: nil, &block )   ## rename path to filename or name - why? why not?
 
-  def self.parse( data, sep: nil, headers: nil, &block )
-    DEFAULT.parse( data, sep: sep, headers: headers, &block )
-  end
+    ## note: default mode (if nil/not passed in) to 'r:bom|utf-8'
+    f = File.open( path, mode ? mode : 'r:bom|utf-8' )
+    csv = new(f, headers: headers,
+                 sep: sep,
+                 converters: converters,
+                 header_converters: header_converters,
+                 parser: parser )
 
-  def self.read( path, sep: nil, headers: nil )
-    DEFAULT.read( path, sep: sep, headers: headers )
-  end
-
-  def self.foreach( path, sep: nil, headers: nil, &block )
-    DEFAULT.foreach( path,sep: sep, headers: headers, &block )
-  end
-
-
-
-#############################
-## all "high-level" reader methods
-##
-
-def parse( data, sep: nil, headers: nil, &block )
-  if block_given?
-    parse_lines( data, sep: sep, headers: headers, &block )
-  else
-    records = []
-    parse_lines( data, sep: sep, headers: headers ) do |record|
-      records << record
-    end
-    records
-  end
-end
-
-
-def read( path, sep: nil, headers: nil )
-  txt = File.open( path, 'r:bom|utf-8' ).read
-  parse( txt, sep: sep, headers: headers )
-end
-
-
-def foreach( path, sep: nil, headers: nil, &block )
-  File.open( path, 'r:bom|utf-8' ) do |file|
-    parse_lines( file, sep: sep, headers: headers, &block )
-  end
-end
-
-
-private
-
-####################
-## parse_lines helper method to keep in one (central) place only (for easy editing/changing)
-##   - builds key/value pairs
-
-def parse_lines( data, sep: nil, headers: nil, &block)
-  ## pass in headers as array e.g. ['A', 'B', 'C']
-  names = headers ? headers : nil
-
-  kwargs = {
-    ##  converters: converters  ## todo: add converters
-  }
-  kwargs[:sep] = sep   if sep && @parser.respond_to?( :'sep=' )   ## note: only add separator if present/defined (not nil)
-
-  @parser.parse( data, kwargs ) do |values|     # sep: sep
-    if names.nil?
-      names = values   ## store header row / a.k.a. field/column names
+    # handle blocks like Ruby's open(), not like the (old old) CSV library
+    if block_given?
+      begin
+        block.call( csv )
+      ensure
+        csv.close
+      end
     else
-      record = names.zip( values ).to_h    ## todo/fix: check for more values than names/headers!!!
-      block.call( record )
+      csv
     end
-  end
+end # method self.open
+
+
+def self.read( path, headers: nil,
+                     sep: nil,
+                     converters: nil,
+                     header_converters: nil,
+                     parser: nil )
+    open( path,
+          headers: headers,
+          sep: sep,
+          converters: converters,
+          header_converters: header_converters,
+          parser: parser ) { |csv| csv.read }
 end
+
+
+
+def self.foreach( path, headers: nil,
+                        sep: nil,
+                        converters: nil,
+                        header_converters: nil,
+                        parser: nil, &block )
+  csv = open( path,
+              headers: headers,
+              sep: sep,
+              converters: converters,
+              header_converters: header_converters,
+              parser: parser )
+
+  if block_given?
+    begin
+      csv.each( &block )
+    ensure
+      csv.close
+    end
+  else
+    csv.to_enum    ## note: caller (responsible) must close file!!!
+    ## remove version without block given - why? why not?
+    ## use Csv.open().to_enum  or Csv.open().each
+    ##   or Csv.new( File.new() ).to_enum or Csv.new( File.new() ).each ???
+  end
+end # method self.foreach
+
+
+def self.parse( data, headers: nil,
+                      sep: nil,
+                      converters: nil,
+                      header_converters: nil,
+                      parser: nil, &block )
+  csv = new( data,
+             headers: headers,
+             sep: sep,
+             converters: converters,
+             header_converters: header_converters,
+             parser: parser )
+
+  if block_given?
+    csv.each( &block )  ## note: caller (responsible) must close file!!! - add autoclose - why? why not?
+  else  # slurp contents, if no block is given
+    csv.read            ## note: caller (responsible) must close file!!! - add autoclose - why? why not?
+  end
+end # method self.parse
+
+
+
+
+
+def initialize( data, headers: nil, sep: nil,
+                      converters: nil,
+                      header_converters: nil,
+                      parser: nil )
+      raise ArgumentError.new( "Cannot parse nil as CSV" )  if data.nil?
+      ## todo: use (why? why not) - raise ArgumentError, "Cannot parse nil as CSV"     if data.nil?
+
+      # create the IO object we will read from
+      @io = data.is_a?(String) ? StringIO.new(data) : data
+
+      ## pass in headers as array e.g. ['A', 'B', 'C']
+      ##  double check: run header_converters on passed in headers?
+      ##    for now - do NOT auto-convert passed in headers - keep them as-is (1:1)
+      @names = headers ? headers : nil
+
+      @sep = sep
+
+      @converters        = CsvReader::Converter.create_converters( converters )
+      @header_converters = CsvReader::Converter.create_header_converters( header_converters )
+
+      @parser = parser.nil? ? CsvReader::Parser::DEFAULT : parser
+end
+
+
+
+### IO and StringIO Delegation ###
+extend Forwardable
+def_delegators :@io,
+               :close, :closed?, :eof, :eof?
+
+ ## add more - why? why not?
+ ## def_delegators :@io, :binmode, :binmode?, :close, :close_read, :close_write,
+ ##                                :closed?, :eof, :eof?, :external_encoding, :fcntl,
+ ##                                :fileno, :flock, :flush, :fsync, :internal_encoding,
+ ##                                :ioctl, :isatty, :path, :pid, :pos, :pos=, :reopen,
+ ##                                :seek, :stat, :string, :sync, :sync=, :tell, :to_i,
+ ##                                :to_io, :truncate, :tty?
+
+
+ include Enumerable
+
+
+ def each( &block )
+
+   ## todo/fix:
+   ##   add case for headers/names.size != values.size
+   ##   - add rest option? for if less headers than values (see python csv.DictReader - why? why not?)
+   ##
+   ##   handle case with duplicate and empty header names etc.
+
+
+   if block_given?
+     kwargs = {}
+     ## note: only add separator if present/defined (not nil)
+     kwargs[:sep] = @sep    if @sep && @parser.respond_to?( :'sep=' )
+
+     @parser.parse( @io, kwargs ) do |values|     # sep: sep
+        if @names.nil?
+           @names = values   ## store header row / a.k.a. field/column names
+        else
+          raw_record = @names.zip( values ).to_h    ## todo/fix: check for more values than names/headers!!!
+          if @converters.empty?
+            block.call( raw_record )
+          else
+            ## add "post"-processing with converters pipeline
+            ##   that is, convert all strings to integer, float, date, ... if wanted
+            record = []
+            raw_record.each do | key, value |
+              record << @converters.convert( value, key )
+            end
+            block.call( record )
+          end
+        end
+     end
+   else
+     to_enum
+   end
+ end # method each
+
+ def read() to_a; end # method read
+
 
 end # class CsvHashReader
