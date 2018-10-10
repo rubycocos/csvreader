@@ -21,14 +21,14 @@ TXT
 records = Csv.parse( txt )     ## or CsvReader.parse
 pp records
 # => [["1","2","3"],
-#     ["5","6","7"]]
+#     ["4","5","6"]]
 
 # -or-
 
 records = Csv.read( "values.csv" )   ## or CsvReader.read
 pp records
 # => [["1","2","3"],
-#     ["5","6","7"]]
+#     ["4","5","6"]]
 
 # -or-
 
@@ -36,11 +36,11 @@ Csv.foreach( "values.csv" ) do |rec|    ## or CsvReader.foreach
   pp rec
 end
 # => ["1","2","3"]
-# => ["5","6","7"]
+# => ["4","5","6"]
 ```
 
 
-### What about converters?
+### What about type inference and data converters?
 
 Use the converters keyword option to (auto-)convert strings to nulls, booleans, integers, floats, dates, etc.
 Example:
@@ -94,7 +94,7 @@ it  = csv.to_enum
 pp it.next
 # => ["1","2","3"]
 pp it.next
-# => ["5","6","7"]
+# => ["4","5","6"]
 ```
 
 
@@ -150,7 +150,7 @@ end
 
 ### What about symbol keys for hashes?
 
-Yes, use can use the header_converters keyword option.
+Yes, you can use the header_converters keyword option.
 Use `:symbol` for (auto-)converting header (strings) to symbols.
 Note: the symbol converter will also downcase all letters and
 remove all non-alphanumeric (e.g. `!?$%`) chars
@@ -319,7 +319,7 @@ Csv.strict.read( ..., sep: "\t" )
 
 Two major design bugs and many many minor.
 
-(1) The CSV class uses [`line.split(',')`](https://github.com/ruby/csv/blob/master/lib/csv.rb#L1248) with some kludges (†) with the claim it's faster.
+(1) The CSV class uses [`line.split(',')`](https://github.com/ruby/csv/blob/master/lib/csv.rb#L1255) with some kludges (†) with the claim it's faster.
 What?! The right way: CSV needs its own purpose-built parser. There's no other
 way you can handle all the (edge) cases with double quotes and escaped doubled up
 double quotes. Period.
