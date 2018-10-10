@@ -72,6 +72,18 @@ Built-in converters include:
 | `:all`       |   shortcut for `[:null, :boolean, :date_time, :numeric]` |
 
 
+Or add your own converters. Example:
+
+``` ruby
+Csv.parse( 'Ruby, 2020-03-01, 100', converters: [->(v) { Time.parse(v) rescue v }] )
+#=> [["Ruby", 2020-03-01 00:00:00 +0200, "100"]]
+```
+
+A custom converter is a method that gets the value passed in 
+and if successful returns a non-string type (e.g. integer, float, date, etc.)
+or a string (for further processing with all other converters in the "pipeline" configuration).
+
+
 
 ### What about Enumerable?
 
@@ -169,6 +181,15 @@ records = CsvHash.parse( txt, :converters => :all, :header_converters => :symbol
 pp records
 # => [{a: 1,    b: 2,     c: 3},
 #     {a: true, b: false, c: nil}]
+
+# -or-
+options = { :converters        => :all, 
+            :header_converters => :symbol }
+
+records = CsvHash.parse( txt, options )  
+pp records
+# => [{a: 1,    b: 2,     c: 3},
+#     {a: true, b: false, c: nil}]
 ```
 
 Built-in header converters include:
@@ -180,6 +201,60 @@ Built-in header converters include:
 
 
 
+### What about (typed) structs?
+
+See the [csvrecord library / gem ]()
+
+
+Example from the csvrecord docu:
+
+Step 1: Define a (typed) struct for the comma-separated values (csv) records. Example:
+
+```ruby
+require 'csvrecord'
+
+Beer = CsvRecord.define do
+  field :brewery        ## note: default type is :string
+  field :city
+  field :name
+  field :abv, Float     ## allows type specified as class (or use :float)
+end
+```
+
+or in "classic" style:
+
+```ruby
+class Beer < CsvRecord::Base
+  field :brewery
+  field :city
+  field :name
+  field :abv, Float
+end
+```
+
+
+Step 2: Read in the comma-separated values (csv) datafile. Example:
+
+```ruby
+beers = Beer.read( 'beer.csv' )
+
+puts "#{beers.size} beers:"
+pp beers
+```
+
+pretty prints (pp):
+
+```
+6 beers:
+[#<Beer:0x302c760 @values=
+   ["Andechser Klosterbrauerei", "Andechs", "Doppelbock Dunkel", 7.0]>,
+ #<Beer:0x3026fe8 @values=
+   ["Augustiner Br\u00E4u M\u00FCnchen", "M\u00FCnchen", "Edelstoff", 5.6]>,
+ #<Beer:0x30257a0 @values=
+   ["Bayerische Staatsbrauerei Weihenstephan", "Freising", "Hefe Weissbier", 5.4]>,
+ ...
+]
+```
 
 
 
