@@ -203,8 +203,7 @@ Built-in header converters include:
 
 ### What about (typed) structs?
 
-See the [csvrecord library / gem ]()
-
+See the [csvrecord library »]](https://github.com/csv11/csvrecord)
 
 Example from the csvrecord docu:
 
