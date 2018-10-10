@@ -255,6 +255,38 @@ pretty prints (pp):
 ]
 ```
 
+Or loop over the records. Example:
+
+``` ruby
+Beer.read( 'beer.csv' ).each do |rec|
+  puts "#{rec.name} (#{rec.abv}%) by #{rec.brewery}, #{rec.city}"
+end
+
+# -or-
+
+Beer.foreach( 'beer.csv' ) do |rec|
+  puts "#{rec.name} (#{rec.abv}%) by #{rec.brewery}, #{rec.city}"
+end
+```
+
+
+printing:
+
+```
+Doppelbock Dunkel (7.0%) by Andechser Klosterbrauerei, Andechs
+Edelstoff (5.6%) by Augustiner Bräu München, München
+Hefe Weissbier (5.4%) by Bayerische Staatsbrauerei Weihenstephan, Freising
+Rauchbier Märzen (5.1%) by Brauerei Spezial, Bamberg
+Münchner Dunkel (5.0%) by Hacker-Pschorr Bräu, München
+Hofbräu Oktoberfestbier (6.3%) by Staatliches Hofbräuhaus München, München
+```
+
+
+### What about tabular data packages with pre-defined types / schemas?
+
+See the [csvpack library »](https://github.com/csv11/csvpack)
+
+
 
 
 
