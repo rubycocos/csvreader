@@ -36,7 +36,9 @@ def initialize( sep:         ',',
                 doublequote: true,
                 escape:      false,   ## true/false
                 null:        nil,     ## note: set to nil for no null vales / not availabe (na)
-                comment:     false   ## note: comment char e.g. # or false/nil
+                comment:     false,   ## note: comment char e.g. # or false/nil
+                numeric:     false,   ## (auto-)convert all non-quoted values to float
+                nan:         nil      ## note: only if numeric - set mappings for Float::NAN (not a number) values
                )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
   @config[:sep]          = sep
@@ -45,7 +47,10 @@ def initialize( sep:         ',',
   @config[:escape]  = escape
   @config[:null]     = null
   @config[:comment] = comment
+  @config[:numeric] = numeric
+  @config[:nan]     = nan   # not a number (NaN) e.g. Float::NAN
 end
+
 
 #########################################
 ## config convenience helpers
@@ -57,6 +62,8 @@ def doublequote=( value ) @config[:doublequote]=value; end
 def escape=( value )      @config[:escape]=value; end
 def null=( value )        @config[:null]=value; end
 def comment=( value )     @config[:comment]=value; end
+def numeric=( value )     @config[:numeric]=value; end
+def nan=( value )         @config[:nan]=value; end
 
 
 
@@ -149,14 +156,22 @@ end
 def parse_field( input, sep: )
   value = ""
 
-  quote  = config[:quote]
-  escape = config[:escape]
+  quote   = config[:quote]
+  escape  = config[:escape]
+  numeric = config[:numeric]
 
   logger.debug "parse field - sep: >#{sep}< (#{sep.ord})"  if logger.debug?
 
   if (c=input.peek; c==sep || c==LF || c==CR || input.eof?) ## empty unquoted field
-    value = nil  if is_null?( value )   ## note: allows null = '' that is turn unquoted empty strings into null/nil
-    ## return value; do nothing
+    ## note: allows null = '' that is turn unquoted empty strings into null/nil
+    ##   or if using numeric into NotANumber (NaN)
+    if is_null?( value )
+      value = nil
+    elsif numeric & is_nan?( value )
+      value = Float::NAN
+    else
+      # do nothing - keep value as is :-) e.g. "".
+    end
   elsif quote && input.peek == quote
     logger.debug "start quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     value << parse_quote( input, sep: sep )
@@ -174,12 +189,30 @@ def parse_field( input, sep: )
       end
     end
 
-    value = nil  if is_null?( value )   ## note: null check only for UNQUOTED (not quoted/escaped) values
+
+    if is_null?( value )   ## note: null check only for UNQUOTED (not quoted/escaped) values
+      value = nil
+    elsif numeric
+      if is_nan?( value )
+        value = Float::NAN
+      else
+        ## numeric - (auto-convert) non-quoted values (if NOT nil) to floats
+        if numeric.is_a?( Proc )
+          value = numeric.call( value )   ## allow custom converter proc (e.g. how to handle NaN and conversion errors?)
+        else
+          value = convert_to_float( value ) # default (fails silently) keep string value if cannot convert - change - why? why not?
+        end
+      end
+    else
+      # do nothing - keep value as is :-).
+    end
+
     logger.debug "end reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   end
 
   value
 end
+
 
 
 def parse_record( input, sep: )
@@ -262,6 +295,24 @@ def parse_lines( input, sep:, &block )
 
 end # method parse_lines
 
+
+def convert_to_float( value ) Float( value ) rescue value; end
+
+def is_nan?( value )
+   nan = @config[:nan]
+   if nan.nil?
+     false  ## nothing set; return always false (not NaN)
+   elsif nan.is_a?( Proc )
+     nan.call( value )
+   elsif nan.is_a?( Array )
+     nan.include?( value )
+   elsif nan.is_a?( String )
+     value == nan
+   else  ## unknown config style / setting
+     ##  todo: issue a warning or error - why? why not?
+     false  ## nothing set; return always false (not nan)
+   end
+end
 
 def is_null?( value )
    null = @config[:null]

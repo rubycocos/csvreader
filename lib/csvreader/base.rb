@@ -16,10 +16,10 @@ require 'csvreader/parser_std'      # best practices pre-configured out-of-the-b
 require 'csvreader/parser_strict'   # flexible (strict - no leading/trailing space triming, blanks, etc.), configure for different formats/dialects
 require 'csvreader/parser_tab'
 require 'csvreader/parser'
-require 'csvreader/builder'
+require 'csvreader/converter'
 require 'csvreader/reader'
 require 'csvreader/reader_hash'
-require 'csvreader/converter'
+require 'csvreader/builder'
 
 
 
@@ -53,6 +53,11 @@ class Parser
                                                       escape: true,
                                                       null: "\\N" )
 
+  NUMERIC = ParserStrict.new( numeric: true,
+                              nan: ['#NAN', 'NAN', 'NaN', 'nan' ],
+                              null: "" )
+
+
   TAB     = ParserTab.new
 
 
@@ -65,6 +70,7 @@ class Parser
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
+  def self.numeric()         NUMERIC;         end
   def self.tab()             TAB;             end
 end # class Parser
 end # class CsvReader
@@ -73,17 +79,19 @@ end # class CsvReader
 
 class CsvReader
   ### pre-define CsvReader (built-in) formats/dialect
-  DEFAULT = CsvBuilder.new( Parser::DEFAULT )
+  DEFAULT = Builder.new( Parser::DEFAULT )
 
-  STRICT  = CsvBuilder.new( Parser::STRICT )
-  RFC4180 = CsvBuilder.new( Parser::RFC4180 )
-  EXCEL   = CsvBuilder.new( Parser::EXCEL )
+  STRICT  = Builder.new( Parser::STRICT )
+  RFC4180 = Builder.new( Parser::RFC4180 )
+  EXCEL   = Builder.new( Parser::EXCEL )
 
-  MYSQL                           = CsvBuilder.new( Parser::MYSQL )
-  POSTGRES = POSTGRESQL           = CsvBuilder.new( Parser::POSTGRESQL )
-  POSTGRES_TEXT = POSTGRESQL_TEXT = CsvBuilder.new( Parser::POSTGRESQL_TEXT )
+  MYSQL                           = Builder.new( Parser::MYSQL )
+  POSTGRES = POSTGRESQL           = Builder.new( Parser::POSTGRESQL )
+  POSTGRES_TEXT = POSTGRESQL_TEXT = Builder.new( Parser::POSTGRESQL_TEXT )
 
-  TAB = CsvBuilder.new( Parser::TAB )
+  NUMERIC = Builder.new( Parser::NUMERIC )
+
+  TAB = Builder.new( Parser::TAB )
 
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
@@ -95,23 +103,26 @@ class CsvReader
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
+  def self.numeric()         NUMERIC;         end
   def self.tab()             TAB;             end
 end # class CsvReader
 
 
 class CsvHashReader
   ### pre-define CsvReader (built-in) formats/dialect
-  DEFAULT = CsvHashBuilder.new( CsvReader::Parser::DEFAULT )
+  DEFAULT = Builder.new( Parser::DEFAULT )
 
-  STRICT  = CsvHashBuilder.new( CsvReader::Parser::STRICT )
-  RFC4180 = CsvHashBuilder.new( CsvReader::Parser::RFC4180 )
-  EXCEL   = CsvHashBuilder.new( CsvReader::Parser::EXCEL )
+  STRICT  = Builder.new( Parser::STRICT )
+  RFC4180 = Builder.new( Parser::RFC4180 )
+  EXCEL   = Builder.new( Parser::EXCEL )
 
-  MYSQL                           = CsvHashBuilder.new( CsvReader::Parser::MYSQL )
-  POSTGRES = POSTGRESQL           = CsvHashBuilder.new( CsvReader::Parser::POSTGRESQL )
-  POSTGRES_TEXT = POSTGRESQL_TEXT = CsvHashBuilder.new( CsvReader::Parser::POSTGRESQL_TEXT )
+  MYSQL                           = Builder.new( Parser::MYSQL )
+  POSTGRES = POSTGRESQL           = Builder.new( Parser::POSTGRESQL )
+  POSTGRES_TEXT = POSTGRESQL_TEXT = Builder.new( Parser::POSTGRESQL_TEXT )
 
-  TAB = CsvHashBuilder.new( CsvReader::Parser::TAB )
+  NUMERIC = Builder.new( Parser::NUMERIC )
+
+  TAB = Builder.new( Parser::TAB )
 
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
@@ -123,6 +134,7 @@ class CsvHashReader
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
+  def self.numeric()         NUMERIC;         end
   def self.tab()             TAB;             end
 end # class CsvHashReader
 

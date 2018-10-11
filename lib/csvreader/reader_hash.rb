@@ -3,6 +3,12 @@
 class CsvHashReader
 
 
+## add convenience shortcuts / aliases for CsvReader support classes
+Parser    = CsvReader::Parser
+Converter = CsvReader::Converter
+
+
+
 def self.open( path, mode=nil,
                headers: nil,
                sep: nil,
@@ -113,10 +119,10 @@ def initialize( data, headers: nil, sep: nil,
 
       @sep = sep
 
-      @converters        = CsvReader::Converter.create_converters( converters )
-      @header_converters = CsvReader::Converter.create_header_converters( header_converters )
+      @converters        = Converter.create_converters( converters )
+      @header_converters = Converter.create_header_converters( header_converters )
 
-      @parser = parser.nil? ? CsvReader::Parser::DEFAULT : parser
+      @parser = parser.nil? ? Parser::DEFAULT : parser
 end
 
 

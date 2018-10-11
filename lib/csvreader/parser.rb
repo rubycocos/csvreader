@@ -2,6 +2,12 @@
 
 class CsvReader
 
+class Parser
+  ## "forward" reference,
+  ##     see base.rb for more
+end
+
+
 ####################################
 # define errors / exceptions
 #   for all parsers for (re)use

@@ -1,7 +1,7 @@
 # encoding: utf-8
 
-
-class CsvBuilder  ## rename to CsvReaderBuilder - why? why not?
+class CsvReader
+class Builder  ## rename to CsvReaderBuilder - why? why not?
 
 
   def initialize( parser )
@@ -53,12 +53,13 @@ class CsvBuilder  ## rename to CsvReaderBuilder - why? why not?
                    sep: sep, converters: converters,
                    parser: @parser, &block )
   end
-end # class CsvBuilder
+end # class Builder
+end # class CsvReader
 
 
 
-
-class CsvHashBuilder  ## rename to CsvHashReaderBuilder - why? why not?
+class CsvHashReader
+class Builder  ## rename to CsvHashReaderBuilder - why? why not?
   def initialize( parser )
     @parser = parser
   end
@@ -117,4 +118,5 @@ class CsvHashBuilder  ## rename to CsvHashReaderBuilder - why? why not?
                    header_converters: header_converters,
                    parser: @parser, &block )
   end
-end # class CsvHashBuilder
+end # class Builder
+end # class CsvHashReader
