@@ -84,9 +84,11 @@ def test_enum
   assert_equal ["a","b","c"], enum.next
 
   ## test Csv == CsvReader class alias
-  csv = Csv.new( "a,b,c" )
-  enum = csv.to_enum
-  assert_equal ["a","b","c"], enum.next
+  if defined?( Csv )
+    csv = Csv.new( "a,b,c" )
+    enum = csv.to_enum
+    assert_equal ["a","b","c"], enum.next
+  end
 end
 
 

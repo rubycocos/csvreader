@@ -7,6 +7,8 @@ require 'minitest/autorun'
 
 ## our own code
 require 'csvreader'
+## require 'csvreader/base'    ## try modular version (that is, without Csv,CsvHash "top-level" shortcuts)
+
 
 ## add test_data_dir helper
 class CsvReader

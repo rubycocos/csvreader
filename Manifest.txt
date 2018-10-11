@@ -4,6 +4,7 @@ Manifest.txt
 README.md
 Rakefile
 lib/csvreader.rb
+lib/csvreader/base.rb
 lib/csvreader/buffer.rb
 lib/csvreader/builder.rb
 lib/csvreader/converter.rb
