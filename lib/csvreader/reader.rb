@@ -2,9 +2,6 @@
 
 class CsvReader
 
-#######
-##  csv reader
-
     def self.open( path, mode=nil,
                    sep: nil,
                    converters: nil,

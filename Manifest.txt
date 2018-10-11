@@ -27,6 +27,7 @@ test/test_parser.rb
 test/test_parser_formats.rb
 test/test_parser_java.rb
 test/test_parser_null.rb
+test/test_parser_numeric.rb
 test/test_parser_strict.rb
 test/test_parser_tab.rb
 test/test_reader.rb
