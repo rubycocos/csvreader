@@ -34,6 +34,10 @@ class Parser
   ##          end
 
   DEFAULT = ParserStd.new
+  NUMERIC = ParserStd.new( numeric: true,
+                           nan: ['#NAN', 'NAN', 'NaN', 'nan' ],
+                           null: "" )
+
 
   RFC4180 = ParserStrict.new
   STRICT  = ParserStrict.new  ## note: make strict its own instance (so you can change config without "breaking" rfc4180)
@@ -53,15 +57,14 @@ class Parser
                                                       escape: true,
                                                       null: "\\N" )
 
-  NUMERIC = ParserStrict.new( numeric: true,
-                              nan: ['#NAN', 'NAN', 'NaN', 'nan' ],
-                              null: "" )
-
 
   TAB     = ParserTab.new
 
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
+  def self.numeric()         NUMERIC;         end
+  def self.num()             numeric;         end
+  def self.n()               numeric;         end
   def self.strict()          STRICT;          end ## alternative alias for STRICT
   def self.rfc4180()         RFC4180;         end ## alternative alias for RFC4180
   def self.excel()           EXCEL;           end ## alternative alias for EXCEL
@@ -70,7 +73,6 @@ class Parser
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
-  def self.numeric()         NUMERIC;         end
   def self.tab()             TAB;             end
 end # class Parser
 end # class CsvReader
@@ -80,6 +82,7 @@ end # class CsvReader
 class CsvReader
   ### pre-define CsvReader (built-in) formats/dialect
   DEFAULT = Builder.new( Parser::DEFAULT )
+  NUMERIC = Builder.new( Parser::NUMERIC )
 
   STRICT  = Builder.new( Parser::STRICT )
   RFC4180 = Builder.new( Parser::RFC4180 )
@@ -89,12 +92,14 @@ class CsvReader
   POSTGRES = POSTGRESQL           = Builder.new( Parser::POSTGRESQL )
   POSTGRES_TEXT = POSTGRESQL_TEXT = Builder.new( Parser::POSTGRESQL_TEXT )
 
-  NUMERIC = Builder.new( Parser::NUMERIC )
 
   TAB = Builder.new( Parser::TAB )
 
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
+  def self.numeric()         NUMERIC;         end
+  def self.num()             numeric;         end
+  def self.n()               numeric;         end
   def self.strict()          STRICT;          end ## alternative alias for STRICT
   def self.rfc4180()         RFC4180;         end ## alternative alias for RFC4180
   def self.excel()           EXCEL;           end ## alternative alias for EXCEL
@@ -103,14 +108,15 @@ class CsvReader
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
-  def self.numeric()         NUMERIC;         end
   def self.tab()             TAB;             end
 end # class CsvReader
+
 
 
 class CsvHashReader
   ### pre-define CsvReader (built-in) formats/dialect
   DEFAULT = Builder.new( Parser::DEFAULT )
+  NUMERIC = Builder.new( Parser::NUMERIC )
 
   STRICT  = Builder.new( Parser::STRICT )
   RFC4180 = Builder.new( Parser::RFC4180 )
@@ -120,12 +126,14 @@ class CsvHashReader
   POSTGRES = POSTGRESQL           = Builder.new( Parser::POSTGRESQL )
   POSTGRES_TEXT = POSTGRESQL_TEXT = Builder.new( Parser::POSTGRESQL_TEXT )
 
-  NUMERIC = Builder.new( Parser::NUMERIC )
 
   TAB = Builder.new( Parser::TAB )
 
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
+  def self.numeric()         NUMERIC;         end
+  def self.num()             numeric;         end
+  def self.n()               numeric;         end
   def self.strict()          STRICT;          end ## alternative alias for STRICT
   def self.rfc4180()         RFC4180;         end ## alternative alias for RFC4180
   def self.excel()           EXCEL;           end ## alternative alias for EXCEL
@@ -134,7 +142,6 @@ class CsvHashReader
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
-  def self.numeric()         NUMERIC;         end
   def self.tab()             TAB;             end
 end # class CsvHashReader
 

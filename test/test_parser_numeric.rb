@@ -26,6 +26,8 @@ def test_parse
                  [4.0,5.0,6.0]], parser.parse( "1,2,3\n4,5,6" )
    assert_equal [[1.0,2.0,3.0],
                  ["4","5","6"]], parser.parse( %Q{ 1,2 , 3\n"4","5","6"} )
+   assert_equal [[1.0,2.0,3.0],
+                ["4","5","6"]], parser.parse( %Q{ 1,2 , 3\n "4", "5" ,"6" } )
    assert_equal [["a","b","c"]], parser.parse( %Q{"a","b","c"} )
 end
 

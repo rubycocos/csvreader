@@ -44,21 +44,29 @@ attr_reader :config   ## todo/fix: change config to proper dialect class/struct 
 ##    null values - include NA - why? why not?
 ##        make null values case sensitive or add an option for case sensitive
 ##        or better allow a proc as option for checking too!!!
-def initialize( null: ['\N', 'NA']  ## note: set to nil for no null vales / not availabe (na)
+def initialize( null:     ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
+                numeric:  false,   ## (auto-)convert all non-quoted values to float
+                nan:      nil      ## note: only if numeric - set mappings for Float::NAN (not a number) values
               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
   ## note: null values must get handled by parser
   ##   only get checked for unquoted strings (and NOT for quoted strings)
   ##   "higher-level" code only knows about strings and has no longer any info if string was quoted or unquoted
-  @config[:null] = null   ## null values
+  @config[:null]    = null   ## null values
+  @config[:numeric] = numeric
+  @config[:nan]     = nan   # not a number (NaN) e.g. Float::NAN
 end
+
+
 
 #########################################
 ## config convenience helpers
 ##   e.g. use like  Csv.defaultl.null = '\N'   etc.   instead of
 ##                  Csv.default.config[:null] = '\N'
 def null=( value )     @config[:null]=value; end
+def numeric=( value )     @config[:numeric]=value; end
+def nan=( value )         @config[:nan]=value; end
 
 
 
@@ -143,14 +151,25 @@ end
 
 
 def parse_field( input )
+  value = ""
+
+  numeric = config[:numeric]
+
   logger.debug "parse field"  if logger.debug?
 
-  value = ""
   skip_spaces( input )   ## strip leading spaces
 
+
   if (c=input.peek; c=="," || c==LF || c==CR || input.eof?) ## empty field
-    value = nil  if is_null?( value )   ## note: allows null = '' that is turn unquoted empty strings into null/nil
-     ## return value; do nothing
+    ## note: allows null = '' that is turn unquoted empty strings into null/nil
+    ##   or if using numeric into NotANumber (NaN)
+    if is_null?( value )
+      value = nil
+    elsif numeric && is_nan?( value )  ## todo: check - how to handle numeric? return nil, NaN, or "" ???
+      value = Float::NAN
+    else
+      # do nothing - keep value as is :-) e.g. "".
+    end
   elsif input.peek == DOUBLE_QUOTE
     logger.debug "start double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     value << parse_doublequote( input )
@@ -174,7 +193,23 @@ def parse_field( input )
     ##  note: only strip **trailing** spaces (space and tab only)
     ##    do NOT strip newlines etc. might have been added via escape! e.g. \\\n
     value = value.sub( /[ \t]+$/, '' )
-    value = nil  if is_null?( value )   ## note: null check only for UNQUOTED (not quoted/escaped) values
+
+    if is_null?( value )   ## note: null check only for UNQUOTED (not quoted/escaped) values
+      value = nil
+    elsif numeric
+      if is_nan?( value )
+        value = Float::NAN
+      else
+        ## numeric - (auto-convert) non-quoted values (if NOT nil) to floats
+        if numeric.is_a?( Proc )
+          value = numeric.call( value )   ## allow custom converter proc (e.g. how to handle NaN and conversion errors?)
+        else
+          value = convert_to_float( value ) # default (fails silently) keep string value if cannot convert - change - why? why not?
+        end
+      end
+    else
+      # do nothing - keep value as is :-).
+    end
 
     logger.debug "end reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   end
@@ -271,6 +306,25 @@ def parse_lines( input, &block )
 end # method parse_lines
 
 
+
+
+def convert_to_float( value ) Float( value ) rescue value; end
+
+def is_nan?( value )
+   nan = @config[:nan]
+   if nan.nil?
+     false  ## nothing set; return always false (not NaN)
+   elsif nan.is_a?( Proc )
+     nan.call( value )
+   elsif nan.is_a?( Array )
+     nan.include?( value )
+   elsif nan.is_a?( String )
+     value == nan
+   else  ## unknown config style / setting
+     ##  todo: issue a warning or error - why? why not?
+     false  ## nothing set; return always false (not nan)
+   end
+end
 
 
 def is_null?( value )

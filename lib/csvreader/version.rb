@@ -5,7 +5,7 @@ class CsvReader   ## note: uses a class for now - change to module - why? why no
 
   MAJOR = 1    ## todo: namespace inside version or something - why? why not??
   MINOR = 0
-  PATCH = 1
+  PATCH = 2
   VERSION = [MAJOR,MINOR,PATCH].join('.')
 
 
