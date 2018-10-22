@@ -37,7 +37,8 @@ def logger()  self.class.logger; end
 
 
 
-attr_reader :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
+attr_reader   :config   ## todo/fix: change config to proper dialect class/struct - why? why not?
+attr_reader   :meta
 
 ##
 ##  todo/check:
@@ -56,6 +57,8 @@ def initialize( null:     ['\N', 'NA'],  ## note: set to nil for no null vales /
   @config[:null]    = null   ## null values
   @config[:numeric] = numeric
   @config[:nan]     = nan   # not a number (NaN) e.g. Float::NAN
+
+  @meta  = nil     ## no meta data block   (use empty hash {} - why? why not?)
 end
 
 
@@ -244,6 +247,58 @@ end
 
 
 
+def parse_meta( input )
+  ## todo/check:
+  ##  check again for input.peekn(4) =~ /^---[\n\r \t]$/ - why? why not?
+
+  input.getc   ## eat-up (add document header ---) - skip "---"
+  input.getc
+  input.getc
+
+  ## todo/fix: make peekn(4)=~/^---[\n\r \t]$/ "more strict"
+  ##    use match() or something to always match regexp
+  skip_spaces( input )   # eat-up optional whitespaces in header line
+  skip_newline( input )
+
+  buf = "---\n"    ## note: start buffer with yaml header line - why?
+  ##   YAML.load("")        return false !!!
+  ##   YAML.load("---\n")   returns nil -- yes!!  if we get nil return empty hash {}
+
+  newline = true
+
+  ## eat-up until we hit "---" again
+  loop do
+    if input.eof?
+      raise ParseError.new( "end of input/stream - meta block footer >---< expected!!!!" )
+    elsif (c=input.peek; c==LF || c==CR)
+      while (c=input.peek; c==LF || c==CR )   ## add newlines
+        buf << input.getc    ## eat-up all until end of line
+      end
+      newline = true
+    elsif newline && input.peekn(4) =~ /^---[\n\r \t]?$/   ## check if meta block end marker?
+      ## todo/fix/check: allow (ignore) spaces after ---  why? why not?
+      input.getc   ## eat-up (add document header ---) - skip "---"
+      input.getc
+      input.getc
+      skip_spaces( input )   # eat-up optional whitespaces in header line
+      skip_newline( input )
+      break
+    else
+      buf << input.getc
+      newline = false
+    end
+  end
+
+  data = YAML.load( buf )
+  ## todo: check edge cases - always should return a hash or nil
+  ##     what to do with just integer, string or array etc. ???
+
+  data = {}   if data.nil?     ## note: if nil return empty hash e.g. {}
+  data
+end  ## parse_meta
+
+
+
 def skip_newline( input )    ## note: singular (strict) version
   return if input.eof?
 
@@ -268,12 +323,17 @@ def skip_until_eol( input )
   end
 end
 
-def skip_spaces( input )
-  return if input.eof?
 
+def skip_spaces( input )
+  return 0   if input.eof?
+
+  ## note: return number of spaces skipped (e.g. 0,1,2,etc.)
+  spaces_count = 0
   while (c=input.peek; c==SPACE || c==TAB)
     input.getc   ## note: always eat-up all spaces (" ") and tabs (\t)
+    spaces_count += 1
   end
+  spaces_count
 end
 
 
@@ -282,11 +342,17 @@ end
 
 
 def parse_lines( input, &block )
+  ## note: reset (optional) meta data block
+  @meta  = nil     ## no meta data block   (use empty hash {} - why? why not?)
+
+  ## note: track number of records
+  ##   used for meta block (can only start before any records e.g. if record_num == 0)
+  record_num = 0
 
   loop do
     break if input.eof?
 
-    skip_spaces( input )
+    skipped_spaces = skip_spaces( input )
 
     if input.peek == COMMENT        ## comment line
       logger.debug "skipping comment - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
@@ -295,10 +361,19 @@ def parse_lines( input, &block )
     elsif (c=input.peek; c==LF || c==CR || input.eof?)
       logger.debug "skipping blank - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       skip_newline( input )
+    elsif record_num == 0 && skipped_spaces == 0 && meta.nil? && input.peekn(4) =~ /^---[\n\r \t]$/
+      ## note: assume "---" (MUST BE) followed by newline (\r or \n) or space starts a meta block
+      logger.debug "start meta block"  if logger.debug?
+      ## note: meta gets stored as object attribute (state/state/state!!)
+      ##   use meta attribute to get meta data after reading first record
+      @meta = parse_meta( input )   ## note: assumes a hash gets returned
+      logger.debug "  meta: >#{meta.inspect}<"  if logger.debug?
     else
       logger.debug "start record - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
 
       record = parse_record( input )
+      record_num +=1
+
       ## note: requires block - enforce? how? why? why not?
       block.call( record )   ## yield( record )
     end

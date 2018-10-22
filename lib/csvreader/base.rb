@@ -6,6 +6,8 @@ require 'logger'
 require 'forwardable'
 require 'stringio'
 require 'date'    ## use for Date.parse and DateTime.parse
+require 'yaml'    ## used for (optional) meta data blocks
+
 
 
 ###

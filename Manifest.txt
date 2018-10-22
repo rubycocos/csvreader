@@ -23,10 +23,12 @@ test/data/cities11.csv
 test/data/customers11.csv
 test/data/shakespeare.csv
 test/helper.rb
+test/test_buffer.rb
 test/test_converter.rb
 test/test_parser.rb
 test/test_parser_formats.rb
 test/test_parser_java.rb
+test/test_parser_meta.rb
 test/test_parser_null.rb
 test/test_parser_numeric.rb
 test/test_parser_strict.rb
