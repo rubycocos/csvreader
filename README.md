@@ -422,7 +422,7 @@ Csv.strict.read( ..., sep: "\t" )
 
 
 
-### Q: How can I read records with fixed width (and no separator)?
+### Q: How can I read records with fixed width fields (and no separator)?
 
 Pass in the `width` keyword option with the field widths / lengths
 to the "fixed" parser. Example:
