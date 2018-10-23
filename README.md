@@ -469,7 +469,7 @@ Csv.fixed.parse( txt, width: [8,-2,8,-3,32,-2,14] )  # or Csv.fix or Csv.f
 
 
 Bonus: If the width is a string (not an array)
-(e.g. `a8 a8 a32 Z*` or `A8 A8 A32 Z*` and so on)
+(e.g. `'a8 a8 a32 Z*'` or `'A8 A8 A32 Z*'` and so on)
 than the fixed width field parser
 will use  `String#unpack` and the value of width as its format string spec.
 Example:

@@ -22,6 +22,7 @@ test/data/beer11.csv
 test/data/cars11.csv
 test/data/cities11.csv
 test/data/customers11.csv
+test/data/iris11.csv
 test/data/shakespeare.csv
 test/helper.rb
 test/test_buffer.rb
