@@ -69,15 +69,31 @@ def parse_lines( input, width:, &block )
     end
 
 
-    values = []
-    offset = 0  # start position / offset
-    width.each_with_index do |w,i|
-       logger.debug "[#{i}] start: #{offset}, width: #{w}"   if logger.debug?
+    if width.is_a?( String )
+      ## assume it's String#unpack format e.g.
+      ##   "209231-231992395    MoreData".unpack('aa5A1A9a4Z*')
+      ##     returns an array as follows :
+      ##   ["2", "09231", "-", "231992395", "    ", "MoreData"]
+      ##  see String#unpack
 
-       value = line[offset, w]
-       value = value.strip   if value    ## note: if not nil strip; only use rstrip (for trailing only) - why? why not?
-       values << value
-       offset += w
+      values = line.unpack( width )
+    else  ## assume array with integers
+      values = []
+      offset = 0  # start position / offset
+      width.each_with_index do |w,i|
+         logger.debug "[#{i}] start: #{offset}, width: #{w}"   if logger.debug?
+
+         if w < 0   ## convention - if width negative, skip column
+            # note: minus (-) and minus (-) equal plus (+)
+            ##   e.g. 2 - -2 = 4
+           offset -= w
+         else
+           value = line[offset, w]
+           value = value.strip   if value    ## note: if not nil strip; only use rstrip (for trailing only) - why? why not?
+           values << value
+           offset += w
+         end
+      end
     end
 
     ## note: requires block - enforce? how? why? why not?

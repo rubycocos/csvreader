@@ -432,7 +432,7 @@ txt = <<TXT
 12345678123456781234567890123456789012345678901212345678901234
 TXT
 
-Csv.fixed.parse( txt, width: [8,8,32,14] )
+Csv.fixed.parse( txt, width: [8,8,32,14] )  # or Csv.fix or Csv.f
 # => [["12345678","12345678", "12345678901234567890123456789012", "12345678901234"]]
 
 
@@ -441,15 +441,70 @@ John    Smith   john@example.com                1-888-555-6666
 Michele O'Reileymichele@example.com             1-333-321-8765
 TXT
 
-Csv.fixed.parse( txt, width: [8,8,32,14] )
+Csv.fixed.parse( txt, width: [8,8,32,14] )   # or Csv.fix or Csv.f
 # => [["John",    "Smith",    "john@example.com",    "1-888-555-6666"],
 #     ["Michele", "O'Reiley", "michele@example.com", "1-333-321-8765"]]
 
 # and so on
 ```
 
+<!--
 Note: You can use for your convenience the built-in
 `Csv.fix` or `Csv.f` aliases / shortcuts.
+-->
+
+
+Note: You can use negative widths (e.g. `-2`, `-3`, and so on)
+to "skip" filler fields (e.g. `--`, `---`, and so on).
+Example:
+
+``` ruby
+txt = <<TXT
+12345678--12345678---12345678901234567890123456789012--12345678901234XXX
+TXT
+
+Csv.fixed.parse( txt, width: [8,-2,8,-3,32,-2,14] )  # or Csv.fix or Csv.f
+# => [["12345678","12345678", "12345678901234567890123456789012", "12345678901234"]]
+```
+
+
+Bonus: If the width is a string (not an array)
+(e.g. `a8 a8 a32 Z*` or `A8 A8 A32 Z*` and so on)
+than the fixed width field parser
+will use  `String#unpack` and the value of width as its format string spec.
+Example:
+
+``` ruby
+txt = <<TXT
+12345678123456781234567890123456789012345678901212345678901234
+TXT
+
+Csv.fixed.parse( txt, width: 'a8 a8 a32 Z*' )  # or Csv.fix or Csv.f
+# => [["12345678","12345678", "12345678901234567890123456789012", "12345678901234"]]
+
+txt = <<TXT
+John    Smith   john@example.com                1-888-555-6666
+Michele O'Reileymichele@example.com             1-333-321-8765
+TXT
+
+Csv.fixed.parse( txt, width: 'A8 A8 A32 Z*' )   # or Csv.fix or Csv.f
+# => [["John",    "Smith",    "john@example.com",    "1-888-555-6666"],
+#     ["Michele", "O'Reiley", "michele@example.com", "1-333-321-8765"]]
+
+# and so on
+```
+
+
+|-----------------|---------|-------------------------|
+|String Directive | Returns | Meaning                 |
+|-----------------|---------|-------------------------|
+| `A`             | String  | Arbitrary binary string (remove trailing nulls and ASCII spaces) |
+| `a`             | String  | Arbitrary binary string |
+| `Z`             | String  | Null-terminated string  |
+
+
+and many more. See the `String#unpack` documentation
+for the complete format spec and directives.
 
 
 
