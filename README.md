@@ -494,13 +494,11 @@ Csv.fixed.parse( txt, width: 'A8 A8 A32 Z*' )   # or Csv.fix or Csv.f
 # and so on
 ```
 
-
-|-----------------|---------|-------------------------|
-|String Directive | Returns | Meaning                 |
-|-----------------|---------|-------------------------|
-| `A`             | String  | Arbitrary binary string (remove trailing nulls and ASCII spaces) |
-| `a`             | String  | Arbitrary binary string |
-| `Z`             | String  | Null-terminated string  |
+| String Directive | Returns | Meaning                 |
+|------------------|---------|-------------------------|
+| `A`              | String  | Arbitrary binary string (remove trailing nulls and ASCII spaces) |
+| `a`              | String  | Arbitrary binary string |
+| `Z`              | String  | Null-terminated string  |
 
 
 and many more. See the `String#unpack` documentation
