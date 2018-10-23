@@ -4,8 +4,9 @@ class CsvHashReader
 
 
 ## add convenience shortcuts / aliases for CsvReader support classes
-Parser    = CsvReader::Parser
-Converter = CsvReader::Converter
+Parser      = CsvReader::Parser
+ParserFixed = CsvReader::ParserFixed
+Converter   = CsvReader::Converter
 
 
 
@@ -14,6 +15,7 @@ def self.open( path, mode=nil,
                sep: nil,
                converters: nil,
                header_converters: nil,
+               width: nil,
                parser: nil, &block )   ## rename path to filename or name - why? why not?
 
     ## note: default mode (if nil/not passed in) to 'r:bom|utf-8'
@@ -22,6 +24,7 @@ def self.open( path, mode=nil,
                  sep: sep,
                  converters: converters,
                  header_converters: header_converters,
+                 width: width,
                  parser: parser )
 
     # handle blocks like Ruby's open(), not like the (old old) CSV library
@@ -41,12 +44,14 @@ def self.read( path, headers: nil,
                      sep: nil,
                      converters: nil,
                      header_converters: nil,
+                     width: nil,
                      parser: nil )
     open( path,
           headers: headers,
           sep: sep,
           converters: converters,
           header_converters: header_converters,
+          width: width,
           parser: parser ) { |csv| csv.read }
 end
 
@@ -56,12 +61,14 @@ def self.foreach( path, headers: nil,
                         sep: nil,
                         converters: nil,
                         header_converters: nil,
+                        width: nil,
                         parser: nil, &block )
   csv = open( path,
               headers: headers,
               sep: sep,
               converters: converters,
               header_converters: header_converters,
+              width: width,
               parser: parser )
 
   if block_given?
@@ -83,12 +90,14 @@ def self.parse( data, headers: nil,
                       sep: nil,
                       converters: nil,
                       header_converters: nil,
+                      width: nil,
                       parser: nil, &block )
   csv = new( data,
              headers: headers,
              sep: sep,
              converters: converters,
              header_converters: header_converters,
+             width: width,
              parser: parser )
 
   if block_given?
@@ -105,6 +114,7 @@ end # method self.parse
 def initialize( data, headers: nil, sep: nil,
                       converters: nil,
                       header_converters: nil,
+                      width: nil,
                       parser: nil )
       raise ArgumentError.new( "Cannot parse nil as CSV" )  if data.nil?
       ## todo: use (why? why not) - raise ArgumentError, "Cannot parse nil as CSV"     if data.nil?
@@ -117,7 +127,8 @@ def initialize( data, headers: nil, sep: nil,
       ##    for now - do NOT auto-convert passed in headers - keep them as-is (1:1)
       @names = headers ? headers : nil
 
-      @sep = sep
+      @sep   = sep
+      @width = width
 
       @converters        = Converter.create_converters( converters )
       @header_converters = Converter.create_header_converters( header_converters )
@@ -156,7 +167,11 @@ def_delegators :@io,
    if block_given?
      kwargs = {}
      ## note: only add separator if present/defined (not nil)
+     ##  todo/fix: change sep keyword to "known" classes!!!!
      kwargs[:sep] = @sep    if @sep && @parser.respond_to?( :'sep=' )
+
+     kwargs[:width] = @width  if @parser.is_a?( ParserFixed )
+
 
      @parser.parse( @io, kwargs ) do |raw_values|     # sep: sep
         if @names.nil?    ## check for (first) headers row

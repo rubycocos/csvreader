@@ -5,12 +5,14 @@ class CsvReader
     def self.open( path, mode=nil,
                    sep: nil,
                    converters: nil,
+                   width: nil,
                    parser: nil, &block )   ## rename path to filename or name - why? why not?
 
         ## note: default mode (if nil/not passed in) to 'r:bom|utf-8'
         f = File.open( path, mode ? mode : 'r:bom|utf-8' )
         csv = new(f, sep: sep,
                      converters: converters,
+                     width: width,
                      parser: parser )
 
         # handle blocks like Ruby's open(), not like the (old old) CSV library
@@ -28,20 +30,22 @@ class CsvReader
 
     def self.read( path, sep: nil,
                          converters: nil,
+                         width: nil,
                          parser: nil )
         open( path,
               sep: sep,
               converters: converters,
+              width: width,
               parser: parser ) { |csv| csv.read }
     end
 
 
-    def self.header( path, sep: nil, parser: nil )   ## use header or headers - or use both (with alias)?
+    def self.header( path, sep: nil, width: nil, parser: nil )   ## use header or headers - or use both (with alias)?
        # read first lines (only)
        #  and parse with csv to get header from csv library itself
 
        records = []
-       open( path, sep: sep, parser: parser ) do |csv|
+       open( path, sep: sep, width: width, parser: parser ) do |csv|
           csv.each do |record|
             records << record
             break   ## only parse/read first record
@@ -56,8 +60,8 @@ class CsvReader
 
 
     def self.foreach( path, sep: nil,
-                            converters: nil, parser: nil, &block )
-      csv = open( path, sep: sep, converters: converters, parser: parser )
+                            converters: nil, width: nil, parser: nil, &block )
+      csv = open( path, sep: sep, converters: converters, width: width, parser: parser )
 
       if block_given?
         begin
@@ -76,8 +80,9 @@ class CsvReader
 
     def self.parse( data, sep: nil,
                           converters: nil,
+                          width: nil,
                           parser: nil, &block )
-      csv = new( data, sep: sep, converters: converters, parser: parser )
+      csv = new( data, sep: sep, converters: converters, width: width, parser: parser )
 
       if block_given?
         csv.each( &block )  ## note: caller (responsible) must close file!!! - add autoclose - why? why not?
@@ -93,9 +98,9 @@ class CsvReader
     ##   always use parse (do NOT/NOT/NOT use parse_line)  - why? why not?
     ##   todo/fix: remove parse_line!!!
     def self.parse_line( data, sep: nil,
-                               converters: nil )
+                               converters: nil, width: nil )
        records = []
-       parse( data, sep: sep, converters: converters ) do |record|
+       parse( data, sep: sep, converters: converters, width: width ) do |record|
          records << record
          break   # only parse first record
        end
@@ -105,14 +110,15 @@ class CsvReader
 
 
 
-    def initialize( data, sep: nil, converters: nil, parser: nil )
+    def initialize( data, sep: nil, converters: nil, width: nil, parser: nil )
           raise ArgumentError.new( "Cannot parse nil as CSV" )  if data.nil?
           ## todo: use (why? why not) - raise ArgumentError, "Cannot parse nil as CSV"     if data.nil?
 
           # create the IO object we will read from
           @io = data.is_a?(String) ? StringIO.new(data) : data
 
-          @sep = sep
+          @sep   = sep     # (optional) for ParserStd, ParserStrict
+          @width = width   # (optional) for ParserFixed
 
           @converters  = Converter.create_converters( converters )
 
@@ -141,7 +147,10 @@ class CsvReader
        if block_given?
          kwargs = {}
          ## note: only add separator if present/defined (not nil)
-         kwargs[:sep] = @sep    if @sep && @parser.respond_to?( :'sep=' )
+         ##  todo/fix: change sep keyword to "known" classes!!!!
+         kwargs[:sep]   = @sep    if @sep && @parser.respond_to?( :'sep=' )
+
+         kwargs[:width] = @width  if @parser.is_a?( ParserFixed )
 
          ## check array / pipeline of converters is empty (size=0 e.g. is [])
          if @converters.empty?

@@ -17,6 +17,8 @@ require 'csvreader/buffer'
 require 'csvreader/parser_std'      # best practices pre-configured out-of-the-box
 require 'csvreader/parser_strict'   # flexible (strict - no leading/trailing space triming, blanks, etc.), configure for different formats/dialects
 require 'csvreader/parser_tab'
+require 'csvreader/parser_fixed'
+require 'csvreader/parser_json'
 require 'csvreader/parser'
 require 'csvreader/converter'
 require 'csvreader/reader'
@@ -62,6 +64,8 @@ class Parser
 
   TAB     = ParserTab.new
 
+  FIXED   = ParserFixed.new
+
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
   def self.numeric()         NUMERIC;         end
@@ -76,6 +80,9 @@ class Parser
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
   def self.tab()             TAB;             end
+  def self.fixed()           FIXED;           end
+  def self.fix()             fixed;           end
+  def self.f()               fixed;           end
 end # class Parser
 end # class CsvReader
 
@@ -95,7 +102,8 @@ class CsvReader
   POSTGRES_TEXT = POSTGRESQL_TEXT = Builder.new( Parser::POSTGRESQL_TEXT )
 
 
-  TAB = Builder.new( Parser::TAB )
+  TAB   = Builder.new( Parser::TAB )
+  FIXED = Builder.new( Parser::FIXED )
 
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
@@ -111,6 +119,9 @@ class CsvReader
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
   def self.tab()             TAB;             end
+  def self.fixed()           FIXED;           end
+  def self.fix()             fixed;           end
+  def self.f()               fixed;           end
 end # class CsvReader
 
 
@@ -129,7 +140,8 @@ class CsvHashReader
   POSTGRES_TEXT = POSTGRESQL_TEXT = Builder.new( Parser::POSTGRESQL_TEXT )
 
 
-  TAB = Builder.new( Parser::TAB )
+  TAB   = Builder.new( Parser::TAB )
+  FIXED = Builder.new( Parser::FIXED )
 
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
@@ -145,6 +157,9 @@ class CsvHashReader
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
   def self.tab()             TAB;             end
+  def self.fixed()           FIXED;           end
+  def self.fix()             fixed;           end
+  def self.f()               fixed;           end
 end # class CsvHashReader
 
 

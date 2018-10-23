@@ -1,8 +1,8 @@
 # csvreader - read tabular data in the comma-separated values (csv) format the right way (uses best practices out-of-the-box with zero-configuration)
 
 
-* home  :: [github.com/csv11/csvreader](https://github.com/csv11/csvreader)
-* bugs  :: [github.com/csv11/csvreader/issues](https://github.com/csv11/csvreader/issues)
+* home  :: [github.com/csvreader/csvreader](https://github.com/csvreader/csvreader)
+* bugs  :: [github.com/csvreader/csvreader/issues](https://github.com/csvreader/csvreader/issues)
 * gem   :: [rubygems.org/gems/csvreader](https://rubygems.org/gems/csvreader)
 * rdoc  :: [rubydoc.info/gems/csvreader](http://rubydoc.info/gems/csvreader)
 * forum :: [wwwmake](http://groups.google.com/group/wwwmake)
@@ -13,7 +13,7 @@
 
 
 ``` ruby
-txt <<=TXT
+txt = <<TXT
 1,2,3
 4,5,6
 TXT
@@ -46,7 +46,7 @@ Use the converters keyword option to (auto-)convert strings to nulls, booleans, 
 Example:
 
 ``` ruby
-txt <<=TXT
+txt = <<TXT
 1,2,3
 true,false,null
 TXT
@@ -79,7 +79,7 @@ Csv.parse( 'Ruby, 2020-03-01, 100', converters: [->(v) { Time.parse(v) rescue v 
 #=> [["Ruby", 2020-03-01 00:00:00 +0200, "100"]]
 ```
 
-A custom converter is a method that gets the value passed in 
+A custom converter is a method that gets the value passed in
 and if successful returns a non-string type (e.g. integer, float, date, etc.)
 or a string (for further processing with all other converters in the "pipeline" configuration).
 
@@ -121,7 +121,7 @@ as an array) and you want your records as hashes instead of arrays of strings.
 Example:
 
 ``` ruby
-txt <<=TXT
+txt = <<TXT
 A,B,C
 1,2,3
 4,5,6
@@ -132,7 +132,7 @@ pp records
 
 # -or-
 
-txt2 <<=TXT
+txt2 = <<TXT
 1,2,3
 4,5,6
 TXT
@@ -171,7 +171,7 @@ and replace spaces with underscores.
 Example:
 
 ``` ruby
-txt <<=TXT
+txt = <<TXT
 a,b,c
 1,2,3
 true,false,null
@@ -183,7 +183,7 @@ pp records
 #     {a: true, b: false, c: nil}]
 
 # -or-
-options = { :converters        => :all, 
+options = { :converters        => :all,
             :header_converters => :symbol }
 
 records = CsvHash.parse( txt, options )  
@@ -203,7 +203,7 @@ Built-in header converters include:
 
 ### What about (typed) structs?
 
-See the [csvrecord library »](https://github.com/csv11/csvrecord)
+See the [csvrecord library »](https://github.com/csvreader/csvrecord)
 
 Example from the csvrecord docu:
 
@@ -284,7 +284,7 @@ Hofbräu Oktoberfestbier (6.3%) by Staatliches Hofbräuhaus München, München
 
 ### What about tabular data packages with pre-defined types / schemas?
 
-See the [csvpack library »](https://github.com/csv11/csvpack)
+See the [csvpack library »](https://github.com/csvreader/csvpack)
 
 
 
@@ -339,7 +339,7 @@ Use strict if you do NOT want to trim leading and trailing spaces
 and if you do NOT want to skip blank lines. Example:
 
 ``` ruby
-txt <<=TXT
+txt = <<TXT
 1, 2,3
 4,5 ,6
 
@@ -402,7 +402,7 @@ Note: If you use tab (`\t`) use the `TabReader`
 Why? Tab =! CSV. Yes, tab is
 its own (even) simpler format
 (e.g. no escape rules, no newlines in values, etc.),
-see [`TabReader` »](https://github.com/csv11/tabreader).
+see [`TabReader` »](https://github.com/csvreader/tabreader).
 
 ``` ruby
 Csv.tab.parse( ... )  # note: "classic" strict tab format
@@ -418,6 +418,39 @@ Csv.strict.parse( ..., sep: "\t" )  # note: csv-like tab format with quotes
 Csv.strict.read( ..., sep: "\t" )
 # ...
 ```
+
+
+
+
+### Q: How can I read records with fixed width (and no separator)?
+
+Pass in the `width` keyword option with the field widths / lengths
+to the "fixed" parser. Example:
+
+``` ruby
+txt = <<TXT
+12345678123456781234567890123456789012345678901212345678901234
+TXT
+
+Csv.fixed.parse( txt, width: [8,8,32,14] )
+# => [["12345678","12345678", "12345678901234567890123456789012", "12345678901234"]]
+
+
+txt = <<TXT
+John    Smith   john@example.com                1-888-555-6666
+Michele O'Reileymichele@example.com             1-333-321-8765
+TXT
+
+Csv.fixed.parse( txt, width: [8,8,32,14] )
+# => [["John",    "Smith",    "john@example.com",    "1-888-555-6666"],
+#     ["Michele", "O'Reiley", "michele@example.com", "1-333-321-8765"]]
+
+# and so on
+```
+
+Note: You can use for your convenience the built-in
+`Csv.fix` or `Csv.f` aliases / shortcuts.
+
 
 
 
@@ -476,7 +509,7 @@ and some more.
 
 ## Alternatives
 
-See the Libraries & Tools section in the [Awesome CSV](https://github.com/csv11/awesome-csv#libraries--tools) page.
+See the Libraries & Tools section in the [Awesome CSV](https://github.com/csvspecs/awesome-csv#libraries--tools) page.
 
 
 ## License

@@ -9,6 +9,7 @@ lib/csvreader/buffer.rb
 lib/csvreader/builder.rb
 lib/csvreader/converter.rb
 lib/csvreader/parser.rb
+lib/csvreader/parser_fixed.rb
 lib/csvreader/parser_json.rb
 lib/csvreader/parser_std.rb
 lib/csvreader/parser_strict.rb
@@ -26,6 +27,7 @@ test/helper.rb
 test/test_buffer.rb
 test/test_converter.rb
 test/test_parser.rb
+test/test_parser_fixed.rb
 test/test_parser_formats.rb
 test/test_parser_java.rb
 test/test_parser_meta.rb
