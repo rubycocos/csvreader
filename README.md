@@ -360,6 +360,32 @@ Staatliches Hofbräuhaus München,München,Hofbräu Oktoberfestbier,6.3%
 ```
 
 
+Or use the ARFF (attribute-relation file format)-like alternative style
+with `%` for comments and `@`-directives 
+for "meta data" in the header (before any records):
+
+```
+%%%%%%%%%%%%%%%%%%
+% try with some comments
+%   and blank lines even before @-directives in header 
+
+@RELATION Beer
+
+@ATTRIBUTE Brewery
+@ATTRIBUTE City
+@ATTRIBUTE Name
+@ATTRIBUTE Abv
+
+@DATA
+Andechser Klosterbrauerei,Andechs,Doppelbock Dunkel,7%
+Augustiner Bräu München,München,Edelstoff,5.6%
+
+Bayerische Staatsbrauerei Weihenstephan,  Freising,  Hefe Weissbier,   5.4%
+Brauerei Spezial,                         Bamberg,   Rauchbier Märzen, 5.1%
+Hacker-Pschorr Bräu,                      München,   Münchner Dunkel,  5.0%
+Staatliches Hofbräuhaus München,          München,   Hofbräu Oktoberfestbier, 6.3%
+```
+
 
 ### Q: How can I change the default format / dialect?
 
