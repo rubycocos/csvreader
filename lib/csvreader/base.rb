@@ -165,4 +165,5 @@ end # class CsvHashReader
 
 
 
-puts CsvReader.banner   # say hello
+# say hello
+puts CsvReader.banner    if $DEBUG || (defined?($RUBYLIBS_DEBUG) && $RUBYLIBS_DEBUG)
