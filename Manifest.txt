@@ -22,12 +22,14 @@ test/data/beer11.csv
 test/data/cars11.csv
 test/data/cities11.csv
 test/data/customers11.csv
+test/data/iris.attrib.csv
 test/data/iris11.csv
 test/data/shakespeare.csv
 test/helper.rb
 test/test_buffer.rb
 test/test_converter.rb
 test/test_parser.rb
+test/test_parser_directive.rb
 test/test_parser_fixed.rb
 test/test_parser_formats.rb
 test/test_parser_java.rb

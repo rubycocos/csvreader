@@ -12,11 +12,14 @@ class ParserStd
 ## char constants
 DOUBLE_QUOTE = "\""
 BACKSLASH    = "\\"    ## use BACKSLASH_ESCAPE ??
-COMMENT      = "#"      ## use COMMENT_HASH or HASH or ??
+COMMENT1      = "#"      ## use COMMENT_HASH or HASH or ??
+COMMENT2      = "%"      ## use COMMENT_PERCENT or PERCENT or ??
+DIRECTIVE     = "@"     ## use a different name ??
 SPACE        = " "      ##   \s == ASCII 32 (dec)            =    (Space)
 TAB          = "\t"     ##   \t == ASCII 0x09 (hex)          = HT (Tab/horizontal tab)
 LF	         = "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line feed)
 CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
+
 
 
 ###################################
@@ -349,20 +352,41 @@ def parse_lines( input, &block )
   ##   used for meta block (can only start before any records e.g. if record_num == 0)
   record_num = 0
 
+  ## note: can either use '#' or '%' but NOT both; first one "wins"
+  comment = nil
+
+  ## note: can either use directives (@) or frontmatter (---) block; first one "wins"
+  has_seen_directive   = false
+  has_seen_frontmatter = false   ## - renameto  has_seen_dash (---) - why? why not???
+
+
   loop do
     break if input.eof?
 
     skipped_spaces = skip_spaces( input )
 
-    if input.peek == COMMENT        ## comment line
-      logger.debug "skipping comment - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+    if comment.nil? && (c=input.peek; c==COMMENT1 || c==COMMENT2)
+      logger.debug "skipping comment (first) - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+      comment = input.getc  ## first comment line (determines/fixes "allowed" comment-style)
+      skip_until_eol( input )
+      skip_newline( input )
+    elsif comment && input.peek == comment        ## (anther) comment line
+      logger.debug "skipping comment (follow-up) - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       skip_until_eol( input )
       skip_newline( input )
     elsif (c=input.peek; c==LF || c==CR || input.eof?)
       logger.debug "skipping blank - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       skip_newline( input )
-    elsif record_num == 0 && skipped_spaces == 0 && meta.nil? && input.peekn(4) =~ /^---[\n\r \t]$/
+    elsif record_num == 0 && has_seen_frontmatter == false && input.peek==DIRECTIVE
+      ## note: "skip" directives for now
+      has_seen_directive = true
+      logger.debug "skip directive"  if logger.debug?
+      skip_until_eol( input )
+      skip_newline( input )
+    elsif record_num == 0 && has_seen_directive == false && has_seen_frontmatter == false &&
+          skipped_spaces == 0 && input.peekn(4) =~ /^---[\n\r \t]$/
       ## note: assume "---" (MUST BE) followed by newline (\r or \n) or space starts a meta block
+      has_seen_frontmatter = true
       logger.debug "start meta block"  if logger.debug?
       ## note: meta gets stored as object attribute (state/state/state!!)
       ##   use meta attribute to get meta data after reading first record
