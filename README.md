@@ -8,6 +8,36 @@
 * forum :: [wwwmake](http://groups.google.com/group/wwwmake)
 
 
+## What's News?
+
+
+
+**v1.1.2**: Added built-in support for single quotes (`'`) to default parser ("The Right Way").
+Now you can use both, that is, single (`'...'`) or double quotes (`"..."`)
+like in ruby (or javascript or html or ...) :-).
+
+
+**v1.1.1**: Added built-in support for (optional) alternative comments (`%`) - used by
+ARFF (attribute relation file format) -
+and support for (optional) directives (`@`) in header (that is, before any records)
+to default parser ("The Right Way").
+Now you can use either `#` or `%` for comments, the first one "wins" - you CANNOT use both.
+Now you can use either a front matter (`---`) block
+or directives (e.g. `@attribute`, `@relation`, etc.)
+for meta data, the first one "wins" - you CANNOT use both.
+
+
+**v1.1.0**: Added new fixed width field (fwf) parser (see `ParserFixed`) for supporting fields with fixed width (and no separator)
+e.g.`Csv.fixed.parse( txt, width: [8,-2,8,-3,32,-2,14] )`.
+
+
+**v1.0.3**: Added built-in support for an (optional) front matter (`---`) meta data block
+in header (that is, before any records)
+to default parser ("The Right Way"). See [CSVY.org](http://csvy.org) for more.
+Use `Csv.parser.meta` to get the parsed meta data block hash (or `nil`) if none.
+
+
+
 
 ## Usage
 

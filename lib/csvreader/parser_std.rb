@@ -10,15 +10,16 @@ class ParserStd
 
 
 ## char constants
-DOUBLE_QUOTE = "\""
-BACKSLASH    = "\\"    ## use BACKSLASH_ESCAPE ??
+DOUBLE_QUOTE  = "\""
+SINGLE_QUOTE  = "'"
+BACKSLASH     = "\\"    ## use BACKSLASH_ESCAPE ??
 COMMENT1      = "#"      ## use COMMENT_HASH or HASH or ??
 COMMENT2      = "%"      ## use COMMENT_PERCENT or PERCENT or ??
-DIRECTIVE     = "@"     ## use a different name ??
-SPACE        = " "      ##   \s == ASCII 32 (dec)            =    (Space)
-TAB          = "\t"     ##   \t == ASCII 0x09 (hex)          = HT (Tab/horizontal tab)
-LF	         = "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line feed)
-CR	         = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
+DIRECTIVE     = "@"     ## use a different name e.g. AT or ??
+SPACE         = " "      ##   \s == ASCII 32 (dec)            =    (Space)
+TAB           = "\t"     ##   \t == ASCII 0x09 (hex)          = HT (Tab/horizontal tab)
+LF	          = "\n"     ##   \n == ASCII 0x0A (hex) 10 (dec) = LF (Newline/line feed)
+CR	          = "\r"     ##   \r == ASCII 0x0D (hex) 13 (dec) = CR (Carriage return)
 
 
 
@@ -104,13 +105,14 @@ end ## method parse
 
 
 
+
 private
 
 def parse_escape( input )
   value = ""
   if input.peek == BACKSLASH
     input.getc ## eat-up backslash
-    if (c=input.peek; c==BACKSLASH || c==LF || c==CR || c==',' || c=='"' )
+    if (c=input.peek; c==BACKSLASH || c==LF || c==CR || c==',' || c==DOUBLE_QUOTE || c==SINGLE_QUOTE )
       logger.debug "  add escaped char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       value << input.getc     ## add escaped char (e.g. lf, cr, etc.)
     else
@@ -125,23 +127,24 @@ def parse_escape( input )
 end
 
 
-def parse_doublequote( input )
+
+def parse_quote( input, quote:)
   value = ""
-  if input.peek == DOUBLE_QUOTE
-    input.getc  ## eat-up double_quote
+  if input.peek == quote
+    input.getc  ## eat-up quote
 
     loop do
-      while (c=input.peek; !(c==DOUBLE_QUOTE || c==BACKSLASH || input.eof?))
-        value << input.getc   ## eat-up everything until hitting double_quote (") or backslash (escape)
+      while (c=input.peek; !(c==quote || c==BACKSLASH || input.eof?))
+        value << input.getc   ## eat-up everything until hitting quote (e.g. " or ') or backslash (escape)
       end
 
       if input.eof?
         break
       elsif input.peek == BACKSLASH
         value << parse_escape( input )
-      else   ## assume input.peek == DOUBLE_QUOTE
-        input.getc ## eat-up double_quote
-        if input.peek == DOUBLE_QUOTE  ## doubled up quote?
+      else   ## assume input.peek == quote
+        input.getc ## eat-up quote
+        if input.peek == quote  ## doubled up quote?
           value << input.getc   ## add doube quote and continue!!!!
         else
           break
@@ -149,10 +152,11 @@ def parse_doublequote( input )
       end
     end
   else
-    raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - DOUBLE_QUOTE (\") expected in parse_double_quote!!!!" )
+    raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - QUOTE (#{quote}) expected in parse_quote!!!!" )
   end
   value
 end
+
 
 
 
@@ -178,11 +182,18 @@ def parse_field( input )
     end
   elsif input.peek == DOUBLE_QUOTE
     logger.debug "start double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
-    value << parse_doublequote( input )
+    value << parse_quote( input, quote: DOUBLE_QUOTE )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
     skip_spaces( input )
     logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+  elsif input.peek == SINGLE_QUOTE    ## allow single quote too (by default)
+    logger.debug "start single_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+    value << parse_quote( input, quote: SINGLE_QUOTE )
+
+    ## note: always eat-up all trailing spaces (" ") and tabs (\t)
+    skip_spaces( input )
+    logger.debug "end single_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   else
     logger.debug "start reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     ## consume simple value
