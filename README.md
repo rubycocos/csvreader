@@ -10,11 +10,21 @@
 
 ## What's News?
 
+**v1.1.3**: Added built-in support for french single and double quotes / guillemets (`‹› «»`) to default parser ("The Right Way").
+Now you can use both, that is, single (`‹...›'` or `›...‹'`)
+or double (`«...»` or `»...«`).
+Note: A quote only "kicks-in" if it's the first (non-whitespace)
+character of the value (otherwise it's just a "vanilla" literal character).
 
 
 **v1.1.2**: Added built-in support for single quotes (`'`) to default parser ("The Right Way").
 Now you can use both, that is, single (`'...'`) or double quotes (`"..."`)
 like in ruby (or javascript or html or ...) :-).
+Note: A quote only "kicks-in" if it's the first (non-whitespace)
+character of the value (otherwise it's just a "vanilla" literal character)
+e.g. `48°51'24"N` needs no quote :-).
+With the "strict" parser you will get a firework of "stray" quote errors / exceptions.
+
 
 
 **v1.1.1**: Added built-in support for (optional) alternative comments (`%`) - used by
@@ -361,13 +371,13 @@ Staatliches Hofbräuhaus München,München,Hofbräu Oktoberfestbier,6.3%
 
 
 Or use the ARFF (attribute-relation file format)-like alternative style
-with `%` for comments and `@`-directives 
+with `%` for comments and `@`-directives
 for "meta data" in the header (before any records):
 
 ```
 %%%%%%%%%%%%%%%%%%
 % try with some comments
-%   and blank lines even before @-directives in header 
+%   and blank lines even before @-directives in header
 
 @RELATION Beer
 

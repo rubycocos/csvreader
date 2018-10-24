@@ -128,13 +128,13 @@ end
 
 
 
-def parse_quote( input, quote:)
+def parse_quote( input, opening_quote:, closing_quote:)
   value = ""
-  if input.peek == quote
-    input.getc  ## eat-up quote
+  if input.peek == opening_quote
+    input.getc  ## eat-up opening quote
 
     loop do
-      while (c=input.peek; !(c==quote || c==BACKSLASH || input.eof?))
+      while (c=input.peek; !(c==closing_quote || c==BACKSLASH || input.eof?))
         value << input.getc   ## eat-up everything until hitting quote (e.g. " or ') or backslash (escape)
       end
 
@@ -144,7 +144,9 @@ def parse_quote( input, quote:)
         value << parse_escape( input )
       else   ## assume input.peek == quote
         input.getc ## eat-up quote
-        if input.peek == quote  ## doubled up quote?
+        if opening_quote == closing_quote && input.peek == closing_quote
+          ## doubled up quote?
+          #   note: only works (enabled) for "" or '' and NOT for «»,‹›.. (if opening and closing differ)
           value << input.getc   ## add doube quote and continue!!!!
         else
           break
@@ -152,7 +154,7 @@ def parse_quote( input, quote:)
       end
     end
   else
-    raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - QUOTE (#{quote}) expected in parse_quote!!!!" )
+    raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - CLOSING QUOTE (#{closing_quote}) expected in parse_quote!!!!" )
   end
   value
 end
@@ -182,18 +184,36 @@ def parse_field( input )
     end
   elsif input.peek == DOUBLE_QUOTE
     logger.debug "start double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
-    value << parse_quote( input, quote: DOUBLE_QUOTE )
+    value << parse_quote( input, opening_quote: DOUBLE_QUOTE,
+                                 closing_quote: DOUBLE_QUOTE )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
     skip_spaces( input )
     logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   elsif input.peek == SINGLE_QUOTE    ## allow single quote too (by default)
     logger.debug "start single_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
-    value << parse_quote( input, quote: SINGLE_QUOTE )
+    value << parse_quote( input, opening_quote: SINGLE_QUOTE,
+                                 closing_quote: SINGLE_QUOTE )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
     skip_spaces( input )
     logger.debug "end single_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+  elsif input.peek == "«"
+    value << parse_quote( input, opening_quote: "«",
+                                 closing_quote: "»" )
+    skip_spaces( input )
+  elsif input.peek == "»"
+    value << parse_quote( input, opening_quote: "»",
+                                 closing_quote: "«" )
+    skip_spaces( input )
+  elsif input.peek == "‹"
+    value << parse_quote( input, opening_quote: "‹",
+                                 closing_quote: "›" )
+    skip_spaces( input )
+  elsif input.peek == "›"
+    value << parse_quote( input, opening_quote: "›",
+                                 closing_quote: "‹" )
+    skip_spaces( input )
   else
     logger.debug "start reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
     ## consume simple value
