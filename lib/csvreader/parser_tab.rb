@@ -44,7 +44,12 @@ def parse_lines( input, &block )
     ## pp line
 
     # note: trailing empty fields get (auto-)trimmed by split !!!!!!!
-    values = line.split( "\t" )
+    #  Solution!!  change split( "\t" ) to split( "\t", -1 ) 
+    #   However, if this argument is negative (any negative number), 
+    #   then there will be no limit on the number of elements in the output array 
+    #   and any trailing delimiters will appear as zero-length strings at the end of the array    
+    
+    values = line.split( "\t", -1 )
     ## pp values
 
     ## note: requires block - enforce? how? why? why not?
