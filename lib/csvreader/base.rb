@@ -19,6 +19,7 @@ require 'csvreader/parser_strict'   # flexible (strict - no leading/trailing spa
 require 'csvreader/parser_tab'
 require 'csvreader/parser_fixed'
 require 'csvreader/parser_json'
+require 'csvreader/parser_table'
 require 'csvreader/parser'
 require 'csvreader/converter'
 require 'csvreader/reader'
@@ -62,8 +63,8 @@ class Parser
                                                       null: "\\N" )
 
 
-  TAB     = ParserTab.new
-
+  TAB     = ParserTab.new      ## (strict) tab-separated
+  TABLE   = ParserTable.new    ## space-separated e.g /[ \t]+/
   FIXED   = ParserFixed.new
 
 
@@ -80,6 +81,7 @@ class Parser
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
   def self.tab()             TAB;             end
+  def self.table()           TABLE;           end
   def self.fixed()           FIXED;           end
   def self.fix()             fixed;           end
   def self.f()               fixed;           end
@@ -103,6 +105,7 @@ class CsvReader
 
 
   TAB   = Builder.new( Parser::TAB )
+  TABLE = Builder.new( Parser::TABLE )
   FIXED = Builder.new( Parser::FIXED )
 
 
@@ -119,6 +122,7 @@ class CsvReader
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
   def self.tab()             TAB;             end
+  def self.table()           TABLE;           end
   def self.fixed()           FIXED;           end
   def self.fix()             fixed;           end
   def self.f()               fixed;           end
@@ -141,6 +145,7 @@ class CsvHashReader
 
 
   TAB   = Builder.new( Parser::TAB )
+  TABLE = Builder.new( Parser::TABLE )
   FIXED = Builder.new( Parser::FIXED )
 
 
@@ -157,6 +162,7 @@ class CsvHashReader
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
   def self.tab()             TAB;             end
+  def self.table()           TABLE;           end
   def self.fixed()           FIXED;           end
   def self.fix()             fixed;           end
   def self.f()               fixed;           end

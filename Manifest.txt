@@ -14,6 +14,7 @@ lib/csvreader/parser_json.rb
 lib/csvreader/parser_std.rb
 lib/csvreader/parser_strict.rb
 lib/csvreader/parser_tab.rb
+lib/csvreader/parser_table.rb
 lib/csvreader/reader.rb
 lib/csvreader/reader_hash.rb
 lib/csvreader/version.rb
@@ -40,6 +41,7 @@ test/test_parser_numeric.rb
 test/test_parser_quotes.rb
 test/test_parser_strict.rb
 test/test_parser_tab.rb
+test/test_parser_table.rb
 test/test_reader.rb
 test/test_reader_converters.rb
 test/test_reader_hash.rb

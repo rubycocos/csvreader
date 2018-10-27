@@ -13,28 +13,55 @@
 
 
 
-### Add enumerator/each support
+## Readme
 
-e.g. something like ??
+Add - why? why not?
+
+
+### Fixed Width Fields
+
+Bonus: If the width is a string (not an array)
+(e.g. `'a8 a8 a32 Z*'` or `'A8 A8 A32 Z*'` and so on)
+than the fixed width field parser
+will use  `String#unpack` and the value of width as its format string spec.
+Example:
 
 ``` ruby
-csv = CsvReader.new( parser, data ).each    ## each without block returns enumerator
-csv.next
-csv.next
+txt = <<TXT
+12345678123456781234567890123456789012345678901212345678901234
+TXT
+
+Csv.fixed.parse( txt, width: 'a8 a8 a32 Z*' )  # or Csv.fix or Csv.f
+# => [["12345678","12345678", "12345678901234567890123456789012", "12345678901234"]]
+
+txt = <<TXT
+John    Smith   john@example.com                1-888-555-6666
+Michele O'Reileymichele@example.com             1-333-321-8765
+TXT
+
+Csv.fixed.parse( txt, width: 'A8 A8 A32 Z*' )   # or Csv.fix or Csv.f
+# => [["John",    "Smith",    "john@example.com",    "1-888-555-6666"],
+#     ["Michele", "O'Reiley", "michele@example.com", "1-333-321-8765"]]
+
+# and so on
 ```
 
-Note: Needs a new instance/object since each has no arguments (uses data/io from instance/object)
+| String Directive | Returns | Meaning                 |
+|------------------|---------|-------------------------|
+| `A`              | String  | Arbitrary binary string (remove trailing nulls and ASCII spaces) |
+| `a`              | String  | Arbitrary binary string |
+| `Z`              | String  | Null-terminated string  |
 
 
-> I was wondering if and/or how this library interacts with Ruby `Enumerator` and `Enumerable` classes? 
-> For example, I noticed a non-standard `#foreach` method which delegates a given block for processing, 
-> but doesn't appear to have a non-block form that returns an `Enumerator`?
->
-> By contrast, the standard library CSV has the `#each` method, which does return an `Enumerator` when no block is given, 
-> making it extremely friendly for building lazy computational pipelines?
-> https://ruby-doc.org/stdlib-2.3.4/libdoc/csv/rdoc/CSV.html#method-i-each
->
-> -- Marc (see issue #2)
+and many more. See the `String#unpack` documentation
+for the complete format spec and directives.
+
+
+
+
+
+
+
 
 
 

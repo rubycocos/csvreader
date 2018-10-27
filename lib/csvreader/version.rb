@@ -3,15 +3,23 @@
 
 class CsvReader   ## note: uses a class for now - change to module - why? why not?
 
-  MAJOR = 1    ## todo: namespace inside version or something - why? why not??
-  MINOR = 1
-  PATCH = 3
-  VERSION = [MAJOR,MINOR,PATCH].join('.')
+  module Version
+    MAJOR = 1    ## todo: namespace inside version or something - why? why not??
+    MINOR = 1
+    PATCH = 4
 
+    ## self.to_s  - why? why not?
+  end
 
-  def self.version
+  VERSION = [Version::MAJOR,
+             Version::MINOR,
+             Version::PATCH].join('.')
+
+  def self.version   ## keep (as an alternative to VERSION) - why? why not?
     VERSION
   end
+
+
 
   def self.banner
     "csvreader/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}]"

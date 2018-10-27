@@ -8,7 +8,12 @@
 * forum :: [wwwmake](http://groups.google.com/group/wwwmake)
 
 
+
 ## What's News?
+
+**v1.1.4**  Added new "classic" table parser (see `ParserTable`) for supporting fields separated by (one or more) spaces
+e.g. `Csv.table.parse( txt )`.
+
 
 **v1.1.3**: Added built-in support for french single and double quotes / guillemets (`‹› «»`) to default parser ("The Right Way").
 Now you can use both, that is, single (`‹...›'` or `›...‹'`)
@@ -38,7 +43,7 @@ for meta data, the first one "wins" - you CANNOT use both.
 
 
 **v1.1.0**: Added new fixed width field (fwf) parser (see `ParserFixed`) for supporting fields with fixed width (and no separator)
-e.g.`Csv.fixed.parse( txt, width: [8,-2,8,-3,32,-2,14] )`.
+e.g. `Csv.fixed.parse( txt, width: [8,-2,8,-3,32,-2,14] )`.
 
 
 **v1.0.3**: Added built-in support for an (optional) front matter (`---`) meta data block
@@ -396,6 +401,32 @@ Hacker-Pschorr Bräu,                      München,   Münchner Dunkel,  5.0%
 Staatliches Hofbräuhaus München,          München,   Hofbräu Oktoberfestbier, 6.3%
 ```
 
+Or use the ARFF (attribute-relation file format)-like alternative style with  `@`-directives
+inside comments (for easier backwards compatibility with old readers)
+for "meta data" in the header (before any records):
+
+```
+##########################
+# try with some comments
+#   and blank lines even before @-directives in header
+#
+# @RELATION Beer
+#
+# @ATTRIBUTE Brewery
+# @ATTRIBUTE City
+# @ATTRIBUTE Name
+# @ATTRIBUTE Abv
+
+Andechser Klosterbrauerei,Andechs,Doppelbock Dunkel,7%
+Augustiner Bräu München,München,Edelstoff,5.6%
+
+Bayerische Staatsbrauerei Weihenstephan,  Freising,  Hefe Weissbier,   5.4%
+Brauerei Spezial,                         Bamberg,   Rauchbier Märzen, 5.1%
+Hacker-Pschorr Bräu,                      München,   Münchner Dunkel,  5.0%
+Staatliches Hofbräuhaus München,          München,   Hofbräu Oktoberfestbier, 6.3%
+```
+
+
 
 ### Q: How can I change the default format / dialect?
 
@@ -534,42 +565,6 @@ Csv.fixed.parse( txt, width: [8,-2,8,-3,32,-2,14] )  # or Csv.fix or Csv.f
 # => [["12345678","12345678", "12345678901234567890123456789012", "12345678901234"]]
 ```
 
-
-Bonus: If the width is a string (not an array)
-(e.g. `'a8 a8 a32 Z*'` or `'A8 A8 A32 Z*'` and so on)
-than the fixed width field parser
-will use  `String#unpack` and the value of width as its format string spec.
-Example:
-
-``` ruby
-txt = <<TXT
-12345678123456781234567890123456789012345678901212345678901234
-TXT
-
-Csv.fixed.parse( txt, width: 'a8 a8 a32 Z*' )  # or Csv.fix or Csv.f
-# => [["12345678","12345678", "12345678901234567890123456789012", "12345678901234"]]
-
-txt = <<TXT
-John    Smith   john@example.com                1-888-555-6666
-Michele O'Reileymichele@example.com             1-333-321-8765
-TXT
-
-Csv.fixed.parse( txt, width: 'A8 A8 A32 Z*' )   # or Csv.fix or Csv.f
-# => [["John",    "Smith",    "john@example.com",    "1-888-555-6666"],
-#     ["Michele", "O'Reiley", "michele@example.com", "1-333-321-8765"]]
-
-# and so on
-```
-
-| String Directive | Returns | Meaning                 |
-|------------------|---------|-------------------------|
-| `A`              | String  | Arbitrary binary string (remove trailing nulls and ASCII spaces) |
-| `a`              | String  | Arbitrary binary string |
-| `Z`              | String  | Null-terminated string  |
-
-
-and many more. See the `String#unpack` documentation
-for the complete format spec and directives.
 
 
 
