@@ -61,4 +61,18 @@ def test_shakespeare11
                 ["Tomorrow, and tomorrow, and tomorrow", "Macbeth", "Act 5, scene 5, 19"]], records
 end
 
+
+def test_test
+  records = CsvReader.read( "#{CsvReader.test_data_dir}/test.csv" )
+  pp records
+
+  assert_equal [["A", "B", "C", "D"],
+                ["a", "b", "c", "d"],
+                ["e", "f", "g", "h"],
+                [" i ", " j ", " k ", " l "],
+                ["", "", "", ""],
+                ["", "", "", ""]], records
+end
+
+
 end # class TestSamples

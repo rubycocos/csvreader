@@ -27,6 +27,7 @@ test/data/iris.attrib.csv
 test/data/iris11.csv
 test/data/lcc.attrib.csv
 test/data/shakespeare.csv
+test/data/test.csv
 test/helper.rb
 test/test_buffer.rb
 test/test_converter.rb
