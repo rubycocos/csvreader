@@ -15,8 +15,7 @@ def self.open( path, mode=nil,
                sep: nil,
                converters: nil,
                header_converters: nil,
-               width: nil,
-               parser: nil, &block )   ## rename path to filename or name - why? why not?
+               parser: nil, **kwargs, &block )   ## rename path to filename or name - why? why not?
 
     ## note: default mode (if nil/not passed in) to 'r:bom|utf-8'
     f = File.open( path, mode ? mode : 'r:bom|utf-8' )
@@ -24,8 +23,7 @@ def self.open( path, mode=nil,
                  sep: sep,
                  converters: converters,
                  header_converters: header_converters,
-                 width: width,
-                 parser: parser )
+                 parser: parser, **kwargs )
 
     # handle blocks like Ruby's open(), not like the (old old) CSV library
     if block_given?
@@ -44,15 +42,14 @@ def self.read( path, headers: nil,
                      sep: nil,
                      converters: nil,
                      header_converters: nil,
-                     width: nil,
-                     parser: nil )
+                     parser: nil,
+                     **kwargs )
     open( path,
           headers: headers,
           sep: sep,
           converters: converters,
           header_converters: header_converters,
-          width: width,
-          parser: parser ) { |csv| csv.read }
+          parser: parser, **kwargs ) { |csv| csv.read }
 end
 
 
@@ -61,15 +58,14 @@ def self.foreach( path, headers: nil,
                         sep: nil,
                         converters: nil,
                         header_converters: nil,
-                        width: nil,
-                        parser: nil, &block )
+                        parser: nil, **kwargs, &block )
   csv = open( path,
               headers: headers,
               sep: sep,
               converters: converters,
               header_converters: header_converters,
-              width: width,
-              parser: parser )
+              parser: parser,
+              **kwargs )
 
   if block_given?
     begin
@@ -86,19 +82,17 @@ def self.foreach( path, headers: nil,
 end # method self.foreach
 
 
-def self.parse( data, headers: nil,
+def self.parse( str_or_readable, headers: nil,
                       sep: nil,
                       converters: nil,
                       header_converters: nil,
-                      width: nil,
-                      parser: nil, &block )
-  csv = new( data,
+                      parser: nil, **kwargs, &block )
+  csv = new( str_or_readable,
              headers: headers,
              sep: sep,
              converters: converters,
              header_converters: header_converters,
-             width: width,
-             parser: parser )
+             parser: parser, **kwargs )
 
   if block_given?
     csv.each( &block )  ## note: caller (responsible) must close file!!! - add autoclose - why? why not?
@@ -111,24 +105,24 @@ end # method self.parse
 
 
 
-def initialize( data, headers: nil, sep: nil,
+def initialize( str_or_readable, headers: nil, sep: nil,
                       converters: nil,
                       header_converters: nil,
-                      width: nil,
-                      parser: nil )
-      raise ArgumentError.new( "Cannot parse nil as CSV" )  if data.nil?
+                      parser: nil,
+                      **kwargs )
+      raise ArgumentError.new( "Cannot parse nil as CSV" )  if str_or_readable.nil?
       ## todo: use (why? why not) - raise ArgumentError, "Cannot parse nil as CSV"     if data.nil?
 
       # create the IO object we will read from
-      @io = data.is_a?(String) ? StringIO.new(data) : data
+      @io = str_or_readable.is_a?(String) ? StringIO.new(str_or_readable) : str_or_readable
 
       ## pass in headers as array e.g. ['A', 'B', 'C']
       ##  double check: run header_converters on passed in headers?
       ##    for now - do NOT auto-convert passed in headers - keep them as-is (1:1)
       @names = headers ? headers : nil
 
-      @sep   = sep
-      @width = width
+      @sep    = sep
+      @kwargs = kwargs
 
       @converters        = Converter.create_converters( converters )
       @header_converters = Converter.create_header_converters( header_converters )
@@ -170,7 +164,7 @@ def_delegators :@io,
      ##  todo/fix: change sep keyword to "known" classes!!!!
      kwargs[:sep] = @sep    if @sep && @parser.respond_to?( :'sep=' )
 
-     kwargs[:width] = @width  if @parser.is_a?( ParserFixed )
+     kwargs[:width] = @kwargs[:width]    if @parser.is_a?( ParserFixed )
 
 
      @parser.parse( @io, kwargs ) do |raw_values|     # sep: sep

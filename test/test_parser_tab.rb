@@ -11,7 +11,7 @@ class TestParserTab < MiniTest::Test
 
 
 def parser
-  parser = CsvReader::Parser::TAB
+  CsvReader::Parser::TAB
 end
 
 
@@ -33,11 +33,12 @@ def test_parse
 end
 
 def test_parse_empties
-  # note: trailing empty fields get (auto-)trimmed !!!!!!!
-  assert_equal [[]],                parser.parse( "\t\t" )
-  assert_equal [[]],                parser.parse( "\t\t\t\t" )
-  assert_equal [["1"]],             parser.parse( "1\t\t" )
-  assert_equal [["1"]],             parser.parse( "1\t\t\t\t" )
+  # note: trailing empty fields got (auto-)trimmed !!!!!!!;
+  #        add missing -1 limit option :-) now works
+  assert_equal [["","",""]],        parser.parse( "\t\t" )
+  assert_equal [["","","","",""]],  parser.parse( "\t\t\t\t" )
+  assert_equal [["1","",""]],       parser.parse( "1\t\t" )
+  assert_equal [["1","","","",""]], parser.parse( "1\t\t\t\t" )
   assert_equal [["","","3"]],       parser.parse( "\t\t3" )
   assert_equal [["","","","","5"]], parser.parse( "\t\t\t\t5" )
 

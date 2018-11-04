@@ -11,7 +11,7 @@ class TestParser < MiniTest::Test
 
 
 def parser
-  parser = CsvReader::Parser::DEFAULT
+  CsvReader::Parser::DEFAULT
 end
 
 

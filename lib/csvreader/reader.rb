@@ -5,15 +5,13 @@ class CsvReader
     def self.open( path, mode=nil,
                    sep: nil,
                    converters: nil,
-                   width: nil,
-                   parser: nil, &block )   ## rename path to filename or name - why? why not?
+                   parser: nil, **kwargs, &block )   ## rename path to filename or name - why? why not?
 
         ## note: default mode (if nil/not passed in) to 'r:bom|utf-8'
         f = File.open( path, mode ? mode : 'r:bom|utf-8' )
-        csv = new(f, sep: sep,
+        csv = new(f, sep:        sep,
                      converters: converters,
-                     width: width,
-                     parser: parser )
+                     parser:     parser,  **kwargs )
 
         # handle blocks like Ruby's open(), not like the (old old) CSV library
         if block_given?
@@ -30,22 +28,21 @@ class CsvReader
 
     def self.read( path, sep: nil,
                          converters: nil,
-                         width: nil,
-                         parser: nil )
+                         parser: nil, **kwargs )
+
         open( path,
               sep: sep,
               converters: converters,
-              width: width,
-              parser: parser ) { |csv| csv.read }
+              parser: parser, **kwargs ) { |csv| csv.read }
     end
 
 
-    def self.header( path, sep: nil, width: nil, parser: nil )   ## use header or headers - or use both (with alias)?
+    def self.header( path, sep: nil, parser: nil, **kwargs )   ## use header or headers - or use both (with alias)?
        # read first lines (only)
        #  and parse with csv to get header from csv library itself
 
        records = []
-       open( path, sep: sep, width: width, parser: parser ) do |csv|
+       open( path, sep: sep, parser: parser, **kwargs ) do |csv|
           csv.each do |record|
             records << record
             break   ## only parse/read first record
@@ -60,8 +57,8 @@ class CsvReader
 
 
     def self.foreach( path, sep: nil,
-                            converters: nil, width: nil, parser: nil, &block )
-      csv = open( path, sep: sep, converters: converters, width: width, parser: parser )
+                            converters: nil, parser: nil, **kwargs, &block )
+      csv = open( path, sep: sep, converters: converters, parser: parser, **kwargs )
 
       if block_given?
         begin
@@ -78,11 +75,10 @@ class CsvReader
     end # method self.foreach
 
 
-    def self.parse( data, sep: nil,
+    def self.parse( str_or_readable, sep: nil,
                           converters: nil,
-                          width: nil,
-                          parser: nil, &block )
-      csv = new( data, sep: sep, converters: converters, width: width, parser: parser )
+                          parser: nil, **kwargs, &block )
+      csv = new( str_or_readable, sep: sep, converters: converters, parser: parser, **kwargs )
 
       if block_given?
         csv.each( &block )  ## note: caller (responsible) must close file!!! - add autoclose - why? why not?
@@ -93,14 +89,15 @@ class CsvReader
 
 
 
+
     ############################
     ## note: only add parse_line convenience helper for default
     ##   always use parse (do NOT/NOT/NOT use parse_line)  - why? why not?
     ##   todo/fix: remove parse_line!!!
-    def self.parse_line( data, sep: nil,
-                               converters: nil, width: nil )
+    def self.parse_line( str_or_readable, sep: nil,
+                               converters: nil, **kwargs )
        records = []
-       parse( data, sep: sep, converters: converters, width: width ) do |record|
+       parse( str_or_readable, sep: sep, converters: converters, **kwargs ) do |record|
          records << record
          break   # only parse first record
        end
@@ -110,15 +107,15 @@ class CsvReader
 
 
 
-    def initialize( data, sep: nil, converters: nil, width: nil, parser: nil )
-          raise ArgumentError.new( "Cannot parse nil as CSV" )  if data.nil?
+    def initialize( str_or_readable, sep: nil, converters: nil, parser: nil, **kwargs )
+          raise ArgumentError.new( "Cannot parse nil as CSV" )  if str_or_readable.nil?
           ## todo: use (why? why not) - raise ArgumentError, "Cannot parse nil as CSV"     if data.nil?
 
           # create the IO object we will read from
-          @io = data.is_a?(String) ? StringIO.new(data) : data
+          @io = str_or_readable.is_a?(String) ? StringIO.new(str_or_readable) : str_or_readable
 
-          @sep   = sep     # (optional) for ParserStd, ParserStrict
-          @width = width   # (optional) for ParserFixed
+          @sep    = sep           # (optional) for ParserStd, ParserStrict
+          @kwargs = kwargs        # e.g.  (optional) :width for ParserFixed
 
           @converters  = Converter.create_converters( converters )
 
@@ -150,7 +147,11 @@ class CsvReader
          ##  todo/fix: change sep keyword to "known" classes!!!!
          kwargs[:sep]   = @sep    if @sep && @parser.respond_to?( :'sep=' )
 
-         kwargs[:width] = @width  if @parser.is_a?( ParserFixed )
+
+         kwargs[:width] = @kwargs[:width]    if @parser.is_a?( ParserFixed )
+
+         ##  todo/fix: print warning about unused / unknown kwargs!!!!!
+
 
          ## check array / pipeline of converters is empty (size=0 e.g. is [])
          if @converters.empty?

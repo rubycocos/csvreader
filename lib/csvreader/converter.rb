@@ -110,7 +110,8 @@ def initialize( converters, registry=CONVERTERS )
            add_converter( converter, registry )
         end
      end
-   end
+end
+
 
    def to_a() @converters; end    ## todo: rename to/use converters attribute name - why? why not?
    def empty?() @converters.empty?; end
