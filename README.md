@@ -531,7 +531,7 @@ Csv.tab.parse( ... )  # note: "classic" strict tab format
 Csv.tab.read( ... )
 # ...
 
-Csv.table.parse( ... )  # note: "classic" strict tab format
+Csv.table.parse( ... )  # note: "classic" one or more space (or tab) table format
 Csv.table.read( ... )
 # ...
 ```
