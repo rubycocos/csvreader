@@ -51,7 +51,8 @@ attr_reader   :meta
 ##        or better allow a proc as option for checking too!!!
 def initialize( null:     ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
                 numeric:  false,   ## (auto-)convert all non-quoted values to float
-                nan:      nil      ## note: only if numeric - set mappings for Float::NAN (not a number) values
+                nan:      nil,      ## note: only if numeric - set mappings for Float::NAN (not a number) values
+                space:    nil
               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
@@ -62,6 +63,13 @@ def initialize( null:     ['\N', 'NA'],  ## note: set to nil for no null vales /
   @config[:numeric] = numeric
   @config[:nan]     = nan   # not a number (NaN) e.g. Float::NAN
 
+  ## e.g. treat/convert char to space e.g. _-+• etc
+  ##   Man_Utd   => Man Utd
+  ##  or use it for leading and trailing spaces without quotes
+  ##  todo/check: only use for unquoted values? why? why not?
+  @config[:space]   = space
+
+
   @meta  = nil     ## no meta data block   (use empty hash {} - why? why not?)
 end
 
@@ -71,23 +79,24 @@ end
 ## config convenience helpers
 ##   e.g. use like  Csv.defaultl.null = '\N'   etc.   instead of
 ##                  Csv.default.config[:null] = '\N'
-def null=( value )     @config[:null]=value; end
+def null=( value )        @config[:null]=value; end
 def numeric=( value )     @config[:numeric]=value; end
 def nan=( value )         @config[:nan]=value; end
+def space=( value )       @config[:space]=value; end
 
 
 
 
-def parse( data, **kwargs, &block )
+def parse( str_or_readable, **kwargs, &block )
 
   ## note: data - will wrap either a String or IO object passed in data
   ## note: kwargs NOT used for now (but required for "protocol/interface" by other parsers)
 
   ##   make sure data (string or io) is a wrapped into Buffer!!!!!!
-  if data.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
-    input = data
+  if str_or_readable.is_a?( Buffer )    ### allow (re)use of Buffer if managed from "outside"
+    input = str_or_readable
   else
-    input = Buffer.new( data )
+    input = Buffer.new( str_or_readable )
   end
 
   if block_given?
@@ -259,8 +268,12 @@ end
 def parse_record( input )
   values = []
 
+  space = config[:space]
+
   loop do
      value = parse_field( input )
+     value = value.tr( space, ' ' )   if space && value.is_a?( String )
+
      logger.debug "value: »#{value}«"  if logger.debug?
      values << value
 

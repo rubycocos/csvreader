@@ -11,6 +11,13 @@
 
 ## What's News?
 
+**v1.1.5**  Added built-in support for (optional) alternative space
+character
+(e.g. `_-+•`)
+to the default parser (`ParserStd`) and the table parser (`ParserTable`).
+Turns `Man_Utd` into `Man Utd`, for example. Default is turned off (`nil`).
+
+
 **v1.1.4**  Added new "classic" table parser (see `ParserTable`) for supporting fields separated by (one or more) spaces
 e.g. `Csv.table.parse( txt )`.
 
