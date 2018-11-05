@@ -11,7 +11,7 @@
 
 ## What's News?
 
-**v1.2** Add support for alternative (non-space) separators (e.g. `;|^:`)
+**v1.2** Added support for alternative (non-space) separators (e.g. `;|^:`)
 to the default parser (`ParserStd`).
 
 
