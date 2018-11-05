@@ -11,6 +11,10 @@
 
 ## What's News?
 
+**v1.2** Add support for alternative (non-space) separators (e.g. `;|^:`)
+to the default parser (`ParserStd`).
+
+
 **v1.1.5**  Added built-in support for (optional) alternative space
 character
 (e.g. `_-+•`)
@@ -491,20 +495,33 @@ and so on.
 ### Q: How can I change the separator to semicolon (`;`) or pipe (`|`) or tab (`\t`)?
 
 Pass in the `sep` keyword option
-to the "strict" parser. Example:
+to the parser. Example:
 
 ``` ruby
-Csv.strict.parse( ..., sep: ';' )
-Csv.strict.read( ..., sep: ';' )
+Csv.parse( ..., sep: ';' )
+Csv.read( ..., sep: ';' )
 # ...
-Csv.strict.parse( ..., sep: '|' )
-Csv.strict.read( ..., sep: '|' )
+Csv.parse( ..., sep: '|' )
+Csv.read( ..., sep: '|' )
 # and so on
 ```
 
 Note: If you use tab (`\t`) use the `TabReader`
 (or for your convenience the built-in `Csv.tab` alias)!
-Why? Tab =! CSV. Yes, tab is
+If you use the "classic" one or more space or tab (`/[ \t]+/`) regex
+use the `TableReader`
+(or for your convenience the built-in `Csv.table` alias)!
+
+
+Note: The default ("The Right Way") parser does NOT allow space or tab
+as separator (because leading and trailing space always gets trimmed
+unless inside quotes, etc.). Use the `strict` parser if you want
+to make up your own format with space or tab as a separator
+or if you want that every space or tab counts (is significant).
+
+
+
+Aside:  Why? Tab =! CSV. Yes, tab is
 its own (even) simpler format
 (e.g. no escape rules, no newlines in values, etc.),
 see [`TabReader` »](https://github.com/csvreader/tabreader).
@@ -512,6 +529,10 @@ see [`TabReader` »](https://github.com/csvreader/tabreader).
 ``` ruby
 Csv.tab.parse( ... )  # note: "classic" strict tab format
 Csv.tab.read( ... )
+# ...
+
+Csv.table.parse( ... )  # note: "classic" strict tab format
+Csv.table.read( ... )
 # ...
 ```
 

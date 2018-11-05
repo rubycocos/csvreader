@@ -49,12 +49,16 @@ attr_reader   :meta
 ##    null values - include NA - why? why not?
 ##        make null values case sensitive or add an option for case sensitive
 ##        or better allow a proc as option for checking too!!!
-def initialize( null:     ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
+def initialize( sep:      ',',
+                null:     ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
                 numeric:  false,   ## (auto-)convert all non-quoted values to float
                 nan:      nil,      ## note: only if numeric - set mappings for Float::NAN (not a number) values
                 space:    nil
               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
+
+  check_sep( sep )
+  @config[:sep]     = sep
 
   ## note: null values must get handled by parser
   ##   only get checked for unquoted strings (and NOT for quoted strings)
@@ -74,11 +78,27 @@ def initialize( null:     ['\N', 'NA'],  ## note: set to nil for no null vales /
 end
 
 
+  SEPARATORS = ",;|^:"
+
+def check_sep( sep )
+  ## note: parse does NOT support space or tab as separator!!
+  ##    leading and trailing space or tab (whitespace) gets by default trimmed
+  ##      unless quoted (or alternative space char used e.g. _-+ if configured)
+
+  if SEPARATORS.include?( sep )
+     ## everything ok
+  else
+    raise ArgumentError, "invalid/unsupported sep >#{sep}< - for now only >#{SEPARATORS}< allowed; sorry"
+  end
+end
+
 
 #########################################
 ## config convenience helpers
 ##   e.g. use like  Csv.defaultl.null = '\N'   etc.   instead of
 ##                  Csv.default.config[:null] = '\N'
+def sep=( value )         check_sep( value );  @config[:sep]=value; end
+
 def null=( value )        @config[:null]=value; end
 def numeric=( value )     @config[:numeric]=value; end
 def nan=( value )         @config[:nan]=value; end
@@ -87,7 +107,9 @@ def space=( value )       @config[:space]=value; end
 
 
 
-def parse( str_or_readable, **kwargs, &block )
+def parse( str_or_readable, sep: config[:sep], &block )
+
+  check_sep( sep )
 
   ## note: data - will wrap either a String or IO object passed in data
   ## note: kwargs NOT used for now (but required for "protocol/interface" by other parsers)
@@ -100,11 +122,11 @@ def parse( str_or_readable, **kwargs, &block )
   end
 
   if block_given?
-    parse_lines( input, &block )
+    parse_lines( input, sep: sep, &block )
   else
     records = []
 
-    parse_lines( input ) do |record|
+    parse_lines( input, sep: sep ) do |record|
       records << record
     end
 
@@ -117,11 +139,11 @@ end ## method parse
 
 private
 
-def parse_escape( input )
+def parse_escape( input, sep: )
   value = ""
   if input.peek == BACKSLASH
     input.getc ## eat-up backslash
-    if (c=input.peek; c==BACKSLASH || c==LF || c==CR || c==',' || c==DOUBLE_QUOTE || c==SINGLE_QUOTE )
+    if (c=input.peek; c==BACKSLASH || c==LF || c==CR || c==sep || c==DOUBLE_QUOTE || c==SINGLE_QUOTE )
       logger.debug "  add escaped char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       value << input.getc     ## add escaped char (e.g. lf, cr, etc.)
     else
@@ -137,7 +159,7 @@ end
 
 
 
-def parse_quote( input, opening_quote:, closing_quote:)
+def parse_quote( input, sep:, opening_quote:, closing_quote:)
   value = ""
   if input.peek == opening_quote
     input.getc  ## eat-up opening quote
@@ -150,7 +172,7 @@ def parse_quote( input, opening_quote:, closing_quote:)
       if input.eof?
         break
       elsif input.peek == BACKSLASH
-        value << parse_escape( input )
+        value << parse_escape( input, sep: sep )
       else   ## assume input.peek == quote
         input.getc ## eat-up quote
         if opening_quote == closing_quote && input.peek == closing_quote
@@ -171,7 +193,7 @@ end
 
 
 
-def parse_field( input )
+def parse_field( input, sep: )
   value = ""
 
   numeric = config[:numeric]
@@ -181,7 +203,7 @@ def parse_field( input )
   skip_spaces( input )   ## strip leading spaces
 
 
-  if (c=input.peek; c=="," || c==LF || c==CR || input.eof?) ## empty field
+  if (c=input.peek; c==sep || c==LF || c==CR || input.eof?) ## empty field
     ## note: allows null = '' that is turn unquoted empty strings into null/nil
     ##   or if using numeric into NotANumber (NaN)
     if is_null?( value )
@@ -193,7 +215,8 @@ def parse_field( input )
     end
   elsif input.peek == DOUBLE_QUOTE
     logger.debug "start double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
-    value << parse_quote( input, opening_quote: DOUBLE_QUOTE,
+    value << parse_quote( input, sep: sep,
+                                 opening_quote: DOUBLE_QUOTE,
                                  closing_quote: DOUBLE_QUOTE )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
@@ -201,26 +224,31 @@ def parse_field( input )
     logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   elsif input.peek == SINGLE_QUOTE    ## allow single quote too (by default)
     logger.debug "start single_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
-    value << parse_quote( input, opening_quote: SINGLE_QUOTE,
+    value << parse_quote( input, sep: sep,
+                                 opening_quote: SINGLE_QUOTE,
                                  closing_quote: SINGLE_QUOTE )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
     skip_spaces( input )
     logger.debug "end single_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   elsif input.peek == "«"
-    value << parse_quote( input, opening_quote: "«",
+    value << parse_quote( input, sep: sep,
+                                 opening_quote: "«",
                                  closing_quote: "»" )
     skip_spaces( input )
   elsif input.peek == "»"
-    value << parse_quote( input, opening_quote: "»",
+    value << parse_quote( input, sep: sep,
+                                 opening_quote: "»",
                                  closing_quote: "«" )
     skip_spaces( input )
   elsif input.peek == "‹"
-    value << parse_quote( input, opening_quote: "‹",
+    value << parse_quote( input, sep: sep,
+                                 opening_quote: "‹",
                                  closing_quote: "›" )
     skip_spaces( input )
   elsif input.peek == "›"
-    value << parse_quote( input, opening_quote: "›",
+    value << parse_quote( input, sep: sep,
+                                 opening_quote: "›",
                                  closing_quote: "‹" )
     skip_spaces( input )
   else
@@ -228,9 +256,9 @@ def parse_field( input )
     ## consume simple value
     ##   until we hit "," or "\n" or "\r"
     ##    note: will eat-up quotes too!!!
-    while (c=input.peek; !(c=="," || c==LF || c==CR || input.eof?))
+    while (c=input.peek; !(c==sep || c==LF || c==CR || input.eof?))
       if input.peek == BACKSLASH
-        value << parse_escape( input )
+        value << parse_escape( input, sep: sep )
       else
         logger.debug "  add char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
         value << input.getc   ## note: eat-up all spaces (" ") and tabs (\t) too (strip trailing spaces at the end)
@@ -265,13 +293,13 @@ end
 
 
 
-def parse_record( input )
+def parse_record( input, sep: )
   values = []
 
   space = config[:space]
 
   loop do
-     value = parse_field( input )
+     value = parse_field( input, sep: sep )
      value = value.tr( space, ' ' )   if space && value.is_a?( String )
 
      logger.debug "value: »#{value}«"  if logger.debug?
@@ -282,10 +310,10 @@ def parse_record( input )
      elsif (c=input.peek; c==LF || c==CR)
        skip_newline( input )
        break
-     elsif input.peek == ","
+     elsif input.peek == sep
        input.getc   ## eat-up FS(,)
      else
-       raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - FS (,) or RS (\\n) expected!!!!" )
+       raise ParseError.new( "found >#{input.peek} (#{input.peek.ord})< - FS (#{sep}) or RS (\\n) expected!!!!" )
      end
   end
 
@@ -388,7 +416,7 @@ end
 
 
 
-def parse_lines( input, &block )
+def parse_lines( input, sep:, &block )
   ## note: reset (optional) meta data block
   @meta  = nil     ## no meta data block   (use empty hash {} - why? why not?)
 
@@ -439,7 +467,7 @@ def parse_lines( input, &block )
     else
       logger.debug "start record - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
 
-      record = parse_record( input )
+      record = parse_record( input, sep: sep )
       record_num +=1
 
       ## note: requires block - enforce? how? why? why not?
