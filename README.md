@@ -9,7 +9,16 @@
 
 
 
+
 ## What's News?
+
+
+**v1.2.1** Added support for (optional) hashtag to the  
+to the default parser (`ParserStd`) for
+supporting the [Humanitarian eXchange Language (HXL)](http://hxlstandard.org).
+Default is turned off (`false`). Use `Csv.human`
+or `Csv.hum` or `Csv.hxl` for pre-defined with hashtag turned on.
+
 
 **v1.2** Added support for alternative (non-space) separators (e.g. `;|^:`)
 to the default parser (`ParserStd`).

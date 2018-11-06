@@ -16,6 +16,8 @@ end
 
 
 def test_parse
+  pp parser.config
+  
   records = [["a", "b", "c"],
              ["1", "2", "3"]]
 

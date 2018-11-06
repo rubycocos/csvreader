@@ -42,6 +42,7 @@ class Parser
   NUMERIC = ParserStd.new( numeric: true,
                            nan: ['#NAN', 'NAN', 'NaN', 'nan' ],
                            null: "" )
+  HUMAN   = ParserStd.new( hashtag: true )
 
 
   RFC4180 = ParserStrict.new
@@ -72,6 +73,10 @@ class Parser
   def self.numeric()         NUMERIC;         end
   def self.num()             numeric;         end
   def self.n()               numeric;         end
+  def self.human()           HUMAN;           end
+  def self.hum()             human;           end
+  def self.hxl()             human;           end  ## HXL (humanitarian eXchange language)
+
   def self.strict()          STRICT;          end ## alternative alias for STRICT
   def self.rfc4180()         RFC4180;         end ## alternative alias for RFC4180
   def self.excel()           EXCEL;           end ## alternative alias for EXCEL
@@ -94,6 +99,7 @@ class CsvReader
   ### pre-define CsvReader (built-in) formats/dialect
   DEFAULT = Builder.new( Parser::DEFAULT )
   NUMERIC = Builder.new( Parser::NUMERIC )
+  HUMAN   = Builder.new( Parser::HUMAN )
 
   STRICT  = Builder.new( Parser::STRICT )
   RFC4180 = Builder.new( Parser::RFC4180 )
@@ -113,6 +119,10 @@ class CsvReader
   def self.numeric()         NUMERIC;         end
   def self.num()             numeric;         end
   def self.n()               numeric;         end
+  def self.human()           HUMAN;           end
+  def self.hum()             human;           end
+  def self.hxl()             human;           end  ## HXL (humanitarian eXchange language)
+
   def self.strict()          STRICT;          end ## alternative alias for STRICT
   def self.rfc4180()         RFC4180;         end ## alternative alias for RFC4180
   def self.excel()           EXCEL;           end ## alternative alias for EXCEL

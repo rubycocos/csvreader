@@ -13,8 +13,8 @@ class ParserStd
 DOUBLE_QUOTE  = "\""
 SINGLE_QUOTE  = "'"
 BACKSLASH     = "\\"    ## use BACKSLASH_ESCAPE ??
-COMMENT1      = "#"      ## use COMMENT_HASH or HASH or ??
-COMMENT2      = "%"      ## use COMMENT_PERCENT or PERCENT or ??
+COMMENT_HASH    = "#"      ## use COMMENT1 or COMMENT_HASH or HASH or ??
+COMMENT_PERCENT = "%"      ## use COMMENT2 or COMMENT_PERCENT or PERCENT or ??
 DIRECTIVE     = "@"     ## use a different name e.g. AT or ??
 SPACE         = " "      ##   \s == ASCII 32 (dec)            =    (Space)
 TAB           = "\t"     ##   \t == ASCII 0x09 (hex)          = HT (Tab/horizontal tab)
@@ -53,7 +53,8 @@ def initialize( sep:      ',',
                 null:     ['\N', 'NA'],  ## note: set to nil for no null vales / not availabe (na)
                 numeric:  false,   ## (auto-)convert all non-quoted values to float
                 nan:      nil,      ## note: only if numeric - set mappings for Float::NAN (not a number) values
-                space:    nil
+                space:    nil,
+                hashtag:  false
               )
   @config = {}   ## todo/fix: change config to proper dialect class/struct - why? why not?
 
@@ -73,6 +74,10 @@ def initialize( sep:      ',',
   ##  todo/check: only use for unquoted values? why? why not?
   @config[:space]   = space
 
+  ## hxl - humanitarian eXchange language uses a hashtag row for "meta data"
+  ##  e.g. #sector+en,#subsector,#org,#country,#sex+#targeted,#sex+#targeted,#adm1
+  ##  do NOT treat # as a comment (always use % for now)
+  @config[:hashtag] = hashtag
 
   @meta  = nil     ## no meta data block   (use empty hash {} - why? why not?)
 end
@@ -103,6 +108,7 @@ def null=( value )        @config[:null]=value; end
 def numeric=( value )     @config[:numeric]=value; end
 def nan=( value )         @config[:nan]=value; end
 def space=( value )       @config[:space]=value; end
+def hashtag=( value )     @config[:hashtag]=value; end
 
 
 
@@ -296,7 +302,7 @@ end
 def parse_record( input, sep: )
   values = []
 
-  space = config[:space]
+  space   = config[:space]
 
   loop do
      value = parse_field( input, sep: sep )
@@ -424,20 +430,29 @@ def parse_lines( input, sep:, &block )
   ##   used for meta block (can only start before any records e.g. if record_num == 0)
   record_num = 0
 
-  ## note: can either use '#' or '%' but NOT both; first one "wins"
-  comment = nil
 
-  ## note: can either use directives (@) or frontmatter (---) block; first one "wins"
+
+  hashtag = config[:hashtag]
+
+  if hashtag
+    comment = COMMENT_PERCENT
+    ## todo/check: use a "heuristic" to check if its a comment or a hashtag line? why? why not?
+  else
+    ## note: can either use '#' or '%' but NOT both; first one "wins"
+    comment = nil
+  end
+
+
   has_seen_directive   = false
   has_seen_frontmatter = false   ## - renameto  has_seen_dash (---) - why? why not???
-
+  ## note: can either use directives (@) or frontmatter (---) block; first one "wins"
 
   loop do
     break if input.eof?
 
     skipped_spaces = skip_spaces( input )
 
-    if comment.nil? && (c=input.peek; c==COMMENT1 || c==COMMENT2)
+    if comment.nil? && (c=input.peek; c==COMMENT_HASH || c==COMMENT_PERCENT)
       logger.debug "skipping comment (first) - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       comment = input.getc  ## first comment line (determines/fixes "allowed" comment-style)
       skip_until_eol( input )
@@ -449,13 +464,13 @@ def parse_lines( input, sep:, &block )
     elsif (c=input.peek; c==LF || c==CR || input.eof?)
       logger.debug "skipping blank - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
       skip_newline( input )
-    elsif record_num == 0 && has_seen_frontmatter == false && input.peek==DIRECTIVE
+    elsif record_num == 0 && hashtag == false && has_seen_frontmatter == false && input.peek==DIRECTIVE
       ## note: "skip" directives for now
       has_seen_directive = true
       logger.debug "skip directive"  if logger.debug?
       skip_until_eol( input )
       skip_newline( input )
-    elsif record_num == 0 && has_seen_directive == false && has_seen_frontmatter == false &&
+    elsif record_num == 0 && hashtag == false && has_seen_directive == false && has_seen_frontmatter == false &&
           skipped_spaces == 0 && input.peekn(4) =~ /^---[\n\r \t]$/
       ## note: assume "---" (MUST BE) followed by newline (\r or \n) or space starts a meta block
       has_seen_frontmatter = true
