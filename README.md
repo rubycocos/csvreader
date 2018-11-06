@@ -15,7 +15,7 @@
 
 **v1.2.1** Added support for (optional) hashtag to the
 to the default parser (`ParserStd`) for
-supporting the [Humanitarian eXchange Language (HXL)](http://hxlstandard.org).
+supporting the [Humanitarian eXchange Language (HXL)](https://github.com/csvspecs/csv-hxl).
 Default is turned off (`false`). Use `Csv.human`
 or `Csv.hum` or `Csv.hxl` for pre-defined with hashtag turned on.
 
