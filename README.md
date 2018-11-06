@@ -13,7 +13,7 @@
 ## What's News?
 
 
-**v1.2.1** Added support for (optional) hashtag to the  
+**v1.2.1** Added support for (optional) hashtag to the
 to the default parser (`ParserStd`) for
 supporting the [Humanitarian eXchange Language (HXL)](http://hxlstandard.org).
 Default is turned off (`false`). Use `Csv.human`
