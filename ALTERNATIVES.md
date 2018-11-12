@@ -365,6 +365,13 @@ end
 
 
 
+## More CSV Libraries & Tools
+
+Cassava -  CSV command line tools in Ruby, see <https://github.com/kstephens/cassava>. 
+
+
+
+
 
 
 
