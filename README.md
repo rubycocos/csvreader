@@ -53,7 +53,7 @@ With the "strict" parser you will get a firework of "stray" quote errors / excep
 
 
 **v1.1.1**: Added built-in support for (optional) alternative comments (`%`) - used by
-[ARFF (attribute-relation file format)](https://waikato.github.io/weka-wiki/arff/) -
+[ARFF (attribute-relation file format)](https://github.com/csvspecs/csv-meta#attribute-relation-classic) -
 and support for (optional) directives (`@`) in header (that is, before any records)
 to default parser ("The Right Way").
 Now you can use either `#` or `%` for comments, the first one "wins" - you CANNOT use both.
@@ -68,9 +68,8 @@ e.g. `Csv.fixed.parse( txt, width: [8,-2,8,-3,32,-2,14] )`.
 
 **v1.0.3**: Added built-in support for an (optional) front matter (`---`) meta data block
 in header (that is, before any records)
-to default parser ("The Right Way") - used by [CSVY (yaml front matter for csv file format)](http://csvy.org).
+to default parser ("The Right Way") - used by [CSVY (yaml front matter for csv file format)](https://github.com/csvspecs/csv-meta#front-matter-in-yaml).
 Use `Csv.parser.meta` to get the parsed meta data block hash (or `nil`) if none.
-
 
 
 
