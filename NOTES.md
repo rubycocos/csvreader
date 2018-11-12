@@ -2,6 +2,7 @@
 
 ## Todos
 
+- [ ]  add option for allow newlines in quotes/quoted values (yes/no) - turned on by default? (as is now)
 - [ ]  add null values/na option
 - [ ]  add unix-style backslash escape
 - [ ]  add support for converters (see std csv library)
