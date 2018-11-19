@@ -12,6 +12,12 @@
 
 ## What's News?
 
+**v1.2.2** Added auto-fix/correction/recovery
+for double quoted value with extra trailing value
+to the default parser (`ParserStd`) e.g. `"Freddy" Mercury`
+will get read "as is" and turned
+into an "unquoted" value with "literal" quotes e.g. `"Freddy" Mercury`.
+
 
 **v1.2.1** Added support for (optional) hashtag to the
 to the default parser (`ParserStd`) for

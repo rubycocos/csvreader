@@ -32,6 +32,7 @@ test/helper.rb
 test/test_buffer.rb
 test/test_converter.rb
 test/test_parser.rb
+test/test_parser_autofix.rb
 test/test_parser_directive.rb
 test/test_parser_fixed.rb
 test/test_parser_formats.rb

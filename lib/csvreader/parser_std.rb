@@ -197,6 +197,26 @@ def parse_quote( input, sep:, opening_quote:, closing_quote:)
 end
 
 
+def parse_field_until_sep( input, sep: )
+  value = ""
+  logger.debug "start reg field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+  ## consume simple value
+  ##   until we hit "," or "\n" or "\r"
+  ##    note: will eat-up quotes too!!!
+  while (c=input.peek; !(c==sep || c==LF || c==CR || input.eof?))
+    if input.peek == BACKSLASH
+      value << parse_escape( input, sep: sep )
+    else
+      logger.debug "  add char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
+      value << input.getc   ## note: eat-up all spaces (" ") and tabs (\t) too (strip trailing spaces at the end)
+    end
+  end
+  ##  note: only strip **trailing** spaces (space and tab only)
+  ##    do NOT strip newlines etc. might have been added via escape! e.g. \\\n
+  value = value.sub( /[ \t]+$/, '' )
+  value
+end
+
 
 
 def parse_field( input, sep: )
@@ -226,7 +246,23 @@ def parse_field( input, sep: )
                                  closing_quote: DOUBLE_QUOTE )
 
     ## note: always eat-up all trailing spaces (" ") and tabs (\t)
-    skip_spaces( input )
+    spaces_count = skip_spaces( input )
+
+    ##  check for auto-fix trailing data after quoted value e.g. ---,"Fredy" Mercury,---
+    ##   todo/fix: add auto-fix for all quote variants!!!!!!!!!!!!!!!!!!!!
+    if (c=input.peek; c==sep || c==LF || c==CR || input.eof?)
+       ## everything ok (that is, regular quoted value)!!!
+    else
+      ## try auto-fix
+      ##   todo: report warning/issue error (if configured)!!!
+      extra_value = parse_field_until_sep( input, sep: sep )
+      ## "reconstruct" non-quoted value
+      spaces = ' ' * spaces_count   ## todo: preserve tab (\t) - why? why not?
+      ## note: minor (theoratical) issue (doubled quoted got "collapsed/escaped" to one from two in quoted value)
+      ##    e.g. "hello """ extra,  (becomes)=>  "hello "" extra (one quote less/"eaten up")
+      value = %Q{"#{value}"#{spaces}#{extra_value}}
+    end
+
     logger.debug "end double_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
   elsif input.peek == SINGLE_QUOTE    ## allow single quote too (by default)
     logger.debug "start single_quote field - peek >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
