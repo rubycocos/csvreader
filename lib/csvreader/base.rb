@@ -9,6 +9,10 @@ require 'date'    ## use for Date.parse and DateTime.parse
 require 'yaml'    ## used for (optional) meta data blocks
 
 
+require 'tabreader'
+require 'csvjson'
+require 'csvyaml'
+
 
 ###
 # our own code

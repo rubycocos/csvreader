@@ -5,57 +5,18 @@ class CsvReader
 class ParserTab
 
 def parse( data, **kwargs, &block )
-
-  ## note: input: required each_line (string or io/file for example)
   ## note: kwargs NOT used for now (but required for "protocol/interface" by other parsers)
 
-  input = data   ## assume it's a string or io/file handle
+  ## note: input: required each_line (string or io/file for example)
+  ## assume data is a string or io/file handle
+  tab = TabReader.new( data )
 
   if block_given?
-    parse_lines( input, &block )
+    tab.each( &block )
   else
-    records = []
-
-    parse_lines( input ) do |record|
-      records << record
-    end
-
-    records
+    tab.to_a
   end
 end ## method parse
-
-
-
-private
-
-def parse_lines( input, &block )
-
-  ## note: each line only works with \n (windows) or \r\n (unix)
-  ##   will NOT work with \r (old mac, any others?) only!!!!
-  input.each_line do |line|
-
-    ## puts "line:"
-    ## pp line
-
-    ##  note: chomp('') if is an empty string,
-    ##    it will remove all trailing newlines from the string.
-    ##    use line.sub(/[\n\r]*$/, '') or similar instead - why? why not?
-    line = line.chomp( '' )
-    ## pp line
-
-    # note: trailing empty fields get (auto-)trimmed by split !!!!!!!
-    #  Solution!!  change split( "\t" ) to split( "\t", -1 ) 
-    #    If the limit parameter is omitted, trailing null fields are suppressed. 
-    #     If limit is a positive number, at most that number of fields will be returned 
-    #     (if limit is 1, the entire string is returned as the only entry in an array). 
-    #     If negative, there is no limit to the number of fields returned, and trailing null fields are not suppressed.    
-    values = line.split( "\t", -1 )
-    ## pp values
-
-    ## note: requires block - enforce? how? why? why not?
-    block.call( values )
-  end
-end # method parse_lines
 
 
 end # class ParserTab
