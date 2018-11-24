@@ -17,6 +17,12 @@ Hoe.spec 'csvreader' do
   self.readme_file  = 'README.md'
   self.history_file = 'HISTORY.md'
 
+  self.extra_deps = [
+     ['tabreader',  '>=1.0.1'],
+     ['csvyaml',    '>=0.1.0'],
+     ['csvjson',    '>=1.0.0']
+   ]
+
   self.licenses = ['Public Domain']
 
   self.spec_extras = {

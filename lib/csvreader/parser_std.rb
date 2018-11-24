@@ -378,8 +378,8 @@ def parse_meta( input )
   skip_newline( input )
 
   buf = "---\n"    ## note: start buffer with yaml header line - why?
-  ##   YAML.load("")        return false !!!
-  ##   YAML.load("---\n")   returns nil -- yes!!  if we get nil return empty hash {}
+  ##   ::YAML.load("")        return false !!!
+  ##   ::YAML.load("---\n")   returns nil -- yes!!  if we get nil return empty hash {}
 
   newline = true
 
@@ -406,7 +406,7 @@ def parse_meta( input )
     end
   end
 
-  data = YAML.load( buf )
+  data = ::YAML.load( buf )  ## note: MUST use "outer" scope (CsvReader defines its own YAML parser)
   ## todo: check edge cases - always should return a hash or nil
   ##     what to do with just integer, string or array etc. ???
 

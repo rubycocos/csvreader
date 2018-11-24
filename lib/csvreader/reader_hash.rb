@@ -6,6 +6,8 @@ class CsvHashReader
 ## add convenience shortcuts / aliases for CsvReader support classes
 Parser      = CsvReader::Parser
 ParserFixed = CsvReader::ParserFixed
+ParserJson  = CsvReader::ParserJson
+ParserYaml  = CsvReader::ParserYaml
 Converter   = CsvReader::Converter
 
 

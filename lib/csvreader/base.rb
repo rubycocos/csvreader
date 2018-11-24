@@ -23,6 +23,7 @@ require 'csvreader/parser_strict'   # flexible (strict - no leading/trailing spa
 require 'csvreader/parser_tab'
 require 'csvreader/parser_fixed'
 require 'csvreader/parser_json'
+require 'csvreader/parser_yaml'
 require 'csvreader/parser_table'
 require 'csvreader/parser'
 require 'csvreader/converter'
@@ -72,6 +73,8 @@ class Parser
   TABLE   = ParserTable.new    ## space-separated e.g /[ \t]+/
   FIXED   = ParserFixed.new
 
+  JSON    = ParserJson.new
+  YAML    = ParserYaml.new
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
   def self.numeric()         NUMERIC;         end
@@ -89,11 +92,17 @@ class Parser
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
+
   def self.tab()             TAB;             end
   def self.table()           TABLE;           end
   def self.fixed()           FIXED;           end
   def self.fix()             fixed;           end
   def self.f()               fixed;           end
+
+  def self.json()            JSON;            end
+  def self.j()               json;            end
+  def self.yaml()            YAML;            end
+  def self.y()               yaml;            end
 end # class Parser
 end # class CsvReader
 
@@ -118,6 +127,8 @@ class CsvReader
   TABLE = Builder.new( Parser::TABLE )
   FIXED = Builder.new( Parser::FIXED )
 
+  JSON  = Builder.new( Parser::JSON )
+  YAML  = Builder.new( Parser::YAML )
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
   def self.numeric()         NUMERIC;         end
@@ -135,11 +146,17 @@ class CsvReader
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
+
   def self.tab()             TAB;             end
   def self.table()           TABLE;           end
   def self.fixed()           FIXED;           end
   def self.fix()             fixed;           end
   def self.f()               fixed;           end
+
+  def self.json()            JSON;            end
+  def self.j()               json;            end
+  def self.yaml()            YAML;            end
+  def self.y()               yaml;            end
 end # class CsvReader
 
 
@@ -162,6 +179,9 @@ class CsvHashReader
   TABLE = Builder.new( Parser::TABLE )
   FIXED = Builder.new( Parser::FIXED )
 
+  JSON  = Builder.new( Parser::JSON )
+  YAML  = Builder.new( Parser::YAML )
+
 
   def self.default()         DEFAULT;         end ## alternative alias for DEFAULT
   def self.numeric()         NUMERIC;         end
@@ -175,11 +195,17 @@ class CsvHashReader
   def self.postgres()        postgresql;      end
   def self.postgresql_text() POSTGRESQL_TEXT; end
   def self.postgres_text()   postgresql_text; end
+
   def self.tab()             TAB;             end
   def self.table()           TABLE;           end
   def self.fixed()           FIXED;           end
   def self.fix()             fixed;           end
   def self.f()               fixed;           end
+
+  def self.json()            JSON;            end
+  def self.j()               json;            end
+  def self.yaml()            YAML;            end
+  def self.y()               yaml;            end
 end # class CsvHashReader
 
 
