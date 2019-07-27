@@ -223,6 +223,8 @@ def parse_field( input, sep: )
   value = ""
 
   numeric = config[:numeric]
+  hashtag = config[:hashtag]
+
 
   logger.debug "parse field"  if logger.debug?
 
@@ -301,6 +303,17 @@ def parse_field( input, sep: )
     while (c=input.peek; !(c==sep || c==LF || c==CR || input.eof?))
       if input.peek == BACKSLASH
         value << parse_escape( input, sep: sep )
+      ###   check for end-of-line comments (e.g. # ...)
+      ##    note: quick hack for now
+      ##      will NOT work in hashtag (hxl) mode and for % comments
+      ##      for now ALWAYS assumes # for comments
+      ##      and end-of-line comments ONLY work here (that is, in unquoted values and NOT in quotes values) for now
+      ##    todo/fix: note: require leading space for comment hash (#) for now- why? why not?
+      ##                    require trailing space after comment hash (#) - why? why not?
+    elsif (hashtag == false || hashtag.nil?) && input.peek == COMMENT_HASH &&
+           (value.size == 0 || (value.size > 0 && value[-1] == ' '))
+        ## eat-up everything until end-of-line (eol)
+        skip_until_eol( input )
       else
         logger.debug "  add char >#{input.peek}< (#{input.peek.ord})"  if logger.debug?
         value << input.getc   ## note: eat-up all spaces (" ") and tabs (\t) too (strip trailing spaces at the end)

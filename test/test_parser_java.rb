@@ -60,11 +60,11 @@ end
 def test_comments
   assert_equal [["first",  "line", "" ],
                 ["second", "line", "tokenWith#no-comment" ],
-                ["third",  "line", "#no-comment" ]],
+                ["third",  "line" ]],
                 parser.default.parse( "first,line,\n" +
                               "second,line,tokenWith#no-comment\n" +
                               "# comment line \n" +
-                              "third,line,#no-comment\n" +
+                              "third,line  #inline-end-of-line-comment\n" +
                               "# penultimate comment\n" +
                               "# Final comment\n" )
 end
