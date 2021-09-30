@@ -1,0 +1,12 @@
+#######################
+# ignore ruby rake generated folders
+
+/pkg/
+/doc/
+
+
+################
+# ignore (top-level) datapackage folders
+
+/pack/
+/.pack/

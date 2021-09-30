@@ -1,0 +1,13 @@
+HISTORY.md
+LICENSE.md
+Manifest.txt
+README.md
+Rakefile
+datasets/hello.json.csv
+datasets/hello11.json.csv
+lib/csvjson.rb
+lib/csvjson/parser.rb
+lib/csvjson/version.rb
+test/helper.rb
+test/test_parser.rb
+test/test_parser_misc.rb
