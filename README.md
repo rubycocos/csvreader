@@ -9,5 +9,5 @@ Gem Family
 
 [csvyaml](csvyaml) - read tabular data in the CSV <3 YAML format, that is, comma-separated values (CSV) line-by-line records with yaml ain't markup language (YAML) encoding rules
 
-
+[csvrecord](csvrecord) - read in comma-separated values (csv) records with typed structs / schemas
 
