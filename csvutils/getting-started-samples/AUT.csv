@@ -1,0 +1,361 @@
+Season,Date,Team1,Team2,FT1,FT2
+2016/2017,23/07/16,Rapid Vienna,Ried,5,0
+2016/2017,23/07/16,Altach,AC Wolfsberger,1,0
+2016/2017,23/07/16,Sturm Graz,Salzburg,3,1
+2016/2017,24/07/16,St. Polten,Austria Vienna,1,2
+2016/2017,24/07/16,Mattersburg,Admira,0,1
+2016/2017,30/07/16,Salzburg,AC Wolfsberger,1,1
+2016/2017,30/07/16,Ried,Sturm Graz,1,0
+2016/2017,31/07/16,Altach,Rapid Vienna,1,0
+2016/2017,31/07/16,Austria Vienna,Mattersburg,3,1
+2016/2017,31/07/16,St. Polten,Admira,2,1
+2016/2017,06/08/16,Mattersburg,Sturm Graz,0,2
+2016/2017,06/08/16,AC Wolfsberger,Ried,1,0
+2016/2017,06/08/16,Admira,Altach,1,2
+2016/2017,06/08/16,Salzburg,St. Polten,2,0
+2016/2017,07/08/16,Austria Vienna,Rapid Vienna,1,4
+2016/2017,13/08/16,Ried,Salzburg,0,2
+2016/2017,13/08/16,Altach,St. Polten,3,1
+2016/2017,13/08/16,Mattersburg,AC Wolfsberger,3,1
+2016/2017,13/08/16,Rapid Vienna,Admira,4,0
+2016/2017,14/08/16,Sturm Graz,Austria Vienna,3,1
+2016/2017,20/08/16,St. Polten,Sturm Graz,1,3
+2016/2017,20/08/16,Admira,Ried,1,0
+2016/2017,20/08/16,Salzburg,Mattersburg,3,1
+2016/2017,21/08/16,AC Wolfsberger,Rapid Vienna,1,1
+2016/2017,21/08/16,Austria Vienna,Altach,3,1
+2016/2017,27/08/16,Sturm Graz,Altach,3,1
+2016/2017,27/08/16,AC Wolfsberger,Admira,5,0
+2016/2017,27/08/16,Mattersburg,St. Polten,1,1
+2016/2017,28/08/16,Rapid Vienna,Salzburg,0,0
+2016/2017,28/08/16,Ried,Austria Vienna,1,1
+2016/2017,10/09/16,Sturm Graz,Rapid Vienna,1,1
+2016/2017,10/09/16,Altach,Mattersburg,2,1
+2016/2017,10/09/16,Austria Vienna,AC Wolfsberger,4,1
+2016/2017,10/09/16,St. Polten,Ried,2,3
+2016/2017,11/09/16,Admira,Salzburg,0,4
+2016/2017,17/09/16,Ried,Altach,2,1
+2016/2017,17/09/16,AC Wolfsberger,St. Polten,1,1
+2016/2017,17/09/16,Admira,Sturm Graz,0,3
+2016/2017,18/09/16,Salzburg,Austria Vienna,4,1
+2016/2017,18/09/16,Rapid Vienna,Mattersburg,3,0
+2016/2017,24/09/16,St. Polten,Rapid Vienna,1,1
+2016/2017,24/09/16,Austria Vienna,Admira,1,2
+2016/2017,24/09/16,Mattersburg,Ried,1,1
+2016/2017,24/09/16,Sturm Graz,AC Wolfsberger,3,0
+2016/2017,25/09/16,Altach,Salzburg,0,0
+2016/2017,01/10/16,AC Wolfsberger,Altach,1,2
+2016/2017,01/10/16,Admira,Mattersburg,1,0
+2016/2017,02/10/16,Ried,Rapid Vienna,4,2
+2016/2017,02/10/16,Salzburg,Sturm Graz,0,1
+2016/2017,02/10/16,Austria Vienna,St. Polten,2,1
+2016/2017,15/10/16,AC Wolfsberger,Salzburg,2,2
+2016/2017,15/10/16,Admira,St. Polten,1,1
+2016/2017,15/10/16,Rapid Vienna,Altach,1,1
+2016/2017,15/10/16,Sturm Graz,Ried,1,0
+2016/2017,16/10/16,Mattersburg,Austria Vienna,0,2
+2016/2017,22/10/16,Sturm Graz,Mattersburg,2,2
+2016/2017,22/10/16,Altach,Admira,2,0
+2016/2017,22/10/16,Ried,AC Wolfsberger,0,1
+2016/2017,23/10/16,St. Polten,Salzburg,1,5
+2016/2017,23/10/16,Rapid Vienna,Austria Vienna,0,2
+2016/2017,29/10/16,Admira,Rapid Vienna,1,2
+2016/2017,29/10/16,AC Wolfsberger,Mattersburg,3,0
+2016/2017,29/10/16,Salzburg,Ried,1,0
+2016/2017,29/10/16,St. Polten,Altach,0,1
+2016/2017,30/10/16,Austria Vienna,Sturm Graz,2,0
+2016/2017,05/11/16,Sturm Graz,St. Polten,1,2
+2016/2017,05/11/16,Ried,Admira,2,1
+2016/2017,06/11/16,Rapid Vienna,AC Wolfsberger,0,1
+2016/2017,06/11/16,Altach,Austria Vienna,5,1
+2016/2017,06/11/16,Mattersburg,Salzburg,2,1
+2016/2017,19/11/16,Altach,Sturm Graz,1,1
+2016/2017,19/11/16,Admira,AC Wolfsberger,4,1
+2016/2017,19/11/16,Austria Vienna,Ried,2,0
+2016/2017,19/11/16,St. Polten,Mattersburg,2,2
+2016/2017,20/11/16,Salzburg,Rapid Vienna,2,1
+2016/2017,26/11/16,Ried,St. Polten,1,2
+2016/2017,26/11/16,Mattersburg,Altach,1,2
+2016/2017,27/11/16,AC Wolfsberger,Austria Vienna,0,3
+2016/2017,27/11/16,Rapid Vienna,Sturm Graz,1,2
+2016/2017,27/11/16,Salzburg,Admira,0,1
+2016/2017,29/11/16,Altach,Ried,1,0
+2016/2017,30/11/16,Austria Vienna,Salzburg,1,3
+2016/2017,30/11/16,Mattersburg,Rapid Vienna,1,1
+2016/2017,30/11/16,St. Polten,AC Wolfsberger,0,4
+2016/2017,30/11/16,Sturm Graz,Admira,0,2
+2016/2017,03/12/16,Rapid Vienna,St. Polten,1,0
+2016/2017,03/12/16,Admira,Austria Vienna,0,2
+2016/2017,03/12/16,Ried,Mattersburg,2,1
+2016/2017,03/12/16,Salzburg,Altach,4,1
+2016/2017,04/12/16,AC Wolfsberger,Sturm Graz,0,4
+2016/2017,10/12/16,Altach,AC Wolfsberger,2,1
+2016/2017,10/12/16,Mattersburg,Admira,2,0
+2016/2017,11/12/16,Rapid Vienna,Ried,3,1
+2016/2017,11/12/16,Sturm Graz,Salzburg,0,1
+2016/2017,12/12/16,St. Polten,Austria Vienna,2,1
+2016/2017,17/12/16,Ried,Sturm Graz,0,3
+2016/2017,17/12/16,Austria Vienna,Mattersburg,2,0
+2016/2017,17/12/16,Salzburg,AC Wolfsberger,3,0
+2016/2017,17/12/16,St. Polten,Admira,2,2
+2016/2017,18/12/16,Altach,Rapid Vienna,3,1
+2016/2017,11/02/17,Admira,Altach,1,1
+2016/2017,11/02/17,AC Wolfsberger,Ried,1,0
+2016/2017,11/02/17,Mattersburg,Sturm Graz,1,0
+2016/2017,11/02/17,Salzburg,St. Polten,2,0
+2016/2017,12/02/17,Austria Vienna,Rapid Vienna,1,1
+2016/2017,18/02/17,Sturm Graz,Austria Vienna,0,4
+2016/2017,18/02/17,Altach,St. Polten,1,2
+2016/2017,18/02/17,Mattersburg,AC Wolfsberger,2,1
+2016/2017,18/02/17,Rapid Vienna,Admira,0,0
+2016/2017,19/02/17,Ried,Salzburg,1,6
+2016/2017,25/02/17,AC Wolfsberger,Rapid Vienna,2,1
+2016/2017,25/02/17,Admira,Ried,1,0
+2016/2017,25/02/17,Austria Vienna,Altach,1,3
+2016/2017,25/02/17,Salzburg,Mattersburg,1,0
+2016/2017,26/02/17,St. Polten,Sturm Graz,2,1
+2016/2017,04/03/17,Sturm Graz,Altach,3,0
+2016/2017,04/03/17,AC Wolfsberger,Admira,1,1
+2016/2017,04/03/17,Mattersburg,St. Polten,1,0
+2016/2017,04/03/17,Ried,Austria Vienna,0,3
+2016/2017,05/03/17,Rapid Vienna,Salzburg,0,1
+2016/2017,11/03/17,St. Polten,Ried,1,0
+2016/2017,11/03/17,Admira,Salzburg,1,1
+2016/2017,11/03/17,Altach,Mattersburg,3,0
+2016/2017,11/03/17,Austria Vienna,AC Wolfsberger,3,0
+2016/2017,12/03/17,Sturm Graz,Rapid Vienna,2,1
+2016/2017,18/03/17,Rapid Vienna,Mattersburg,1,1
+2016/2017,18/03/17,AC Wolfsberger,St. Polten,1,0
+2016/2017,18/03/17,Admira,Sturm Graz,1,0
+2016/2017,18/03/17,Ried,Altach,2,0
+2016/2017,19/03/17,Salzburg,Austria Vienna,5,0
+2016/2017,01/04/17,St. Polten,Rapid Vienna,1,1
+2016/2017,01/04/17,Austria Vienna,Admira,0,2
+2016/2017,01/04/17,Mattersburg,Ried,2,1
+2016/2017,01/04/17,Sturm Graz,AC Wolfsberger,4,0
+2016/2017,02/04/17,Altach,Salzburg,0,5
+2016/2017,08/04/17,Ried,Rapid Vienna,3,0
+2016/2017,08/04/17,AC Wolfsberger,Altach,0,0
+2016/2017,08/04/17,Admira,Mattersburg,0,2
+2016/2017,08/04/17,Austria Vienna,St. Polten,1,2
+2016/2017,09/04/17,Salzburg,Sturm Graz,1,0
+2016/2017,15/04/17,AC Wolfsberger,Salzburg,0,2
+2016/2017,15/04/17,Admira,St. Polten,2,0
+2016/2017,15/04/17,Rapid Vienna,Altach,3,0
+2016/2017,15/04/17,Sturm Graz,Ried,1,0
+2016/2017,16/04/17,Mattersburg,Austria Vienna,0,3
+2016/2017,22/04/17,Sturm Graz,Mattersburg,0,2
+2016/2017,22/04/17,Altach,Admira,0,0
+2016/2017,22/04/17,Ried,AC Wolfsberger,1,1
+2016/2017,22/04/17,St. Polten,Salzburg,1,2
+2016/2017,23/04/17,Rapid Vienna,Austria Vienna,0,2
+2016/2017,29/04/17,Austria Vienna,Sturm Graz,4,1
+2016/2017,29/04/17,AC Wolfsberger,Mattersburg,2,2
+2016/2017,29/04/17,Salzburg,Ried,1,1
+2016/2017,29/04/17,St. Polten,Altach,3,3
+2016/2017,30/04/17,Admira,Rapid Vienna,3,2
+2016/2017,06/05/17,Mattersburg,Salzburg,2,1
+2016/2017,06/05/17,Rapid Vienna,AC Wolfsberger,4,0
+2016/2017,06/05/17,Ried,Admira,1,0
+2016/2017,06/05/17,Sturm Graz,St. Polten,3,2
+2016/2017,07/05/17,Altach,Austria Vienna,1,1
+2016/2017,13/05/17,Salzburg,Rapid Vienna,1,0
+2016/2017,13/05/17,Admira,AC Wolfsberger,3,2
+2016/2017,13/05/17,Austria Vienna,Ried,3,0
+2016/2017,13/05/17,St. Polten,Mattersburg,1,0
+2016/2017,14/05/17,Altach,Sturm Graz,1,2
+2016/2017,20/05/17,Ried,St. Polten,1,1
+2016/2017,20/05/17,AC Wolfsberger,Austria Vienna,2,1
+2016/2017,20/05/17,Mattersburg,Altach,1,0
+2016/2017,20/05/17,Salzburg,Admira,2,0
+2016/2017,21/05/17,Rapid Vienna,Sturm Graz,1,0
+2016/2017,25/05/17,Altach,Ried,0,2
+2016/2017,25/05/17,Austria Vienna,Salzburg,2,3
+2016/2017,25/05/17,Mattersburg,Rapid Vienna,1,3
+2016/2017,25/05/17,St. Polten,AC Wolfsberger,1,1
+2016/2017,25/05/17,Sturm Graz,Admira,2,1
+2016/2017,28/05/17,AC Wolfsberger,Sturm Graz,1,0
+2016/2017,28/05/17,Admira,Austria Vienna,1,6
+2016/2017,28/05/17,Rapid Vienna,St. Polten,2,1
+2016/2017,28/05/17,Ried,Mattersburg,2,3
+2016/2017,28/05/17,Salzburg,Altach,1,0
+2017/2018,22/07/17,Rapid Vienna,Mattersburg,2,2
+2017/2018,22/07/17,AC Wolfsberger,Salzburg,0,2
+2017/2018,22/07/17,LASK Linz,Admira,3,0
+2017/2018,23/07/17,Altach,Austria Vienna,3,0
+2017/2018,23/07/17,Sturm Graz,St. Polten,3,2
+2017/2018,29/07/17,Salzburg,LASK Linz,1,1
+2017/2018,29/07/17,Mattersburg,AC Wolfsberger,1,0
+2017/2018,29/07/17,St. Polten,Rapid Vienna,1,4
+2017/2018,30/07/17,Austria Vienna,Sturm Graz,2,3
+2017/2018,30/07/17,Admira,Altach,4,1
+2017/2018,05/08/17,LASK Linz,St. Polten,2,0
+2017/2018,05/08/17,Salzburg,Admira,5,1
+2017/2018,06/08/17,AC Wolfsberger,Altach,1,0
+2017/2018,06/08/17,Rapid Vienna,Austria Vienna,2,2
+2017/2018,06/08/17,Mattersburg,Sturm Graz,2,3
+2017/2018,12/08/17,Altach,Salzburg,0,1
+2017/2018,12/08/17,Austria Vienna,LASK Linz,2,0
+2017/2018,12/08/17,St. Polten,Mattersburg,0,0
+2017/2018,12/08/17,Sturm Graz,AC Wolfsberger,2,1
+2017/2018,13/08/17,Admira,Rapid Vienna,3,1
+2017/2018,19/08/17,Rapid Vienna,Sturm Graz,1,2
+2017/2018,19/08/17,AC Wolfsberger,Admira,2,0
+2017/2018,20/08/17,LASK Linz,Altach,0,0
+2017/2018,20/08/17,Salzburg,St. Polten,5,1
+2017/2018,20/08/17,Mattersburg,Austria Vienna,1,3
+2017/2018,26/08/17,AC Wolfsberger,St. Polten,2,1
+2017/2018,26/08/17,Rapid Vienna,LASK Linz,1,0
+2017/2018,27/08/17,Altach,Mattersburg,1,0
+2017/2018,27/08/17,Sturm Graz,Salzburg,1,0
+2017/2018,27/08/17,Admira,Austria Vienna,1,3
+2017/2018,09/09/17,LASK Linz,Sturm Graz,2,1
+2017/2018,09/09/17,Austria Vienna,AC Wolfsberger,2,2
+2017/2018,09/09/17,Mattersburg,Admira,0,5
+2017/2018,09/09/17,St. Polten,Altach,1,2
+2017/2018,10/09/17,Salzburg,Rapid Vienna,2,2
+2017/2018,16/09/17,Altach,Rapid Vienna,2,2
+2017/2018,16/09/17,AC Wolfsberger,LASK Linz,0,0
+2017/2018,16/09/17,Admira,Sturm Graz,2,1
+2017/2018,17/09/17,Mattersburg,Salzburg,1,2
+2017/2018,17/09/17,Austria Vienna,St. Polten,5,1
+2017/2018,23/09/17,Rapid Vienna,AC Wolfsberger,4,2
+2017/2018,23/09/17,LASK Linz,Mattersburg,2,2
+2017/2018,23/09/17,St. Polten,Admira,1,1
+2017/2018,23/09/17,Sturm Graz,Altach,0,0
+2017/2018,24/09/17,Salzburg,Austria Vienna,0,0
+2017/2018,30/09/17,St. Polten,Sturm Graz,0,3
+2017/2018,30/09/17,Admira,LASK Linz,4,2
+2017/2018,30/09/17,Mattersburg,Rapid Vienna,0,1
+2017/2018,01/10/17,Austria Vienna,Altach,2,0
+2017/2018,01/10/17,Salzburg,AC Wolfsberger,2,1
+2017/2018,14/10/17,LASK Linz,Salzburg,1,3
+2017/2018,14/10/17,AC Wolfsberger,Mattersburg,2,2
+2017/2018,14/10/17,Altach,Admira,2,2
+2017/2018,14/10/17,Rapid Vienna,St. Polten,1,0
+2017/2018,15/10/17,Sturm Graz,Austria Vienna,3,0
+2017/2018,21/10/17,Sturm Graz,Mattersburg,3,2
+2017/2018,21/10/17,Altach,AC Wolfsberger,3,2
+2017/2018,21/10/17,St. Polten,LASK Linz,0,1
+2017/2018,22/10/17,Admira,Salzburg,1,1
+2017/2018,22/10/17,Austria Vienna,Rapid Vienna,0,1
+2017/2018,28/10/17,Rapid Vienna,Admira,1,0
+2017/2018,28/10/17,LASK Linz,Austria Vienna,2,2
+2017/2018,28/10/17,Mattersburg,St. Polten,1,1
+2017/2018,28/10/17,Salzburg,Altach,2,0
+2017/2018,29/10/17,AC Wolfsberger,Sturm Graz,0,2
+2017/2018,04/11/17,Sturm Graz,Rapid Vienna,0,0
+2017/2018,04/11/17,Admira,AC Wolfsberger,0,0
+2017/2018,04/11/17,Altach,LASK Linz,2,4
+2017/2018,05/11/17,Austria Vienna,Mattersburg,1,3
+2017/2018,05/11/17,St. Polten,Salzburg,1,3
+2017/2018,18/11/17,LASK Linz,Rapid Vienna,1,2
+2017/2018,18/11/17,Austria Vienna,Admira,2,3
+2017/2018,18/11/17,Mattersburg,Altach,1,0
+2017/2018,18/11/17,St. Polten,AC Wolfsberger,0,0
+2017/2018,19/11/17,Salzburg,Sturm Graz,5,0
+2017/2018,25/11/17,Sturm Graz,LASK Linz,1,0
+2017/2018,25/11/17,Admira,Mattersburg,2,0
+2017/2018,25/11/17,Altach,St. Polten,3,0
+2017/2018,26/11/17,AC Wolfsberger,Austria Vienna,1,2
+2017/2018,26/11/17,Rapid Vienna,Salzburg,2,3
+2017/2018,28/11/17,Sturm Graz,Admira,6,1
+2017/2018,29/11/17,LASK Linz,AC Wolfsberger,2,0
+2017/2018,29/11/17,Salzburg,Mattersburg,2,0
+2017/2018,29/11/17,St. Polten,Austria Vienna,1,0
+2017/2018,29/11/17,Rapid Vienna,Altach,1,2
+2017/2018,02/12/17,AC Wolfsberger,Rapid Vienna,0,0
+2017/2018,02/12/17,Admira,St. Polten,1,0
+2017/2018,02/12/17,Altach,Sturm Graz,1,2
+2017/2018,02/12/17,Mattersburg,LASK Linz,1,0
+2017/2018,03/12/17,Austria Vienna,Salzburg,1,1
+2017/2018,09/12/17,Rapid Vienna,Mattersburg,2,2
+2017/2018,09/12/17,LASK Linz,Admira,2,1
+2017/2018,09/12/17,Sturm Graz,St. Polten,3,2
+2017/2018,10/12/17,Altach,Austria Vienna,1,0
+2017/2018,10/12/17,AC Wolfsberger,Salzburg,0,0
+2017/2018,16/12/17,Salzburg,LASK Linz,0,0
+2017/2018,16/12/17,Admira,Altach,3,1
+2017/2018,16/12/17,Mattersburg,AC Wolfsberger,5,1
+2017/2018,16/12/17,St. Polten,Rapid Vienna,0,5
+2017/2018,17/12/17,Austria Vienna,Sturm Graz,1,0
+2017/2018,03/02/18,Mattersburg,Sturm Graz,1,0
+2017/2018,03/02/18,AC Wolfsberger,Altach,0,0
+2017/2018,03/02/18,LASK Linz,St. Polten,2,1
+2017/2018,03/02/18,Salzburg,Admira,2,1
+2017/2018,04/02/18,Rapid Vienna,Austria Vienna,1,1
+2017/2018,10/02/18,Altach,Salzburg,0,1
+2017/2018,10/02/18,Austria Vienna,LASK Linz,1,3
+2017/2018,10/02/18,St. Polten,Mattersburg,0,3
+2017/2018,10/02/18,Sturm Graz,AC Wolfsberger,0,1
+2017/2018,11/02/18,Admira,Rapid Vienna,2,1
+2017/2018,17/02/18,Rapid Vienna,Sturm Graz,1,1
+2017/2018,17/02/18,AC Wolfsberger,Admira,1,3
+2017/2018,17/02/18,LASK Linz,Altach,2,0
+2017/2018,17/02/18,Mattersburg,Austria Vienna,2,1
+2017/2018,18/02/18,Salzburg,St. Polten,4,0
+2017/2018,24/02/18,Admira,Austria Vienna,2,1
+2017/2018,24/02/18,AC Wolfsberger,St. Polten,0,1
+2017/2018,24/02/18,Altach,Mattersburg,1,1
+2017/2018,24/02/18,Rapid Vienna,LASK Linz,2,0
+2017/2018,25/02/18,Sturm Graz,Salzburg,2,4
+2017/2018,03/03/18,LASK Linz,Sturm Graz,0,2
+2017/2018,03/03/18,Austria Vienna,AC Wolfsberger,2,0
+2017/2018,03/03/18,Mattersburg,Admira,3,2
+2017/2018,03/03/18,St. Polten,Altach,1,2
+2017/2018,04/03/18,Salzburg,Rapid Vienna,1,0
+2017/2018,10/03/18,Altach,Rapid Vienna,0,0
+2017/2018,10/03/18,AC Wolfsberger,LASK Linz,0,3
+2017/2018,10/03/18,Admira,Sturm Graz,2,4
+2017/2018,10/03/18,Austria Vienna,St. Polten,4,0
+2017/2018,11/03/18,Mattersburg,Salzburg,2,2
+2017/2018,17/03/18,Rapid Vienna,AC Wolfsberger,5,1
+2017/2018,17/03/18,LASK Linz,Mattersburg,3,1
+2017/2018,17/03/18,St. Polten,Admira,1,2
+2017/2018,17/03/18,Sturm Graz,Altach,1,0
+2017/2018,18/03/18,Salzburg,Austria Vienna,5,0
+2017/2018,31/03/18,Admira,LASK Linz,0,1
+2017/2018,31/03/18,Austria Vienna,Altach,2,1
+2017/2018,31/03/18,Salzburg,AC Wolfsberger,2,0
+2017/2018,31/03/18,St. Polten,Sturm Graz,1,5
+2017/2018,01/04/18,Mattersburg,Rapid Vienna,2,4
+2017/2018,07/04/18,Sturm Graz,Austria Vienna,0,2
+2017/2018,07/04/18,AC Wolfsberger,Mattersburg,0,2
+2017/2018,07/04/18,Altach,Admira,1,2
+2017/2018,07/04/18,Rapid Vienna,St. Polten,2,1
+2017/2018,08/04/18,LASK Linz,Salzburg,1,0
+2017/2018,14/04/18,Sturm Graz,Mattersburg,3,0
+2017/2018,14/04/18,Altach,AC Wolfsberger,2,1
+2017/2018,14/04/18,St. Polten,LASK Linz,1,3
+2017/2018,15/04/18,Austria Vienna,Rapid Vienna,0,4
+2017/2018,15/04/18,Admira,Salzburg,2,6
+2017/2018,21/04/18,AC Wolfsberger,Sturm Graz,2,1
+2017/2018,21/04/18,LASK Linz,Austria Vienna,1,0
+2017/2018,21/04/18,Mattersburg,St. Polten,1,1
+2017/2018,22/04/18,Salzburg,Altach,3,1
+2017/2018,22/04/18,Rapid Vienna,Admira,4,1
+2017/2018,28/04/18,Austria Vienna,Mattersburg,2,3
+2017/2018,28/04/18,Admira,AC Wolfsberger,4,2
+2017/2018,28/04/18,Altach,LASK Linz,0,2
+2017/2018,29/04/18,Sturm Graz,Rapid Vienna,4,2
+2017/2018,29/04/18,St. Polten,Salzburg,0,2
+2017/2018,05/05/18,LASK Linz,Rapid Vienna,0,2
+2017/2018,05/05/18,Austria Vienna,Admira,0,0
+2017/2018,05/05/18,Mattersburg,Altach,0,1
+2017/2018,05/05/18,St. Polten,AC Wolfsberger,0,1
+2017/2018,06/05/18,Salzburg,Sturm Graz,4,1
+2017/2018,12/05/18,Sturm Graz,LASK Linz,3,1
+2017/2018,12/05/18,Admira,Mattersburg,1,1
+2017/2018,12/05/18,Altach,St. Polten,1,3
+2017/2018,13/05/18,Rapid Vienna,Salzburg,1,4
+2017/2018,15/05/18,AC Wolfsberger,Austria Vienna,2,1
+2017/2018,20/05/18,LASK Linz,AC Wolfsberger,1,3
+2017/2018,20/05/18,Rapid Vienna,Altach,4,1
+2017/2018,20/05/18,Salzburg,Mattersburg,1,0
+2017/2018,20/05/18,St. Polten,Austria Vienna,2,0
+2017/2018,20/05/18,Sturm Graz,Admira,2,0
+2017/2018,27/05/18,AC Wolfsberger,Rapid Vienna,0,0
+2017/2018,27/05/18,Admira,St. Polten,0,2
+2017/2018,27/05/18,Altach,Sturm Graz,0,0
+2017/2018,27/05/18,Austria Vienna,Salzburg,4,0
+2017/2018,27/05/18,Mattersburg,LASK Linz,2,1

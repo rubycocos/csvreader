@@ -11,3 +11,10 @@ Gem Family
 
 [csvrecord](csvrecord) - read in comma-separated values (csv) records with typed structs / schemas
 
+<!-- break -->
+
+[csvutils](csvutils) - tools 'n' scripts for working with comma-separated values (csv) datafiles - the world's most popular tabular data interchange format in text
+
+
+
+

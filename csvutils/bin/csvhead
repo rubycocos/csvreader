@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+###################
+# DEV TIPS:
+#
+# For local testing run like:
+#
+#    ruby -Ilib bin/csvhead
+#
+# Set the executable bit in Linux. Example:
+#
+#    % chmod a+x bin/csvhead
+#
+
+require 'csvutils'
+
+CsvTool.head( ARGV )

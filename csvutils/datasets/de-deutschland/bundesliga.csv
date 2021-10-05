@@ -1,0 +1,481 @@
+Spielzeit;Saison;Spieltag;Datum;Uhrzeit;Heim;Gast;Ergebnis;Halbzeit
+1;1963-1964;1;1963-08-24;17:00;Werder Bremen;Borussia Dortmund;3:2;1:1
+1;1963-1964;1;1963-08-24;17:00;1. FC Saarbruecken;1. FC Koeln;0:2;0:2
+1;1963-1964;1;1963-08-24;17:00;TSV 1860 Muenchen;Eintracht Braunschweig;1:1;1:0
+1;1963-1964;1;1963-08-24;17:00;Eintracht Frankfurt;1. FC Kaiserslautern;1:1;1:1
+1;1963-1964;1;1963-08-24;17:00;FC Schalke 04;VfB Stuttgart;2:0;2:0
+1;1963-1964;1;1963-08-24;17:00;Preussen Muenster;Hamburger SV;1:1;0:0
+1;1963-1964;1;1963-08-24;17:00;Karlsruher SC;MSV Duisburg;1:4;0:3
+1;1963-1964;1;1963-08-24;17:00;Hertha BSC;1. FC Nuernberg;1:1;0:1
+1;1963-1964;2;1963-08-31;17:00;Borussia Dortmund;TSV 1860 Muenchen;3:3;2:1
+1;1963-1964;2;1963-08-31;17:00;Hamburger SV;1. FC Saarbruecken;4:2;1:2
+1;1963-1964;2;1963-08-31;17:00;1. FC Nuernberg;Werder Bremen;3:0;2:0
+1;1963-1964;2;1963-08-31;17:00;1. FC Koeln;Karlsruher SC;4:0;2:0
+1;1963-1964;2;1963-08-31;17:00;1. FC Kaiserslautern;FC Schalke 04;2:3;1:1
+1;1963-1964;2;1963-08-31;17:00;VfB Stuttgart;Hertha BSC;2:0;2:0
+1;1963-1964;2;1963-08-31;17:00;MSV Duisburg;Eintracht Frankfurt;3:1;2:0
+1;1963-1964;2;1963-08-31;17:00;Eintracht Braunschweig;Preussen Muenster;1:0;1:0
+1;1963-1964;3;1963-09-07;16:30;TSV 1860 Muenchen;1. FC Koeln;1:3;0:0
+1;1963-1964;3;1963-09-07;16:30;Karlsruher SC;Hamburger SV;0:4;0:3
+1;1963-1964;3;1963-09-07;16:30;Eintracht Frankfurt;1. FC Nuernberg;2:3;1:1
+1;1963-1964;3;1963-09-07;16:30;FC Schalke 04;Borussia Dortmund;3:1;1:1
+1;1963-1964;3;1963-09-07;16:30;Werder Bremen;VfB Stuttgart;2:2;1:2
+1;1963-1964;3;1963-09-07;16:30;Hertha BSC;1. FC Kaiserslautern;2:2;0:2
+1;1963-1964;3;1963-09-07;16:30;Preussen Muenster;MSV Duisburg;4:2;2:0
+1;1963-1964;3;1963-09-07;16:30;1. FC Saarbruecken;Eintracht Braunschweig;2:2;0:1
+1;1963-1964;4;1963-09-14;16:30;1. FC Koeln;FC Schalke 04;2:2;1:2
+1;1963-1964;4;1963-09-14;16:30;1. FC Nuernberg;Preussen Muenster;2:2;1:2
+1;1963-1964;4;1963-09-14;16:30;Borussia Dortmund;1. FC Saarbruecken;2:1;0:1
+1;1963-1964;4;1963-09-14;16:30;Hamburger SV;Eintracht Frankfurt;3:0;1:0
+1;1963-1964;4;1963-09-14;16:30;VfB Stuttgart;TSV 1860 Muenchen;1:1;1:1
+1;1963-1964;4;1963-09-14;16:30;1. FC Kaiserslautern;Werder Bremen;3:0;1:0
+1;1963-1964;4;1963-09-14;16:30;MSV Duisburg;Hertha BSC;1:3;0:1
+1;1963-1964;4;1963-09-14;16:30;Eintracht Braunschweig;Karlsruher SC;2:0;1:0
+1;1963-1964;5;1963-09-21;16:30;FC Schalke 04;Hamburger SV;1:0;1:0
+1;1963-1964;5;1963-09-21;16:30;1. FC Saarbruecken;1. FC Nuernberg;3:5;2:2
+1;1963-1964;5;1963-09-21;16:30;Hertha BSC;1. FC Koeln;0:3;0:1
+1;1963-1964;5;1963-09-21;16:30;Karlsruher SC;Borussia Dortmund;1:3;0:2
+1;1963-1964;5;1963-09-21;16:30;TSV 1860 Muenchen;1. FC Kaiserslautern;3:0;0:0
+1;1963-1964;5;1963-09-21;16:30;Eintracht Frankfurt;Eintracht Braunschweig;3:0;2:0
+1;1963-1964;5;1963-09-21;16:30;Preussen Muenster;VfB Stuttgart;4:2;1:2
+1;1963-1964;5;1963-09-21;16:30;Werder Bremen;MSV Duisburg;1:1;0:1
+1;1963-1964;6;1963-10-05;15:30;1. FC Koeln;Werder Bremen;4:3;0:1
+1;1963-1964;6;1963-10-05;15:30;1. FC Kaiserslautern;Preussen Muenster;0:0;0:0
+1;1963-1964;6;1963-10-05;15:30;MSV Duisburg;TSV 1860 Muenchen;3:0;1:0
+1;1963-1964;6;1963-10-05;15:30;VfB Stuttgart;1. FC Saarbruecken;3:1;1:0
+1;1963-1964;6;1963-10-05;18:30;1. FC Nuernberg;Karlsruher SC;2:4;2:1
+1;1963-1964;6;1963-10-05;19:00;Hamburger SV;Hertha BSC;5:1;1:1
+1;1963-1964;6;1963-10-05;20:00;Eintracht Braunschweig;FC Schalke 04;4:3;2:1
+1;1963-1964;6;1963-10-05;20:00;Borussia Dortmund;Eintracht Frankfurt;3:0;3:0
+1;1963-1964;7;1963-10-12;15:30;Eintracht Frankfurt;1. FC Koeln;2:1;2:1
+1;1963-1964;7;1963-10-12;15:30;Hertha BSC;Eintracht Braunschweig;1:2;1:2
+1;1963-1964;7;1963-10-12;15:30;TSV 1860 Muenchen;1. FC Nuernberg;5:0;3:0
+1;1963-1964;7;1963-10-12;15:30;Karlsruher SC;VfB Stuttgart;0:3;0:2
+1;1963-1964;7;1963-10-12;15:30;FC Schalke 04;MSV Duisburg;2:2;2:1
+1;1963-1964;7;1963-10-12;15:30;1. FC Saarbruecken;1. FC Kaiserslautern;2:4;2:1
+1;1963-1964;7;1963-10-12;17:00;Werder Bremen;Hamburger SV;4:2;2:1
+1;1963-1964;7;1963-10-12;18:00;Preussen Muenster;Borussia Dortmund;1:2;1:0
+1;1963-1964;8;1963-10-19;15:30;Hamburger SV;TSV 1860 Muenchen;5:0;3:0
+1;1963-1964;8;1963-10-19;15:30;1. FC Koeln;Preussen Muenster;3:0;1:0
+1;1963-1964;8;1963-10-19;15:30;1. FC Nuernberg;FC Schalke 04;0:2;0:1
+1;1963-1964;8;1963-10-19;15:30;VfB Stuttgart;Eintracht Frankfurt;0:0;0:0
+1;1963-1964;8;1963-10-19;15:30;MSV Duisburg;1. FC Saarbruecken;3:1;1:1
+1;1963-1964;8;1963-10-19;15:30;1. FC Kaiserslautern;Karlsruher SC;1:0;1:0
+1;1963-1964;8;1963-10-19;15:30;Eintracht Braunschweig;Werder Bremen;1:1;1:1
+1;1963-1964;8;1963-10-19;20:00;Borussia Dortmund;Hertha BSC;7:2;4:1
+1;1963-1964;9;1963-10-26;15:30;VfB Stuttgart;Borussia Dortmund;2:1;1:0
+1;1963-1964;9;1963-10-26;15:30;FC Schalke 04;Werder Bremen;2:3;1:1
+1;1963-1964;9;1963-10-26;15:30;Hamburger SV;Eintracht Braunschweig;2:1;1:1
+1;1963-1964;9;1963-10-26;15:30;1. FC Koeln;MSV Duisburg;3:3;1:2
+1;1963-1964;9;1963-10-26;15:30;1. FC Nuernberg;1. FC Kaiserslautern;0:5;0:3
+1;1963-1964;9;1963-10-26;15:30;Preussen Muenster;TSV 1860 Muenchen;0:0;0:0
+1;1963-1964;9;1963-10-26;15:30;Hertha BSC;Eintracht Frankfurt;1:3;1:0
+1;1963-1964;9;1963-10-26;15:30;1. FC Saarbruecken;Karlsruher SC;1:3;0:1
+1;1963-1964;10;1963-11-08;20:00;Eintracht Braunschweig;1. FC Koeln;1:1;1:1
+1;1963-1964;10;1963-11-09;14:30;1. FC Kaiserslautern;VfB Stuttgart;1:3;1:2
+1;1963-1964;10;1963-11-09;14:30;MSV Duisburg;Hamburger SV;4:0;0:0
+1;1963-1964;10;1963-11-09;14:30;Eintracht Frankfurt;FC Schalke 04;4:2;1:1
+1;1963-1964;10;1963-11-09;14:30;TSV 1860 Muenchen;1. FC Saarbruecken;7:1;1:1
+1;1963-1964;10;1963-11-09;14:30;Karlsruher SC;Preussen Muenster;4:2;4:1
+1;1963-1964;10;1963-11-09;17:00;Werder Bremen;Hertha BSC;2:2;1:0
+1;1963-1964;10;1963-11-09;19:00;Borussia Dortmund;1. FC Nuernberg;3:1;1:1
+1;1963-1964;11;1963-11-16;14:30;1. FC Koeln;Hamburger SV;4:1;1:1
+1;1963-1964;11;1963-11-16;14:30;Eintracht Braunschweig;MSV Duisburg;0:0;0:0
+1;1963-1964;11;1963-11-16;14:30;1. FC Saarbruecken;Preussen Muenster;1:1;1:1
+1;1963-1964;11;1963-11-16;14:30;VfB Stuttgart;1. FC Nuernberg;1:0;1:0
+1;1963-1964;11;1963-11-16;17:00;TSV 1860 Muenchen;Karlsruher SC;1:0;0:0
+1;1963-1964;11;1963-11-16;17:00;Werder Bremen;Eintracht Frankfurt;4:1;2:1
+1;1963-1964;11;1963-11-16;17:30;Borussia Dortmund;1. FC Kaiserslautern;9:3;5:1
+1;1963-1964;11;1963-11-16;19:00;FC Schalke 04;Hertha BSC;1:0;0:0
+1;1963-1964;12;1963-11-23;14:30;1. FC Nuernberg;1. FC Koeln;2:2;2:1
+1;1963-1964;12;1963-11-23;14:30;Hamburger SV;VfB Stuttgart;1:1;0:1
+1;1963-1964;12;1963-11-23;14:30;MSV Duisburg;Borussia Dortmund;3:3;1:3
+1;1963-1964;12;1963-11-23;14:30;Preussen Muenster;FC Schalke 04;2:2;1:0
+1;1963-1964;12;1963-11-23;14:30;1. FC Kaiserslautern;Eintracht Braunschweig;2:1;1:0
+1;1963-1964;12;1963-11-23;14:30;Hertha BSC;1. FC Saarbruecken;3:2;1:2
+1;1963-1964;12;1963-11-23;14:30;Karlsruher SC;Werder Bremen;1:1;1:0
+1;1963-1964;12;1963-11-23;17:00;Eintracht Frankfurt;TSV 1860 Muenchen;5:2;2:1
+1;1963-1964;13;1963-11-30;14:30;1. FC Nuernberg;MSV Duisburg;2:0;1:0
+1;1963-1964;13;1963-11-30;14:30;Hertha BSC;Karlsruher SC;2:3;1:2
+1;1963-1964;13;1963-11-30;14:30;1. FC Kaiserslautern;Hamburger SV;3:2;2:0
+1;1963-1964;13;1963-11-30;17:00;VfB Stuttgart;Eintracht Braunschweig;5:0;3:0
+1;1963-1964;13;1963-11-30;17:00;Werder Bremen;1. FC Saarbruecken;0:3;0:1
+1;1963-1964;13;1963-11-30;17:00;Eintracht Frankfurt;Preussen Muenster;3:0;0:0
+1;1963-1964;13;1963-11-30;19:00;FC Schalke 04;TSV 1860 Muenchen;2:1;2:0
+1;1963-1964;13;1963-11-30;20:00;Borussia Dortmund;1. FC Koeln;2:3;2:3
+1;1963-1964;14;1963-12-07;14:15;MSV Duisburg;VfB Stuttgart;3:0;1:0
+1;1963-1964;14;1963-12-07;14:15;Preussen Muenster;Werder Bremen;1:3;0:2
+1;1963-1964;14;1963-12-07;15:00;Karlsruher SC;FC Schalke 04;1:1;0:0
+1;1963-1964;14;1963-12-07;17:00;TSV 1860 Muenchen;Hertha BSC;1:2;0:0
+1;1963-1964;14;1963-12-07;18:30;1. FC Saarbruecken;Eintracht Frankfurt;0:4;0:2
+1;1963-1964;14;1963-12-07;19:00;1. FC Koeln;1. FC Kaiserslautern;5:1;1:0
+1;1963-1964;14;1963-12-07;19:00;Eintracht Braunschweig;1. FC Nuernberg;2:0;0:0
+1;1963-1964;14;1963-12-21;19:30;Hamburger SV;Borussia Dortmund;2:1;0:1
+1;1963-1964;15;1963-12-14;14:15;1. FC Nuernberg;Hamburger SV;3:2;1:1
+1;1963-1964;15;1963-12-14;14:15;Eintracht Frankfurt;Karlsruher SC;0:3;0:1
+1;1963-1964;15;1963-12-14;14:15;Werder Bremen;TSV 1860 Muenchen;4:1;1:1
+1;1963-1964;15;1963-12-14;14:15;1. FC Kaiserslautern;MSV Duisburg;1:1;0:0
+1;1963-1964;15;1963-12-14;16:30;FC Schalke 04;1. FC Saarbruecken;4:1;0:0
+1;1963-1964;15;1963-12-14;16:45;VfB Stuttgart;1. FC Koeln;0:1;0:0
+1;1963-1964;15;1963-12-14;17:00;Hertha BSC;Preussen Muenster;2:0;1:0
+1;1963-1964;15;1963-12-14;20:00;Borussia Dortmund;Eintracht Braunschweig;3:0;1:0
+1;1963-1964;16;1964-01-11;14:30;Borussia Dortmund;Werder Bremen;4:3;4:0
+1;1963-1964;16;1964-01-11;14:30;1. FC Koeln;1. FC Saarbruecken;1:3;1:3
+1;1963-1964;16;1964-01-11;14:30;1. FC Kaiserslautern;Eintracht Frankfurt;1:1;1:1
+1;1963-1964;16;1964-01-11;14:30;Hamburger SV;Preussen Muenster;5:0;2:0
+1;1963-1964;16;1964-01-11;14:30;MSV Duisburg;Karlsruher SC;2:0;2:0
+1;1963-1964;16;1964-01-11;14:30;1. FC Nuernberg;Hertha BSC;2:3;2:2
+1;1963-1964;16;1964-01-11;17:00;Eintracht Braunschweig;TSV 1860 Muenchen;0:1;0:1
+1;1963-1964;16;1964-02-08;15:30;VfB Stuttgart;FC Schalke 04;2:0;1:0
+1;1963-1964;17;1964-01-18;14:30;TSV 1860 Muenchen;Borussia Dortmund;6:1;4:1
+1;1963-1964;17;1964-01-18;14:30;Karlsruher SC;1. FC Koeln;2:2;0:1
+1;1963-1964;17;1964-01-18;14:30;FC Schalke 04;1. FC Kaiserslautern;4:0;2:0
+1;1963-1964;17;1964-01-18;14:30;Hertha BSC;VfB Stuttgart;0:2;0:0
+1;1963-1964;17;1964-01-18;14:30;Preussen Muenster;Eintracht Braunschweig;0:2;0:0
+1;1963-1964;17;1964-01-18;17:00;Werder Bremen;1. FC Nuernberg;2:1;1:1
+1;1963-1964;17;1964-02-08;15:30;1. FC Saarbruecken;Hamburger SV;1:1;0:0
+1;1963-1964;17;1964-02-08;15:30;Eintracht Frankfurt;MSV Duisburg;2:2;1:1
+1;1963-1964;18;1964-01-25;14:30;1. FC Koeln;TSV 1860 Muenchen;2:2;1:1
+1;1963-1964;18;1964-01-25;14:30;Hamburger SV;Karlsruher SC;1:1;0:1
+1;1963-1964;18;1964-01-25;14:30;1. FC Nuernberg;Eintracht Frankfurt;1:0;1:0
+1;1963-1964;18;1964-01-25;14:30;Borussia Dortmund;FC Schalke 04;3:0;0:0
+1;1963-1964;18;1964-01-25;14:30;MSV Duisburg;Preussen Muenster;0:0;0:0
+1;1963-1964;18;1964-01-25;15:00;VfB Stuttgart;Werder Bremen;2:0;1:0
+1;1963-1964;18;1964-01-25;19:30;Eintracht Braunschweig;1. FC Saarbruecken;3:1;1:1
+1;1963-1964;18;1964-02-08;15:30;1. FC Kaiserslautern;Hertha BSC;3:0;1:0
+1;1963-1964;19;1964-02-01;15:30;FC Schalke 04;1. FC Koeln;2:3;0:2
+1;1963-1964;19;1964-02-01;15:30;Werder Bremen;1. FC Kaiserslautern;2:0;1:0
+1;1963-1964;19;1964-02-01;15:30;Karlsruher SC;Eintracht Braunschweig;3:1;1:0
+1;1963-1964;19;1964-02-08;15:30;Preussen Muenster;1. FC Nuernberg;0:1;0:0
+1;1963-1964;19;1964-03-26;20:15;TSV 1860 Muenchen;VfB Stuttgart;1:1;1:0
+1;1963-1964;19;1964-03-27;16:30;Hertha BSC;MSV Duisburg;5:2;3:1
+1;1963-1964;19;1964-03-30;14:30;1. FC Saarbruecken;Borussia Dortmund;2:1;0:0
+1;1963-1964;19;1964-03-30;18:00;Eintracht Frankfurt;Hamburger SV;2:2;1:1
+1;1963-1964;20;1964-02-15;15:30;Hamburger SV;FC Schalke 04;3:1;0:0
+1;1963-1964;20;1964-02-15;15:30;1. FC Nuernberg;1. FC Saarbruecken;2:0;1:0
+1;1963-1964;20;1964-02-15;15:30;1. FC Koeln;Hertha BSC;3:1;2:0
+1;1963-1964;20;1964-02-15;15:30;Borussia Dortmund;Karlsruher SC;3:2;2:1
+1;1963-1964;20;1964-02-15;15:30;1. FC Kaiserslautern;TSV 1860 Muenchen;2:1;1:0
+1;1963-1964;20;1964-02-15;15:30;Eintracht Braunschweig;Eintracht Frankfurt;0:3;0:2
+1;1963-1964;20;1964-02-15;15:30;VfB Stuttgart;Preussen Muenster;0:3;0:1
+1;1963-1964;20;1964-02-15;15:30;MSV Duisburg;Werder Bremen;1:0;0:0
+1;1963-1964;21;1964-02-22;15:30;Werder Bremen;1. FC Koeln;1:1;1:0
+1;1963-1964;21;1964-02-22;15:30;Preussen Muenster;1. FC Kaiserslautern;1:0;0:0
+1;1963-1964;21;1964-02-22;15:30;Hertha BSC;Hamburger SV;1:2;0:1
+1;1963-1964;21;1964-02-22;15:30;Karlsruher SC;1. FC Nuernberg;1:3;1:2
+1;1963-1964;21;1964-02-22;15:30;FC Schalke 04;Eintracht Braunschweig;2:0;1:0
+1;1963-1964;21;1964-02-22;15:30;Eintracht Frankfurt;Borussia Dortmund;2:1;1:0
+1;1963-1964;21;1964-02-22;15:30;1. FC Saarbruecken;VfB Stuttgart;0:1;0:0
+1;1963-1964;21;1964-03-31;20:15;TSV 1860 Muenchen;MSV Duisburg;0:0;0:0
+1;1963-1964;22;1964-02-29;15:30;1. FC Koeln;Eintracht Frankfurt;1:1;1:0
+1;1963-1964;22;1964-02-29;15:30;1. FC Nuernberg;TSV 1860 Muenchen;2:2;1:1
+1;1963-1964;22;1964-02-29;15:30;VfB Stuttgart;Karlsruher SC;4:1;3:0
+1;1963-1964;22;1964-02-29;15:30;MSV Duisburg;FC Schalke 04;3:0;2:0
+1;1963-1964;22;1964-02-29;15:30;Borussia Dortmund;Preussen Muenster;0:0;0:0
+1;1963-1964;22;1964-02-29;15:30;1. FC Kaiserslautern;1. FC Saarbruecken;2:4;1:2
+1;1963-1964;22;1964-03-26;19:30;Hamburger SV;Werder Bremen;1:1;1:1
+1;1963-1964;22;1964-03-30;19:30;Eintracht Braunschweig;Hertha BSC;1:1;1:1
+1;1963-1964;23;1964-03-07;16:30;TSV 1860 Muenchen;Hamburger SV;9:2;3:1
+1;1963-1964;23;1964-03-07;16:30;Preussen Muenster;1. FC Koeln;0:2;0:2
+1;1963-1964;23;1964-03-07;16:30;FC Schalke 04;1. FC Nuernberg;4:1;2:1
+1;1963-1964;23;1964-03-07;16:30;Eintracht Frankfurt;VfB Stuttgart;3:2;2:1
+1;1963-1964;23;1964-03-07;16:30;Hertha BSC;Borussia Dortmund;0:0;0:0
+1;1963-1964;23;1964-03-07;16:30;1. FC Saarbruecken;MSV Duisburg;0:2;0:1
+1;1963-1964;23;1964-03-07;16:30;Karlsruher SC;1. FC Kaiserslautern;5:1;2:0
+1;1963-1964;23;1964-03-07;16:30;Werder Bremen;Eintracht Braunschweig;2:3;0:2
+1;1963-1964;24;1964-03-14;16:30;Borussia Dortmund;VfB Stuttgart;7:1;2:1
+1;1963-1964;24;1964-03-14;16:30;Werder Bremen;FC Schalke 04;1:0;1:0
+1;1963-1964;24;1964-03-14;16:30;Eintracht Braunschweig;Hamburger SV;2:1;0:0
+1;1963-1964;24;1964-03-14;16:30;MSV Duisburg;1. FC Koeln;2:2;2:0
+1;1963-1964;24;1964-03-14;16:30;1. FC Kaiserslautern;1. FC Nuernberg;3:1;3:0
+1;1963-1964;24;1964-03-14;16:30;TSV 1860 Muenchen;Preussen Muenster;3:1;0:1
+1;1963-1964;24;1964-03-14;16:30;Eintracht Frankfurt;Hertha BSC;4:0;0:0
+1;1963-1964;24;1964-03-14;16:30;Karlsruher SC;1. FC Saarbruecken;2:2;0:2
+1;1963-1964;25;1964-03-21;16:30;1. FC Koeln;Eintracht Braunschweig;4:1;1:0
+1;1963-1964;25;1964-03-21;16:30;VfB Stuttgart;1. FC Kaiserslautern;4:0;2:0
+1;1963-1964;25;1964-03-21;16:30;Hamburger SV;MSV Duisburg;3:3;0:1
+1;1963-1964;25;1964-03-21;16:30;FC Schalke 04;Eintracht Frankfurt;1:2;0:0
+1;1963-1964;25;1964-03-21;16:30;1. FC Saarbruecken;TSV 1860 Muenchen;1:2;0:1
+1;1963-1964;25;1964-03-21;16:30;Preussen Muenster;Karlsruher SC;0:0;0:0
+1;1963-1964;25;1964-03-21;16:30;1. FC Nuernberg;Borussia Dortmund;4:0;2:0
+1;1963-1964;25;1964-04-15;20:00;Hertha BSC;Werder Bremen;5:2;2:1
+1;1963-1964;26;1964-04-04;17:00;Hamburger SV;1. FC Koeln;1:1;1:0
+1;1963-1964;26;1964-04-04;17:00;MSV Duisburg;Eintracht Braunschweig;5:1;3:1
+1;1963-1964;26;1964-04-04;17:00;Preussen Muenster;1. FC Saarbruecken;2:1;1:1
+1;1963-1964;26;1964-04-04;17:00;1. FC Kaiserslautern;Borussia Dortmund;0:1;0:1
+1;1963-1964;26;1964-04-04;17:00;Karlsruher SC;TSV 1860 Muenchen;1:0;1:0
+1;1963-1964;26;1964-04-04;17:00;Hertha BSC;FC Schalke 04;1:0;1:0
+1;1963-1964;26;1964-04-04;17:00;1. FC Nuernberg;VfB Stuttgart;0:0;0:0
+1;1963-1964;26;1964-04-04;17:00;Eintracht Frankfurt;Werder Bremen;7:0;2:0
+1;1963-1964;27;1964-04-11;17:00;1. FC Koeln;1. FC Nuernberg;5:0;2:0
+1;1963-1964;27;1964-04-11;17:00;VfB Stuttgart;Hamburger SV;2:2;1:1
+1;1963-1964;27;1964-04-11;17:00;Borussia Dortmund;MSV Duisburg;0:0;0:0
+1;1963-1964;27;1964-04-11;17:00;TSV 1860 Muenchen;Eintracht Frankfurt;1:1;0:0
+1;1963-1964;27;1964-04-11;17:00;FC Schalke 04;Preussen Muenster;1:2;0:1
+1;1963-1964;27;1964-04-11;17:00;Eintracht Braunschweig;1. FC Kaiserslautern;0:1;0:1
+1;1963-1964;27;1964-04-11;17:00;1. FC Saarbruecken;Hertha BSC;3:0;3:0
+1;1963-1964;27;1964-04-11;17:00;Werder Bremen;Karlsruher SC;0:0;0:0
+1;1963-1964;28;1964-04-18;17:00;1. FC Koeln;Borussia Dortmund;5:2;1:1
+1;1963-1964;28;1964-04-18;17:00;MSV Duisburg;1. FC Nuernberg;0:0;0:0
+1;1963-1964;28;1964-04-18;17:00;Eintracht Braunschweig;VfB Stuttgart;2:0;2:0
+1;1963-1964;28;1964-04-18;17:00;Karlsruher SC;Hertha BSC;1:1;0:0
+1;1963-1964;28;1964-04-18;17:00;TSV 1860 Muenchen;FC Schalke 04;7:1;3:1
+1;1963-1964;28;1964-04-18;17:00;Hamburger SV;1. FC Kaiserslautern;7:3;1:0
+1;1963-1964;28;1964-04-18;17:00;1. FC Saarbruecken;Werder Bremen;3:2;1:0
+1;1963-1964;28;1964-04-18;17:00;Preussen Muenster;Eintracht Frankfurt;1:3;1:2
+1;1963-1964;29;1964-04-25;17:00;VfB Stuttgart;MSV Duisburg;1:2;1:2
+1;1963-1964;29;1964-04-25;17:00;1. FC Kaiserslautern;1. FC Koeln;3:3;2:3
+1;1963-1964;29;1964-04-25;17:00;Eintracht Frankfurt;1. FC Saarbruecken;3:1;3:1
+1;1963-1964;29;1964-04-25;17:00;Hertha BSC;TSV 1860 Muenchen;3:1;1:1
+1;1963-1964;29;1964-04-25;17:00;1. FC Nuernberg;Eintracht Braunschweig;1:0;0:0
+1;1963-1964;29;1964-04-25;17:00;Werder Bremen;Preussen Muenster;4:2;2:1
+1;1963-1964;29;1964-04-25;17:00;FC Schalke 04;Karlsruher SC;2:1;0:1
+1;1963-1964;29;1964-05-05;20:00;Borussia Dortmund;Hamburger SV;5:2;2:0
+1;1963-1964;30;1964-05-09;17:00;1. FC Koeln;VfB Stuttgart;2:1;0:1
+1;1963-1964;30;1964-05-09;17:00;Hamburger SV;1. FC Nuernberg;2:2;1:1
+1;1963-1964;30;1964-05-09;17:00;Eintracht Braunschweig;Borussia Dortmund;2:0;0:0
+1;1963-1964;30;1964-05-09;17:00;Karlsruher SC;Eintracht Frankfurt;1:2;0:1
+1;1963-1964;30;1964-05-09;17:00;TSV 1860 Muenchen;Werder Bremen;3:2;1:1
+1;1963-1964;30;1964-05-09;17:00;1. FC Saarbruecken;FC Schalke 04;1:1;1:0
+1;1963-1964;30;1964-05-09;17:00;Preussen Muenster;Hertha BSC;4:2;2:2
+1;1963-1964;30;1964-05-09;17:00;MSV Duisburg;1. FC Kaiserslautern;3:0;2:0
+2;1964-1965;1;1964-08-22;16:00;Eintracht Frankfurt;FC Schalke 04;2:2;0:2
+2;1964-1965;1;1964-08-22;16:00;1. FC Kaiserslautern;Werder Bremen;2:1;2:1
+2;1964-1965;1;1964-08-22;16:00;Hamburger SV;VfB Stuttgart;2:2;0:2
+2;1964-1965;1;1964-08-22;16:00;Borussia Dortmund;Hannover 96;0:2;0:0
+2;1964-1965;1;1964-08-22;16:00;Eintracht Braunschweig;TSV 1860 Muenchen;1:1;1:0
+2;1964-1965;1;1964-08-22;16:00;Karlsruher SC;MSV Duisburg;2:1;1:0
+2;1964-1965;1;1964-08-22;16:00;1. FC Nuernberg;Borussia Neunkirchen;2:0;0:0
+2;1964-1965;1;1964-08-22;16:00;1. FC Koeln;Hertha BSC;2:3;1:0
+2;1964-1965;2;1964-08-29;16:00;VfB Stuttgart;1. FC Nuernberg;3:1;1:1
+2;1964-1965;2;1964-08-29;16:00;Hannover 96;1. FC Koeln;2:0;2:0
+2;1964-1965;2;1964-08-29;16:00;Hertha BSC;Hamburger SV;0:0;0:0
+2;1964-1965;2;1964-08-29;16:00;FC Schalke 04;Karlsruher SC;1:1;0:0
+2;1964-1965;2;1964-08-29;16:00;Borussia Neunkirchen;Borussia Dortmund;1:2;0:0
+2;1964-1965;2;1964-08-29;16:00;MSV Duisburg;1. FC Kaiserslautern;3:1;3:0
+2;1964-1965;2;1964-08-29;16:00;Werder Bremen;Eintracht Braunschweig;5:1;3:1
+2;1964-1965;2;1964-08-29;16:00;TSV 1860 Muenchen;Eintracht Frankfurt;0:1;0:0
+2;1964-1965;3;1964-09-05;16:00;Hamburger SV;Hannover 96;3:0;0:0
+2;1964-1965;3;1964-09-05;16:00;1. FC Koeln;Borussia Neunkirchen;4:3;2:3
+2;1964-1965;3;1964-09-05;16:00;1. FC Nuernberg;Hertha BSC;2:0;1:0
+2;1964-1965;3;1964-09-05;16:00;Karlsruher SC;TSV 1860 Muenchen;1:5;0:2
+2;1964-1965;3;1964-09-05;16:00;Eintracht Frankfurt;Werder Bremen;0:2;0:1
+2;1964-1965;3;1964-09-05;16:00;1. FC Kaiserslautern;FC Schalke 04;3:0;3:0
+2;1964-1965;3;1964-09-05;16:00;Eintracht Braunschweig;MSV Duisburg;0:1;0:1
+2;1964-1965;3;1964-09-11;16:00;Borussia Dortmund;VfB Stuttgart;1:0;0:0
+2;1964-1965;4;1964-09-12;16:00;VfB Stuttgart;1. FC Koeln;3:3;2:2
+2;1964-1965;4;1964-09-12;16:00;Hannover 96;1. FC Nuernberg;2:2;2:2
+2;1964-1965;4;1964-09-12;16:00;MSV Duisburg;Eintracht Frankfurt;1:3;1:2
+2;1964-1965;4;1964-09-12;16:00;TSV 1860 Muenchen;1. FC Kaiserslautern;2:2;1:2
+2;1964-1965;4;1964-09-12;16:00;FC Schalke 04;Eintracht Braunschweig;0:3;0:1
+2;1964-1965;4;1964-09-12;16:00;Werder Bremen;Karlsruher SC;1:0;0:0
+2;1964-1965;4;1964-09-12;16:00;Borussia Neunkirchen;Hamburger SV;3:1;2:1
+2;1964-1965;4;1964-09-12;16:00;Hertha BSC;Borussia Dortmund;0:0;0:0
+2;1964-1965;5;1964-09-19;16:00;1. FC Nuernberg;FC Schalke 04;3:2;1:1
+2;1964-1965;5;1964-09-19;16:00;Hamburger SV;MSV Duisburg;3:0;2:0
+2;1964-1965;5;1964-09-19;16:00;1. FC Koeln;Werder Bremen;4:2;2:0
+2;1964-1965;5;1964-09-19;16:00;VfB Stuttgart;Hertha BSC;1:1;1:1
+2;1964-1965;5;1964-09-19;16:00;Borussia Dortmund;TSV 1860 Muenchen;1:1;0:0
+2;1964-1965;5;1964-09-19;16:00;1. FC Kaiserslautern;Hannover 96;1:0;1:0
+2;1964-1965;5;1964-09-19;16:00;Eintracht Braunschweig;Borussia Neunkirchen;1:0;0:0
+2;1964-1965;5;1964-09-19;16:00;Eintracht Frankfurt;Karlsruher SC;0:7;0:5
+2;1964-1965;6;1964-09-26;16:00;Borussia Neunkirchen;1. FC Kaiserslautern;0:3;0:1
+2;1964-1965;6;1964-09-26;16:00;TSV 1860 Muenchen;1. FC Nuernberg;2:0;1:0
+2;1964-1965;6;1964-09-26;16:00;Werder Bremen;Hamburger SV;0:0;0:0
+2;1964-1965;6;1964-09-26;16:00;MSV Duisburg;1. FC Koeln;0:3;0:3
+2;1964-1965;6;1964-09-26;16:00;FC Schalke 04;Borussia Dortmund;2:6;0:6
+2;1964-1965;6;1964-09-26;16:00;Karlsruher SC;VfB Stuttgart;0:0;0:0
+2;1964-1965;6;1964-09-26;16:00;Hertha BSC;Eintracht Frankfurt;1:3;1:2
+2;1964-1965;6;1964-09-26;16:00;Hannover 96;Eintracht Braunschweig;2:2;1:1
+2;1964-1965;7;1964-10-10;15:15;Hertha BSC;TSV 1860 Muenchen;2:1;1:1
+2;1964-1965;7;1964-10-10;15:15;1. FC Koeln;Eintracht Braunschweig;5:1;1:1
+2;1964-1965;7;1964-10-10;15:15;Borussia Dortmund;1. FC Kaiserslautern;3:2;1:1
+2;1964-1965;7;1964-10-10;15:15;1. FC Nuernberg;Karlsruher SC;4:1;2:0
+2;1964-1965;7;1964-10-10;15:15;Hannover 96;Werder Bremen;1:2;1:1
+2;1964-1965;7;1964-10-10;15:15;Hamburger SV;Eintracht Frankfurt;2:1;1:1
+2;1964-1965;7;1964-10-10;15:15;VfB Stuttgart;FC Schalke 04;2:1;0:1
+2;1964-1965;7;1964-10-10;15:15;Borussia Neunkirchen;MSV Duisburg;4:2;2:0
+2;1964-1965;8;1964-10-17;15:15;TSV 1860 Muenchen;Hannover 96;4:0;0:0
+2;1964-1965;8;1964-10-17;15:15;FC Schalke 04;Hertha BSC;3:0;2:0
+2;1964-1965;8;1964-10-17;15:15;1. FC Kaiserslautern;1. FC Nuernberg;3:2;1:1
+2;1964-1965;8;1964-10-17;15:15;Karlsruher SC;Hamburger SV;2:2;1:2
+2;1964-1965;8;1964-10-17;15:15;MSV Duisburg;VfB Stuttgart;3:3;1:2
+2;1964-1965;8;1964-10-17;15:15;Eintracht Braunschweig;Borussia Dortmund;0:1;0:0
+2;1964-1965;8;1964-10-17;15:15;Werder Bremen;Borussia Neunkirchen;2:0;2:0
+2;1964-1965;8;1964-10-17;15:15;Eintracht Frankfurt;1. FC Koeln;1:4;0:1
+2;1964-1965;9;1964-10-24;15:15;Hamburger SV;1. FC Kaiserslautern;3:2;2:2
+2;1964-1965;9;1964-10-24;15:15;Hertha BSC;MSV Duisburg;2:2;2:1
+2;1964-1965;9;1964-10-24;15:15;Borussia Dortmund;Eintracht Frankfurt;1:3;1:1
+2;1964-1965;9;1964-10-24;15:15;1. FC Nuernberg;Eintracht Braunschweig;3:2;0:2
+2;1964-1965;9;1964-10-24;15:15;VfB Stuttgart;Werder Bremen;1:1;0:1
+2;1964-1965;9;1964-10-24;15:15;Borussia Neunkirchen;TSV 1860 Muenchen;3:0;0:0
+2;1964-1965;9;1964-10-24;15:15;1. FC Koeln;Karlsruher SC;4:1;1:1
+2;1964-1965;9;1964-10-24;15:15;Hannover 96;FC Schalke 04;1:0;1:0
+2;1964-1965;10;1964-11-07;14:30;Eintracht Braunschweig;Hamburger SV;2:0;2:0
+2;1964-1965;10;1964-11-07;14:30;Karlsruher SC;Borussia Dortmund;2:0;1:0
+2;1964-1965;10;1964-11-07;14:30;Eintracht Frankfurt;1. FC Nuernberg;1:1;0:1
+2;1964-1965;10;1964-11-07;14:30;TSV 1860 Muenchen;VfB Stuttgart;1:0;0:0
+2;1964-1965;10;1964-11-07;14:30;MSV Duisburg;Hannover 96;1:0;1:0
+2;1964-1965;10;1964-11-07;14:30;1. FC Kaiserslautern;1. FC Koeln;2:2;0:2
+2;1964-1965;10;1964-11-07;14:30;FC Schalke 04;Borussia Neunkirchen;1:1;0:1
+2;1964-1965;10;1964-11-07;14:30;Werder Bremen;Hertha BSC;5:1;0:0
+2;1964-1965;11;1964-11-14;14:30;Hertha BSC;1. FC Kaiserslautern;5:3;4:0
+2;1964-1965;11;1964-11-14;14:30;1. FC Koeln;TSV 1860 Muenchen;1:1;1:0
+2;1964-1965;11;1964-11-14;14:30;Werder Bremen;FC Schalke 04;2:2;1:1
+2;1964-1965;11;1964-11-14;14:30;VfB Stuttgart;Eintracht Braunschweig;3:1;2:1
+2;1964-1965;11;1964-11-14;14:30;1. FC Nuernberg;Hamburger SV;2:3;2:2
+2;1964-1965;11;1964-11-14;14:30;Hannover 96;Eintracht Frankfurt;3:2;1:0
+2;1964-1965;11;1964-11-19;20:30;Borussia Dortmund;MSV Duisburg;0:0;0:0
+2;1964-1965;11;1965-01-11;22:30;Borussia Neunkirchen;Karlsruher SC;1:0;0:0
+2;1964-1965;12;1964-11-21;14:30;FC Schalke 04;1. FC Koeln;2:3;1:2
+2;1964-1965;12;1964-11-21;14:30;Hamburger SV;Borussia Dortmund;1:4;0:2
+2;1964-1965;12;1964-11-21;14:30;MSV Duisburg;1. FC Nuernberg;2:0;2:0
+2;1964-1965;12;1964-11-21;14:30;TSV 1860 Muenchen;Werder Bremen;3:1;1:1
+2;1964-1965;12;1964-11-21;14:30;Karlsruher SC;Hannover 96;2:3;0:1
+2;1964-1965;12;1964-11-21;14:30;1. FC Kaiserslautern;VfB Stuttgart;2:1;2:1
+2;1964-1965;12;1964-11-21;14:30;Eintracht Frankfurt;Borussia Neunkirchen;1:0;0:0
+2;1964-1965;12;1964-11-21;14:30;Eintracht Braunschweig;Hertha BSC;1:1;0:1
+2;1964-1965;13;1964-11-28;14:30;1. FC Koeln;Hamburger SV;3:0;3:0
+2;1964-1965;13;1964-11-28;14:30;1. FC Nuernberg;Borussia Dortmund;1:0;0:0
+2;1964-1965;13;1964-11-28;14:30;FC Schalke 04;TSV 1860 Muenchen;2:2;1:1
+2;1964-1965;13;1964-11-28;14:30;VfB Stuttgart;Eintracht Frankfurt;1:2;1:2
+2;1964-1965;13;1964-11-28;14:30;Borussia Neunkirchen;Hannover 96;2:1;0:0
+2;1964-1965;13;1964-11-28;14:30;Eintracht Braunschweig;1. FC Kaiserslautern;2:0;1:0
+2;1964-1965;13;1964-11-28;14:30;Hertha BSC;Karlsruher SC;2:1;0:0
+2;1964-1965;13;1964-11-28;18:30;Werder Bremen;MSV Duisburg;1:0;0:0
+2;1964-1965;14;1964-12-05;14:15;Hamburger SV;TSV 1860 Muenchen;3:2;1:2
+2;1964-1965;14;1964-12-05;14:15;Borussia Dortmund;Werder Bremen;1:2;1:1
+2;1964-1965;14;1964-12-05;14:15;1. FC Nuernberg;1. FC Koeln;3:0;2:0
+2;1964-1965;14;1964-12-05;14:15;Hannover 96;VfB Stuttgart;2:1;1:0
+2;1964-1965;14;1964-12-05;14:15;Eintracht Frankfurt;Eintracht Braunschweig;2:2;1:0
+2;1964-1965;14;1964-12-05;14:15;Borussia Neunkirchen;Hertha BSC;2:2;2:1
+2;1964-1965;14;1964-12-05;18:30;Karlsruher SC;1. FC Kaiserslautern;6:1;3:1
+2;1964-1965;14;1964-12-05;18:30;MSV Duisburg;FC Schalke 04;2:1;0:1
+2;1964-1965;15;1964-12-12;14:00;Hertha BSC;Hannover 96;1:1;0:1
+2;1964-1965;15;1964-12-12;14:15;VfB Stuttgart;Borussia Neunkirchen;3:2;2:0
+2;1964-1965;15;1964-12-12;14:15;1. FC Kaiserslautern;Eintracht Frankfurt;0:1;0:0
+2;1964-1965;15;1964-12-12;14:15;1. FC Koeln;Borussia Dortmund;3:3;1:0
+2;1964-1965;15;1964-12-12;14:15;FC Schalke 04;Hamburger SV;3:1;2:0
+2;1964-1965;15;1964-12-12;14:15;TSV 1860 Muenchen;MSV Duisburg;2:1;1:1
+2;1964-1965;15;1964-12-12;18:30;Werder Bremen;1. FC Nuernberg;1:1;1:0
+2;1964-1965;15;1964-12-12;18:30;Eintracht Braunschweig;Karlsruher SC;3:0;1:0
+2;1964-1965;16;1964-12-19;14:00;Hertha BSC;1. FC Koeln;1:3;1:3
+2;1964-1965;16;1964-12-19;14:15;FC Schalke 04;Eintracht Frankfurt;1:1;0:0
+2;1964-1965;16;1964-12-19;14:15;Hannover 96;Borussia Dortmund;2:0;2:0
+2;1964-1965;16;1964-12-19;14:15;TSV 1860 Muenchen;Eintracht Braunschweig;2:0;0:0
+2;1964-1965;16;1964-12-19;14:15;MSV Duisburg;Karlsruher SC;1:1;1:1
+2;1964-1965;16;1964-12-19;14:15;Borussia Neunkirchen;1. FC Nuernberg;1:1;1:0
+2;1964-1965;16;1964-12-19;18:30;Werder Bremen;1. FC Kaiserslautern;1:1;0:1
+2;1964-1965;16;1964-12-19;18:30;VfB Stuttgart;Hamburger SV;2:4;1:2
+2;1964-1965;17;1964-12-31;15:00;1. FC Nuernberg;VfB Stuttgart;1:1;0:1
+2;1964-1965;17;1965-01-02;15:00;1. FC Koeln;Hannover 96;0:1;0:1
+2;1964-1965;17;1965-01-02;15:00;Hamburger SV;Hertha BSC;4:1;3:1
+2;1964-1965;17;1965-01-02;15:00;Karlsruher SC;FC Schalke 04;2:2;1:1
+2;1964-1965;17;1965-01-02;15:00;Borussia Dortmund;Borussia Neunkirchen;5:1;1:0
+2;1964-1965;17;1965-01-02;15:00;1. FC Kaiserslautern;MSV Duisburg;2:0;0:0
+2;1964-1965;17;1965-01-02;15:00;Eintracht Braunschweig;Werder Bremen;1:1;1:0
+2;1964-1965;17;1965-01-02;15:00;Eintracht Frankfurt;TSV 1860 Muenchen;4:1;2:0
+2;1964-1965;18;1965-01-09;14:00;Hertha BSC;1. FC Nuernberg;1:2;0:1
+2;1964-1965;18;1965-01-09;14:15;Hannover 96;Hamburger SV;1:2;0:1
+2;1964-1965;18;1965-01-09;14:15;Borussia Neunkirchen;1. FC Koeln;1:1;1:1
+2;1964-1965;18;1965-01-09;15:00;VfB Stuttgart;Borussia Dortmund;3:2;2:2
+2;1964-1965;18;1965-01-09;15:00;Werder Bremen;Eintracht Frankfurt;2:2;1:0
+2;1964-1965;18;1965-01-09;15:00;FC Schalke 04;1. FC Kaiserslautern;1:0;0:0
+2;1964-1965;18;1965-01-09;15:00;MSV Duisburg;Eintracht Braunschweig;2:0;0:0
+2;1964-1965;18;1965-02-27;15:00;TSV 1860 Muenchen;Karlsruher SC;9:0;5:0
+2;1964-1965;19;1965-01-23;15:30;1. FC Koeln;VfB Stuttgart;2:1;1:0
+2;1964-1965;19;1965-01-23;15:30;1. FC Nuernberg;Hannover 96;1:0;0:0
+2;1964-1965;19;1965-01-23;15:30;Eintracht Frankfurt;MSV Duisburg;2:3;1:0
+2;1964-1965;19;1965-01-23;15:30;1. FC Kaiserslautern;TSV 1860 Muenchen;1:2;1:1
+2;1964-1965;19;1965-01-23;15:30;Eintracht Braunschweig;FC Schalke 04;1:2;1:1
+2;1964-1965;19;1965-01-23;15:30;Karlsruher SC;Werder Bremen;0:2;0:1
+2;1964-1965;19;1965-01-23;15:30;Hamburger SV;Borussia Neunkirchen;1:2;0:2
+2;1964-1965;19;1965-01-23;15:30;Borussia Dortmund;Hertha BSC;6:3;4:1
+2;1964-1965;20;1965-01-30;15:00;FC Schalke 04;1. FC Nuernberg;1:3;1:1
+2;1964-1965;20;1965-01-30;15:00;MSV Duisburg;Hamburger SV;3:2;0:0
+2;1964-1965;20;1965-01-30;15:00;Werder Bremen;1. FC Koeln;0:0;0:0
+2;1964-1965;20;1965-01-30;15:00;Hertha BSC;VfB Stuttgart;0:0;0:0
+2;1964-1965;20;1965-01-30;15:00;TSV 1860 Muenchen;Borussia Dortmund;4:4;2:2
+2;1964-1965;20;1965-01-30;15:00;Borussia Neunkirchen;Eintracht Braunschweig;0:0;0:0
+2;1964-1965;20;1965-01-30;15:00;Karlsruher SC;Eintracht Frankfurt;3:1;1:1
+2;1964-1965;20;1965-04-14;18:15;Hannover 96;1. FC Kaiserslautern;4:0;2:0
+2;1964-1965;21;1965-02-13;15:00;1. FC Nuernberg;TSV 1860 Muenchen;2:2;1:1
+2;1964-1965;21;1965-02-13;15:00;Hamburger SV;Werder Bremen;0:4;0:2
+2;1964-1965;21;1965-02-13;15:00;1. FC Koeln;MSV Duisburg;1:2;0:0
+2;1964-1965;21;1965-02-13;15:00;Borussia Dortmund;FC Schalke 04;4:0;4:0
+2;1964-1965;21;1965-02-13;15:00;VfB Stuttgart;Karlsruher SC;1:2;0:1
+2;1964-1965;21;1965-02-13;15:00;Eintracht Frankfurt;Hertha BSC;3:0;1:0
+2;1964-1965;21;1965-02-13;15:00;Eintracht Braunschweig;Hannover 96;2:2;2:1
+2;1964-1965;21;1965-02-27;15:00;1. FC Kaiserslautern;Borussia Neunkirchen;2:0;1:0
+2;1964-1965;22;1965-02-20;15:00;TSV 1860 Muenchen;Hertha BSC;6:4;3:1
+2;1964-1965;22;1965-02-20;15:00;Eintracht Braunschweig;1. FC Koeln;1:1;1:1
+2;1964-1965;22;1965-02-20;15:00;1. FC Kaiserslautern;Borussia Dortmund;1:3;1:2
+2;1964-1965;22;1965-02-20;15:00;Karlsruher SC;1. FC Nuernberg;1:1;0:1
+2;1964-1965;22;1965-02-20;15:00;Werder Bremen;Hannover 96;3:0;1:0
+2;1964-1965;22;1965-02-20;15:00;Eintracht Frankfurt;Hamburger SV;2:1;0:1
+2;1964-1965;22;1965-02-20;15:00;FC Schalke 04;VfB Stuttgart;3:1;1:0
+2;1964-1965;22;1965-02-20;15:00;MSV Duisburg;Borussia Neunkirchen;1:1;0:0
+2;1964-1965;23;1965-03-06;16:00;Hannover 96;TSV 1860 Muenchen;0:2;0:0
+2;1964-1965;23;1965-03-06;16:00;1. FC Nuernberg;1. FC Kaiserslautern;1:0;0:0
+2;1964-1965;23;1965-03-06;16:00;Hamburger SV;Karlsruher SC;2:1;1:1
+2;1964-1965;23;1965-03-06;16:00;Borussia Dortmund;Eintracht Braunschweig;5:4;1:1
+2;1964-1965;23;1965-03-06;16:00;Borussia Neunkirchen;Werder Bremen;1:1;0:0
+2;1964-1965;23;1965-03-06;16:00;1. FC Koeln;Eintracht Frankfurt;3:4;1:1
+2;1964-1965;23;1965-03-12;16:00;VfB Stuttgart;MSV Duisburg;4:2;2:0
+2;1964-1965;23;1965-03-13;16:00;Hertha BSC;FC Schalke 04;2:1;1:0
+2;1964-1965;24;1965-03-20;16:00;1. FC Kaiserslautern;Hamburger SV;2:1;1:1
+2;1964-1965;24;1965-03-20;16:00;MSV Duisburg;Hertha BSC;2:2;1:2
+2;1964-1965;24;1965-03-20;16:00;Eintracht Frankfurt;Borussia Dortmund;0:2;0:0
+2;1964-1965;24;1965-03-20;16:00;Eintracht Braunschweig;1. FC Nuernberg;1:0;0:0
+2;1964-1965;24;1965-03-20;16:00;Werder Bremen;VfB Stuttgart;1:0;0:0
+2;1964-1965;24;1965-03-20;16:00;TSV 1860 Muenchen;Borussia Neunkirchen;4:2;2:0
+2;1964-1965;24;1965-03-20;16:00;Karlsruher SC;1. FC Koeln;2:4;1:1
+2;1964-1965;24;1965-03-20;16:00;FC Schalke 04;Hannover 96;2:2;2:1
+2;1964-1965;25;1965-03-27;16:00;Hamburger SV;Eintracht Braunschweig;0:1;0:0
+2;1964-1965;25;1965-03-27;16:00;Borussia Dortmund;Karlsruher SC;5:1;2:1
+2;1964-1965;25;1965-03-27;16:00;1. FC Nuernberg;Eintracht Frankfurt;0:0;0:0
+2;1964-1965;25;1965-03-27;16:00;VfB Stuttgart;TSV 1860 Muenchen;3:0;2:0
+2;1964-1965;25;1965-03-27;16:00;Hannover 96;MSV Duisburg;2:0;2:0
+2;1964-1965;25;1965-03-27;16:00;1. FC Koeln;1. FC Kaiserslautern;3:0;0:0
+2;1964-1965;25;1965-03-27;16:00;Hertha BSC;Werder Bremen;0:0;0:0
+2;1964-1965;25;1965-04-02;16:00;Borussia Neunkirchen;FC Schalke 04;3:2;1:1
+2;1964-1965;26;1965-04-03;16:00;1. FC Kaiserslautern;Hertha BSC;1:2;1:0
+2;1964-1965;26;1965-04-03;16:00;TSV 1860 Muenchen;1. FC Koeln;2:3;0:2
+2;1964-1965;26;1965-04-03;16:00;FC Schalke 04;Werder Bremen;1:0;1:0
+2;1964-1965;26;1965-04-03;16:00;Eintracht Braunschweig;VfB Stuttgart;2:1;1:1
+2;1964-1965;26;1965-04-03;16:00;Hamburger SV;1. FC Nuernberg;2:1;1:0
+2;1964-1965;26;1965-04-03;16:00;MSV Duisburg;Borussia Dortmund;3:2;2:0
+2;1964-1965;26;1965-04-03;16:00;Karlsruher SC;Borussia Neunkirchen;2:1;2:0
+2;1964-1965;26;1965-04-03;16:00;Eintracht Frankfurt;Hannover 96;3:3;1:1
+2;1964-1965;27;1965-04-10;16:00;1. FC Koeln;FC Schalke 04;2:1;1:0
+2;1964-1965;27;1965-04-10;16:00;Borussia Dortmund;Hamburger SV;2:0;1:0
+2;1964-1965;27;1965-04-10;16:00;1. FC Nuernberg;MSV Duisburg;1:1;1:1
+2;1964-1965;27;1965-04-10;16:00;Werder Bremen;TSV 1860 Muenchen;3:2;1:2
+2;1964-1965;27;1965-04-10;16:00;Hannover 96;Karlsruher SC;4:2;3:0
+2;1964-1965;27;1965-04-10;16:00;VfB Stuttgart;1. FC Kaiserslautern;1:0;0:0
+2;1964-1965;27;1965-04-10;16:00;Borussia Neunkirchen;Eintracht Frankfurt;4:0;2:0
+2;1964-1965;27;1965-04-10;16:00;Hertha BSC;Eintracht Braunschweig;0:3;0:0
+2;1964-1965;28;1965-04-30;20:00;Hamburger SV;1. FC Koeln;0:0;0:0
+2;1964-1965;28;1965-04-30;20:00;Borussia Dortmund;1. FC Nuernberg;2:1;1:0
+2;1964-1965;28;1965-04-30;20:00;TSV 1860 Muenchen;FC Schalke 04;3:1;1:0
+2;1964-1965;28;1965-04-30;20:00;Eintracht Frankfurt;VfB Stuttgart;2:3;1:2
+2;1964-1965;28;1965-04-30;20:00;Hannover 96;Borussia Neunkirchen;1:1;0:1
+2;1964-1965;28;1965-04-30;20:00;1. FC Kaiserslautern;Eintracht Braunschweig;2:1;0:0
+2;1964-1965;28;1965-04-30;20:00;Karlsruher SC;Hertha BSC;0:1;0:0
+2;1964-1965;28;1965-04-30;20:00;MSV Duisburg;Werder Bremen;2:2;0:1
+2;1964-1965;29;1965-05-08;16:00;TSV 1860 Muenchen;Hamburger SV;4:1;2:1
+2;1964-1965;29;1965-05-08;16:00;1. FC Kaiserslautern;Karlsruher SC;0:1;0:1
+2;1964-1965;29;1965-05-08;16:00;Werder Bremen;Borussia Dortmund;3:0;2:0
+2;1964-1965;29;1965-05-08;16:00;1. FC Koeln;1. FC Nuernberg;0:0;0:0
+2;1964-1965;29;1965-05-08;16:00;VfB Stuttgart;Hannover 96;0:3;0:2
+2;1964-1965;29;1965-05-08;16:00;Eintracht Braunschweig;Eintracht Frankfurt;3:2;1:1
+2;1964-1965;29;1965-05-08;16:00;Hertha BSC;Borussia Neunkirchen;1:1;0:1
+2;1964-1965;29;1965-05-08;16:00;FC Schalke 04;MSV Duisburg;1:2;0:1
+2;1964-1965;30;1965-05-15;16:00;Borussia Neunkirchen;VfB Stuttgart;3:1;2:0
+2;1964-1965;30;1965-05-15;16:00;1. FC Nuernberg;Werder Bremen;2:3;2:2
+2;1964-1965;30;1965-05-15;16:00;Eintracht Frankfurt;1. FC Kaiserslautern;1:2;1:1
+2;1964-1965;30;1965-05-15;16:00;Borussia Dortmund;1. FC Koeln;2:2;1:1
+2;1964-1965;30;1965-05-15;16:00;Hannover 96;Hertha BSC;3:1;1:1
+2;1964-1965;30;1965-05-15;16:00;Hamburger SV;FC Schalke 04;2:4;1:1
+2;1964-1965;30;1965-05-15;16:00;Karlsruher SC;Eintracht Braunschweig;3:0;0:0
+2;1964-1965;30;1965-05-15;16:00;MSV Duisburg;TSV 1860 Muenchen;3:0;1:0
