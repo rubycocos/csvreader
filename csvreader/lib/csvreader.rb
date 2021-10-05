@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 
 ## our own code (without "top-level" shortcuts e.g. "modular version")

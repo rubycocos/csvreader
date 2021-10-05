@@ -1,14 +1,18 @@
-# encoding: utf-8
 
 
 require 'pp'
-require 'logger'
+require 'logger'   ## todo/fix:  check why logger is required - use logutils!!!???
 require 'forwardable'
 require 'stringio'
+require 'fileutils'
+
+require 'time'
 require 'date'    ## use for Date.parse and DateTime.parse
 require 'yaml'    ## used for (optional) meta data blocks
+require 'json'
 
 
+## our own parser libs
 require 'tabreader'
 require 'csvjson'
 require 'csvyaml'

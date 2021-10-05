@@ -1,12 +1,10 @@
-# encoding: utf-8
-
 
 class CsvReader   ## note: uses a class for now - change to module - why? why not?
 
   module Version
     MAJOR = 1    ## todo: namespace inside version or something - why? why not??
     MINOR = 2
-    PATCH = 4
+    PATCH = 5
 
     ## self.to_s  - why? why not?
   end
@@ -22,7 +20,7 @@ class CsvReader   ## note: uses a class for now - change to module - why? why no
 
 
   def self.banner
-    "csvreader/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}]"
+    "csvreader/#{VERSION} on Ruby #{RUBY_VERSION} (#{RUBY_RELEASE_DATE}) [#{RUBY_PLATFORM}] in (#{root})"
   end
 
   def self.root

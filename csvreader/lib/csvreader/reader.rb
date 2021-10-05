@@ -1,4 +1,3 @@
-# encoding: utf-8
 
 class CsvReader
 
@@ -155,11 +154,11 @@ class CsvReader
 
          ## check array / pipeline of converters is empty (size=0 e.g. is [])
          if @converters.empty?
-           @parser.parse( @io, kwargs, &block )
+           @parser.parse( @io, **kwargs, &block )
          else
            ## add "post"-processing with converters pipeline
            ##   that is, convert all strings to integer, float, date, ... if wanted
-           @parser.parse( @io, kwargs ) do |raw_record|
+           @parser.parse( @io, **kwargs ) do |raw_record|
              record = []
              raw_record.each_with_index do | value, i |
                record << @converters.convert( value, i )

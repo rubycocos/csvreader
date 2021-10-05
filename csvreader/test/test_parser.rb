@@ -158,8 +158,4 @@ TXT
 TXT
 end
 
-def test_ruby3
-  CsvHashReader.strict.parse('1,2,3')
-end
-
 end # class TestParser
