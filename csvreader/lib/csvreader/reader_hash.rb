@@ -169,7 +169,7 @@ def_delegators :@io,
      kwargs[:width] = @kwargs[:width]    if @parser.is_a?( ParserFixed )
 
 
-     @parser.parse( @io, kwargs ) do |raw_values|     # sep: sep
+     @parser.parse( @io, **kwargs ) do |raw_values|     # sep: sep
         if @names.nil?    ## check for (first) headers row
           if @header_converters.empty?
             @names = raw_values   ## store header row / a.k.a. field/column names
