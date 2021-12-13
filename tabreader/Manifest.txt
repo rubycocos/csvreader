@@ -1,0 +1,14 @@
+HISTORY.md
+LICENSE.md
+Manifest.txt
+README.md
+Rakefile
+datasets/empty.tab
+datasets/test.tab
+lib/tabreader.rb
+lib/tabreader/reader.rb
+lib/tabreader/reader_hash.rb
+lib/tabreader/version.rb
+test/helper.rb
+test/test_reader.rb
+test/test_reader_hash.rb
