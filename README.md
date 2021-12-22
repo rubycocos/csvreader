@@ -16,10 +16,14 @@ Gem Family
 
 <!-- break -->
 
+Typed Structs & More
+
 [csvrecord](csvrecord) - read in comma-separated values (csv) records with typed structs / schemas
 
 
 <!-- break -->
+
+(Command Line) Tools & More
 
 [csvutils](csvutils) - tools 'n' scripts for working with comma-separated values (csv) datafiles - the world's most popular tabular data interchange format in text
 
