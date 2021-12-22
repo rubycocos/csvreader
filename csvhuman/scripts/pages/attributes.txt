@@ -1,0 +1,763 @@
+
+
+
+2.1. Sex- and-age disaggregation (SADD) attributes
++adolescents
+Adolescents, loosely defined (precise age range varies); may overlap +children and +adult. You can optionally create custom attributes in addition to this to add precise age ranges, e.g. "+adolescents +age12_17". Since HXL 1.0
+
+e.g., #inneed +adolescents +f — number of adolescent girls in need of assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++adults
+Adults, loosely defined (precise age range varies); may overlap +adolescents and +elderly. You can optionally create custom attributes in addition to this to add precise age ranges, e.g. "+adults +age18_64". Since HXL 1.0
+
+e.g., #targeted +adults — number of adults targeted for assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++children
+The associated hashtag applies to non-adults, loosely defined (precise age range varies; may overlap +infants and +adolescents). You can optionally create custom attributes in addition to this to add precise age ranges, e.g. "+children +age3_11". Since HXL 1.0
+
+e.g., #population +children +f — number of girls in a population
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++elderly
+Elderly people, loosely defined (precise age range varies). May overlap +adults. You can optionally create custom attributes in addition to this to add precise age ranges, e.g. "+elderly +age65plus". Since HXL 1.0
+
+e.g., #inneed +elderly — number of elderly people in need of of assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++f
+Female people. See also +m and +i. Since HXL 1.0
+
+e.g., #affected +f +children — number of girls affected by a crisis or event
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++hh
+Households (vs +ind for individual people). The exact definition of "household" may vary among aid organisations. Since HXL 1.1
+
+e.g., #reached +hh — number of households reached with assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++i
+Intersex or non-gender-binary people. Use this attribute for any groups who do not identify as male (+m) or female (+f). Since HXL 1.0
+
+e.g., #inneed +i — number of non-gender-binary people in need of assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++ind
+Individual people (vs +hh for households). Since HXL 1.1
+
+e.g., #targeted +ind — number of individual people targeted for assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++infants
+Infant children, loosely defined (precise age range varies; may overlap +children). You can optionally create custom attributes in addition to this to add precise age ranges, e.g. "+infants +age0_2". Since HXL 1.0
+
+e.g., #reached +infants — number of infants reached with assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++m
+Male people. See also +f and +i. Since HXL 1.0
+
+e.g., #inneed +m — number of male people in need of assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
+2.2. Organisation and activity attributes
++activity
+The implementers classify this activity as an "activity" proper (may imply different hierarchical levels in different contexts). Since HXL 1.1
+
+e.g., #activity +activity — an aid activity
+
+Associated hashtags
+#activity
+Programme, project, or activity.
++cluster
+Identifies a sector as a formal IASC humanitarian cluster. Since HXL 1.1
+
+e.g., #sector +cluster — an IASC humanitarian cluster
+
+Associated hashtags
+#sector
+Humanitarian sector or cluster
++funder
+Funding org/agency (e.g. donor). Since HXL 1.0
+
+e.g., #org +funder — donor organisation
+
+Associated hashtags
+#org
+Humanitarian organisation
++impl
+Implementing partner. Since HXL 1.0
+
+e.g., #org +impl — implementing partner organisation
+
+Associated hashtags
+#org
+Humanitarian organisation
++prog
+Programming org/agency. Since HXL 1.0
+
+e.g., #org +prog — programming agency for an aid activity
+
+Associated hashtags
+#org
+Humanitarian organisation
++programme
+The implementers classify this activity as a "programme" (may imply different hierarchical levels in different contexts). Since HXL 1.1
+
+e.g., #activity +programme — an aid programme
+
+Associated hashtags
+#activity
+Programme, project, or activity.
++project
+The implementers classify this activity as a "project" (may imply different hierarchical levels in different contexts). Since HXL 1.1
+
+e.g., #activity +project — an aid project
+
+Associated hashtags
+#activity
+Programme, project, or activity.
++provided
+Refers to a #service, #item, etc. that has been provided to people in need. Since HXL 1.1
+
+e.g., #service +provided — a service provided to people in need
+
+Associated hashtags
+#item
+Something sold, provided, etc.
+#service
+Service for affected people
++used
+Refers to a #service, #item, etc. that affected people have actually consumed or otherwise taken advantage of. Since HXL 1.1
+
+e.g., #service +used — a service consumed by a person or people in need
+
+Associated hashtags
+#item
+Something sold, provided, etc.
+#service
+Service for affected people
+2.3. Classification attributes
++code
+A unique, machine-readable code. Since HXL 1.0
+
+e.g., #adm1 +code — P-code for an administrative level-one division (e.g. state, province)
+
+Associated hashtags
+#activity
+Programme, project, or activity.
+#adm1
+Level 1 subnational area
+#adm2
+Level 2 subnational area
+#adm3
+Level 3 subnational area
+#adm4
+Level 4 subnational area
+#adm5
+Level 5 subnational area
+#beneficiary
+Aid recipient information
+#cause
+Event cause
+#channel
+Specific delivery method
+#country
+Country
+#crisis
+Humanitarian emergency
+#currency
+Financial currency
+#event
+Event within a #crisis
+#group
+Non-humanitarian group
+#impact
+Impact of crisis
+#indicator
+Formal aid indicator
+#item
+Something sold, provided, etc.
+#loc
+General location
+#modality
+Major method of aid
+#need
+Need of person, group, etc
+#org
+Humanitarian organisation
+#output
+Activity output description
+#region
+Cross-national region
+#sector
+Humanitarian sector or cluster
+#service
+Service for affected people
+#severity
+Occurrence severity
+#status
+Project etc. status
+#subsector
+Humanitarian subsector
++type
+Types or categories. Use with #org, #loc, #indicator, etc to provide classification information. Since HXL 1.0
+
+e.g., #loc +type — type of a location
+
+Associated hashtags
+#access
+Access ability/constraints
+#activity
+Programme, project, or activity.
+#beneficiary
+Aid recipient information
+#capacity
+Response capacity
+#cause
+Event cause
+#contact
+Contact info
+#crisis
+Humanitarian emergency
+#description
+Narrative information
+#event
+Event within a #crisis
+#frequency
+How often something happens
+#group
+Non-humanitarian group
+#impact
+Impact of crisis
+#indicator
+Formal aid indicator
+#item
+Something sold, provided, etc.
+#loc
+General location
+#need
+Need of person, group, etc
+#operations
+Info about humanitarian operations
+#org
+Humanitarian organisation
+#output
+Activity output description
+#sector
+Humanitarian sector or cluster
+#service
+Service for affected people
+#severity
+Occurrence severity
+#subsector
+Humanitarian subsector
+2.4. Geographical attributes
++bounds
+Boundary data (e.g. inline GeoJSON). Since HXL 1.0
+
+e.g., #geo +bounds — boundary data for an area
+
+Associated hashtags
+#geo
+Geodetic information
++coord
+Geodetic coordinates (lat+lon together). Since HXL 1.0
+
+e.g., #geo +coord — latitude and longitude combined
+
+Associated hashtags
+#geo
+Geodetic information
++dest
+Place of destination (intended or actual). Since HXL 1.1
+
+e.g., #country +dest — destination country (e.g. for refugees or migrants)
+
+Associated hashtags
+#adm1
+Level 1 subnational area
+#adm2
+Level 2 subnational area
+#adm3
+Level 3 subnational area
+#adm4
+Level 4 subnational area
+#adm5
+Level 5 subnational area
+#country
+Country
+#loc
+General location
+#region
+Cross-national region
++elevation
+Elevation above sea level (usually metres). Since HXL 1.0
+
+e.g., #geo +elevation — elevation above ground level (in metres)
+
+Associated hashtags
+#geo
+Geodetic information
++lat
+Latitude (decimal degrees preferred). Since HXL 1.0
+
+e.g., #geo +lat — latitude
+
+Associated hashtags
+#geo
+Geodetic information
++lon
+Longitude (decimal degrees preferred). Since HXL 1.0
+
+e.g., #geo +lon — longitude
+
+Associated hashtags
+#geo
+Geodetic information
++origin
+The data describes places of origin (intended or actual), e.g. the country of origin for displaced people. Since HXL 1.1
+
+e.g., #country +origin — country of origin (e.g. for refugees or migrants)
+
+Associated hashtags
+#adm1
+Level 1 subnational area
+#adm2
+Level 2 subnational area
+#adm3
+Level 3 subnational area
+#adm4
+Level 4 subnational area
+#adm5
+Level 5 subnational area
+#country
+Country
+#loc
+General location
+#region
+Cross-national region
+2.5. Date attributes
++approved
+Date or time when something was approved. Since HXL 1.0
+
+e.g., #date +approved — approval date
+
+Associated hashtags
+#date
+Date
++canceled
+Date or time when something (e.g. an #activity) was canceled. Since HXL 1.0
+
+e.g., #date +canceled — cancelation date
+
+Associated hashtags
+#date
+Date
++converted
+Date or time used for converting a monetary value to another currency. Since HXL 1.1
+
+e.g., #date +converted — date to use for currency conversion
+
+Associated hashtags
+#date
+Date
++end
+Date or time when something finished or will finish. Since HXL 1.0
+
+e.g., #date +end — finishing date for something
+
+Associated hashtags
+#date
+Date
++occurred
+Date or time when something took place. Since HXL 1.0
+
+e.g., #date +occurred — the date on which something happened
+
+Associated hashtags
+#date
+Date
++reported
+Date or time when the information was reported. Since HXL 1.0
+
+e.g., #date +reported — the date when something was reported (event, incident, activity, etc)
+
+Associated hashtags
+#date
+Date
++start
+Date or time when something started or will start. Since HXL 1.0
+
+e.g., #date +start — the date when something began
+
+Associated hashtags
+#date
+Date
+2.6. Impact attributes
++abducted
+Hashtag refers to people who have been abducted. Since HXL 1.1
+
+e.g., #affected +abducted — number of people abducted
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++displaced
+Displaced people or households. Refers to all types of displacement: use +idps or +refugees to be more specific. Since HXL 1.0
+
+e.g., #reached +displaced — number of displaced people reached with assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++idps
+Internally-displaced people or households. More specific than +displaced. Since HXL 1.0
+
+e.g., #targeted +idps — number of internally-displaced people targeted for assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++incamp
+Located in camps. Since HXL 1.0
+
+e.g., #population +incamp — number of people residing in formal camps
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++infected
+People infected with a disease. Since HXL 1.0
+
+e.g., #affected +infected +children — number of children infected by a disease
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++injured
+People injured. Since HXL 1.0
+
+e.g., #inneed +injured +adults +m — number of injured men in need of assistance
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++killed
+People killed. Since HXL 1.0
+
+e.g., #affected +killed — number of people killed
+
+Associated hashtags
+#affected
+People/households affected
++noncamp
+Not located in camps. Since HXL 1.0
+
+e.g., #population +noncamp — number of people not living in camps
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
++refugees
+Refugee people or households. More specific than +displaced. Since HXL 1.0
+
+e.g., #affected +refugees — number of refugees
+
+Associated hashtags
+#affected
+People/households affected
+#inneed
+People/households in need of assistance
+#population
+General population
+#reached
+People/households reached with assistance
+#targeted
+People/households targeted for assistance
+2.7. General attributes
++email
+Email address. Since HXL 1.0
+
+e.g., #contact +email — contact e-mail address
+
+Associated hashtags
+#contact
+Contact info
++id
+Use with #meta to provide internal identifiers for data records. Since HXL 1.1
+
+e.g., #meta +id — unique identifier for this data record
+
+Associated hashtags
+#meta
+Metadata
++label
+Text labels (for a table or chart). Since HXL 1.0
+
++name
+Human-readable name, title, or label. Since HXL 1.0
+
+e.g., #adm2 +name — human-readable name of an administrative level-2 subdivision (e.g. a district)
+
+Associated hashtags
+#activity
+Programme, project, or activity.
+#adm1
+Level 1 subnational area
+#adm2
+Level 2 subnational area
+#adm3
+Level 3 subnational area
+#adm4
+Level 4 subnational area
+#adm5
+Level 5 subnational area
+#beneficiary
+Aid recipient information
+#cause
+Event cause
+#channel
+Specific delivery method
+#contact
+Contact info
+#country
+Country
+#crisis
+Humanitarian emergency
+#event
+Event within a #crisis
+#group
+Non-humanitarian group
+#impact
+Impact of crisis
+#indicator
+Formal aid indicator
+#item
+Something sold, provided, etc.
+#loc
+General location
+#modality
+Major method of aid
+#need
+Need of person, group, etc
+#org
+Humanitarian organisation
+#output
+Activity output description
+#region
+Cross-national region
+#sector
+Humanitarian sector or cluster
+#service
+Service for affected people
+#severity
+Occurrence severity
+#status
+Project etc. status
+#subsector
+Humanitarian subsector
++num
+The data consists of quantitative, numeric information. Since HXL 1.0
+
+e.g., #indicator +num — numeric value for an indicator
+
+Associated hashtags
+#capacity
+Response capacity
+#indicator
+Formal aid indicator
+#output
+Activity output description
++phone
+The data consists of #contact phone numbers. Since HXL 1.0
+
+e.g., #contact +phone — contact phone number
+
+Associated hashtags
+#contact
+Contact info
++source
+Information source for the data in the row or record. Since HXL 1.0
+
+e.g., #meta +source — source of the data
+
+Associated hashtags
+#meta
+Metadata
++text
+The data consists of qualitative, narrative textual information. Since HXL 1.0
+
+e.g., #indicator +text — a text value for an indicator (often qualitative)
+
+Associated hashtags
+#indicator
+Formal aid indicator
++url
+The data consists of web links related to the main hashtag (e.g. for an #org, #service, #activity, #loc, etc). Since HXL 1.0
+
+e.g., #org +url — the web address for an organisation
+
+Associated hashtags
+#activity
+Programme, project, or activity.
+#contact
+Contact info
+#meta
+Metadata
+#org
+Humanitarian organisation
+#service
+Service for affected people

@@ -1,0 +1,7 @@
+type,description
+text,
+number,
+url,
+email,
+phone,
+date,

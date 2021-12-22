@@ -1,0 +1,54 @@
+attribute,since,category,tags,description
+adolescents,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,"Adolescents, loosely defined (precise age range varies); may overlap +children and +adult. You can optionally create custom attributes in addition to this to add precise age ranges, e.g. ""+adolescents +age12_17""."
+adults,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,"Adults, loosely defined (precise age range varies); may overlap +adolescents and +elderly. You can optionally create custom attributes in addition to this to add precise age ranges, e.g. ""+adults +age18_64""."
+children,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,"The associated hashtag applies to non-adults, loosely defined (precise age range varies; may overlap +infants and +adolescents). You can optionally create custom attributes in addition to this to add precise age ranges, e.g. ""+children +age3_11""."
+elderly,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,"Elderly people, loosely defined (precise age range varies). May overlap +adults. You can optionally create custom attributes in addition to this to add precise age ranges, e.g. ""+elderly +age65plus""."
+f,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,Female people. See also +m and +i.
+hh,1.1,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,"Households (vs +ind for individual people). The exact definition of ""household"" may vary among aid organisations."
+i,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,Intersex or non-gender-binary people. Use this attribute for any groups who do not identify as male (+m) or female (+f).
+ind,1.1,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,Individual people (vs +hh for households).
+infants,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,"Infant children, loosely defined (precise age range varies; may overlap +children). You can optionally create custom attributes in addition to this to add precise age ranges, e.g. ""+infants +age0_2""."
+m,1.0,(1) Sex- and-age disaggregation (SADD) attributes,#affected #inneed #population #reached #targeted,Male people. See also +f and +i.
+activity,1.1,(2) Organisation and activity attributes,#activity,"The implementers classify this activity as an ""activity"" proper (may imply different hierarchical levels in different contexts)."
+cluster,1.1,(2) Organisation and activity attributes,#sector,Identifies a sector as a formal IASC humanitarian cluster.
+funder,1.0,(2) Organisation and activity attributes,#org,Funding org/agency (e.g. donor).
+impl,1.0,(2) Organisation and activity attributes,#org,Implementing partner.
+prog,1.0,(2) Organisation and activity attributes,#org,Programming org/agency.
+programme,1.1,(2) Organisation and activity attributes,#activity,"The implementers classify this activity as a ""programme"" (may imply different hierarchical levels in different contexts)."
+project,1.1,(2) Organisation and activity attributes,#activity,"The implementers classify this activity as a ""project"" (may imply different hierarchical levels in different contexts)."
+provided,1.1,(2) Organisation and activity attributes,#item #service,"Refers to a #service, #item, etc. that has been provided to people in need."
+used,1.1,(2) Organisation and activity attributes,#item #service,"Refers to a #service, #item, etc. that affected people have actually consumed or otherwise taken advantage of."
+code,1.0,(3) Classification attributes,#activity #adm1 #adm2 #adm3 #adm4 #adm5 #beneficiary #cause #channel #country #crisis #currency #event #group #impact #indicator #item #loc #modality #need #org #output #region #sector #service #severity #status #subsector,"A unique, machine-readable code."
+type,1.0,(3) Classification attributes,#access #activity #beneficiary #capacity #cause #contact #crisis #description #event #frequency #group #impact #indicator #item #loc #need #operations #org #output #sector #service #severity #subsector,"Types or categories. Use with #org, #loc, #indicator, etc to provide classification information."
+bounds,1.0,(4) Geographical attributes,#geo,Boundary data (e.g. inline GeoJSON).
+coord,1.0,(4) Geographical attributes,#geo,Geodetic coordinates (lat+lon together).
+dest,1.1,(4) Geographical attributes,#adm1 #adm2 #adm3 #adm4 #adm5 #country #loc #region,Place of destination (intended or actual).
+elevation,1.0,(4) Geographical attributes,#geo,Elevation above sea level (usually metres).
+lat,1.0,(4) Geographical attributes,#geo,Latitude (decimal degrees preferred).
+lon,1.0,(4) Geographical attributes,#geo,Longitude (decimal degrees preferred).
+origin,1.1,(4) Geographical attributes,#adm1 #adm2 #adm3 #adm4 #adm5 #country #loc #region,"The data describes places of origin (intended or actual), e.g. the country of origin for displaced people."
+approved,1.0,(5) Date attributes,#date,Date or time when something was approved.
+canceled,1.0,(5) Date attributes,#date,Date or time when something (e.g. an #activity) was canceled.
+converted,1.1,(5) Date attributes,#date,Date or time used for converting a monetary value to another currency.
+end,1.0,(5) Date attributes,#date,Date or time when something finished or will finish.
+occurred,1.0,(5) Date attributes,#date,Date or time when something took place.
+reported,1.0,(5) Date attributes,#date,Date or time when the information was reported.
+start,1.0,(5) Date attributes,#date,Date or time when something started or will start.
+abducted,1.1,(6) Impact attributes,#affected #inneed #reached #targeted,Hashtag refers to people who have been abducted.
+displaced,1.0,(6) Impact attributes,#affected #inneed #population #reached #targeted,Displaced people or households. Refers to all types of displacement: use +idps or +refugees to be more specific.
+idps,1.0,(6) Impact attributes,#affected #inneed #population #reached #targeted,Internally-displaced people or households. More specific than +displaced.
+incamp,1.0,(6) Impact attributes,#affected #inneed #population #reached #targeted,Located in camps.
+infected,1.0,(6) Impact attributes,#affected #inneed #reached #targeted,People infected with a disease.
+injured,1.0,(6) Impact attributes,#affected #inneed #reached #targeted,People injured.
+killed,1.0,(6) Impact attributes,#affected,People killed.
+noncamp,1.0,(6) Impact attributes,#affected #inneed #population #reached #targeted,Not located in camps.
+refugees,1.0,(6) Impact attributes,#affected #inneed #population #reached #targeted,Refugee people or households. More specific than +displaced.
+email,1.0,(7) General attributes,#contact,Email address.
+id,1.1,(7) General attributes,#meta,Use with #meta to provide internal identifiers for data records.
+label,1.0,(7) General attributes,,Text labels (for a table or chart).
+name,1.0,(7) General attributes,#activity #adm1 #adm2 #adm3 #adm4 #adm5 #beneficiary #cause #channel #contact #country #crisis #event #group #impact #indicator #item #loc #modality #need #org #output #region #sector #service #severity #status #subsector,"Human-readable name, title, or label."
+num,1.0,(7) General attributes,#capacity #indicator #output,"The data consists of quantitative, numeric information."
+phone,1.0,(7) General attributes,#contact,The data consists of #contact phone numbers.
+source,1.0,(7) General attributes,#meta,Information source for the data in the row or record.
+text,1.0,(7) General attributes,#indicator,"The data consists of qualitative, narrative textual information."
+url,1.0,(7) General attributes,#activity #contact #meta #org #service,"The data consists of web links related to the main hashtag (e.g. for an #org, #service, #activity, #loc, etc)."

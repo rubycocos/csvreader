@@ -9,17 +9,19 @@ Gem Family
 
 [csvyaml](csvyaml) - read tabular data in the CSV <3 YAML format, that is, comma-separated values (CSV) line-by-line records with yaml ain't markup language (YAML) encoding rules
 
-[csvrecord](csvrecord) - read in comma-separated values (csv) records with typed structs / schemas
+[csvhuman](csvhuman) - read tabular data in the CSV Humanitarian eXchange Language (HXL)  format, that is, comma-separated values (CSV) line-by-line records with a hashtag (meta data) line using the Humanitarian eXchange Language (HXL) rules
 
 [tabreader](tabreader) - read in tabular datafiles in text in the tabular (TAB) format
 
 
+<!-- break -->
+
+[csvrecord](csvrecord) - read in comma-separated values (csv) records with typed structs / schemas
 
 
 <!-- break -->
 
 [csvutils](csvutils) - tools 'n' scripts for working with comma-separated values (csv) datafiles - the world's most popular tabular data interchange format in text
-
 
 
 

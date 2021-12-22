@@ -1,0 +1,7 @@
+%%%%%%%%%%%%%%%%%%%%%
+% sample from HXL tagging conventions (version 1.1)
+%  see http://hxlstandard.org/standard/1_1final/tagging/
+
+#event+id, #affected+killed, #region,                      #meta+source+reliability, #date+reported, #geo+lat,  #geo+lon
+1,         1,                Mediterranean,                Verified,                 2015-11-05,     36.891500,  27.287700
+3,         1,                Central America incl. Mexico, Partially Verified,       2015-11-03,     15.956400, -93.663099

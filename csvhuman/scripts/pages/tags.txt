@@ -1,0 +1,730 @@
+
+
+1.1. Places
+#adm1
+Top-level subnational administrative area (e.g. a governorate in Syria). Since HXL 1.0.
+
+Defaults to +v_pcode with the +code attribute if you do not specify a vocabulary.
+
+e.g., #adm1 +code — administrative level 1 P-code
+
+Suggested attributes for #adm1
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
+#adm2
+Second-level subnational administrative area (e.g. a subdivision in Bangladesh). Since HXL 1.0.
+
+Defaults to +v_pcode with the +code attribute if you do not specify a vocabulary.
+
+e.g., #adm2 +name — administrative level 2 name
+
+Suggested attributes for #adm2
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
+#adm3
+Third-level subnational administrative area (e.g. a subdistrict in Afghanistan). Since HXL 1.0.
+
+Defaults to +v_pcode with the +code attribute if you do not specify a vocabulary.
+
+e.g., #adm3 +code — administrative level 3 P-code
+
+Suggested attributes for #adm3
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
+#adm4
+Fourth-level subnational administrative area (e.g. a barangay in the Philippines). Since HXL 1.0.
+
+Defaults to +v_pcode with the +code attribute if you do not specify a vocabulary.
+
+e.g., #adm4 +name — administrative level 4 name
+
+Suggested attributes for #adm4
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
+#adm5
+Fifth-level subnational administrative area (e.g. a ward of a city). Since HXL 1.0.
+
+Defaults to +v_pcode with the +code attribute if you do not specify a vocabulary.
+
+e.g., #adm5 +code — administrative level 5 name
+
+Suggested attributes for #adm5
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
+#country
+Country (often left implied in a dataset). Also sometimes known as admin level 0. Since HXL 1.0.
+
+Defaults to +v_iso3 with the +code attribute if you do not specify a vocabulary.
+
+e.g., #country +name — country name
+
+Suggested attributes for #country
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
+#geo
+Geodetic geometry information (points, lines, shapes). Use for latitude and longitude, as well as bounds information. Since HXL 1.0.
+
+e.g., #geo +lat — latitude
+
+Suggested attributes for #geo
++bounds
+Contains boundary data
++coord
+Specifies lat/lon
++elevation
+Specifies elevation
++lat
+Is a latitude
++lon
+Is a longitude
+#loc
+Any general location, such as a village, camp, or clinic. Since HXL 1.0.
+
+e.g., #loc +type — type of location
+
+Suggested attributes for #loc
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
++type
+Classifies something by type
+#region
+A broad, supra- or cross-national geographical region (e.g. Sahel, Horn of Africa, Central Asia, Caribbean). Not to be confused with "region" used as the name of a subnational area (#adm1) in some countries. Since HXL 1.0.
+
+e.g., #region +name +i_ur — Urdu-language name for a geographical region
+
+Suggested attributes for #region
++code
+Is a code or ID
++dest
+Is a destination (place)
++name
+Is a name or title
++origin
+Is a place of origin
+1.2. People and households
+#affected
+Number of people or households affected by an emergency. Subset of #population; superset of #inneed. Since HXL 1.0.
+
+Every value must be a number.
+
+e.g., #affected +f +children — number of girls affected
+
+Suggested attributes for #affected
++abducted
+Have been abducted (people)
++adolescents
+Are adolescents (people)
++adults
+Are adults (people)
++children
+Are children (people)
++displaced
+Are displaced (people)
++elderly
+Are elderly (people)
++f
+Are female (people)
++hh
+Refers to households
++i
+Are non-gender-binary (people)
++idps
+Are internally displaced (people)
++incamp
+Are in camps (people)
++ind
+Refers to individuals
++infants
+Are infants (people)
++infected
+Are infected (people)
++injured
+Are injured (people)
++killed
+Have been killed (people)
++m
+Are male (people)
++noncamp
+Are not in camps (people)
++refugees
+Are refugees (people)
+#beneficiary
+General (non-numeric) information about a person or group meant to benefit from aid activities, e.g. "lactating women". Since HXL 1.0.
+
+e.g., #beneficiary +name — text label for a beneficiary group
+
+Suggested attributes for #beneficiary
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#inneed
+Number of people or households in need of humanitarian assistance. Subset of #affected; superset of #targeted. Since HXL 1.0.
+
+Every value must be a number.
+
+e.g., #inneed +m +adults — number of men in need of assistance
+
+Suggested attributes for #inneed
++abducted
+Have been abducted (people)
++adolescents
+Are adolescents (people)
++adults
+Are adults (people)
++children
+Are children (people)
++displaced
+Are displaced (people)
++elderly
+Are elderly (people)
++f
+Are female (people)
++hh
+Refers to households
++i
+Are non-gender-binary (people)
++idps
+Are internally displaced (people)
++incamp
+Are in camps (people)
++ind
+Refers to individuals
++infants
+Are infants (people)
++infected
+Are infected (people)
++injured
+Are injured (people)
++m
+Are male (people)
++noncamp
+Are not in camps (people)
++refugees
+Are refugees (people)
+#population
+General population number for an area or location, regardless of their specific humanitarian needs. Since HXL 1.0.
+
+Every value must be a number.
+
+e.g., #population +infants — number of infants in the population
+
+Suggested attributes for #population
++adolescents
+Are adolescents (people)
++adults
+Are adults (people)
++children
+Are children (people)
++displaced
+Are displaced (people)
++elderly
+Are elderly (people)
++f
+Are female (people)
++hh
+Refers to households
++i
+Are non-gender-binary (people)
++idps
+Are internally displaced (people)
++incamp
+Are in camps (people)
++ind
+Refers to individuals
++infants
+Are infants (people)
++m
+Are male (people)
++noncamp
+Are not in camps (people)
++refugees
+Are refugees (people)
+#reached
+Number of people or households reached with humanitarian assistance. Subset of #targeted. Since HXL 1.0.
+
+Every value must be a number.
+
+e.g., #reached +m +children — number of boys reached with assistance
+
+Suggested attributes for #reached
++abducted
+Have been abducted (people)
++adolescents
+Are adolescents (people)
++adults
+Are adults (people)
++children
+Are children (people)
++displaced
+Are displaced (people)
++elderly
+Are elderly (people)
++f
+Are female (people)
++hh
+Refers to households
++i
+Are non-gender-binary (people)
++idps
+Are internally displaced (people)
++incamp
+Are in camps (people)
++ind
+Refers to individuals
++infants
+Are infants (people)
++infected
+Are infected (people)
++injured
+Are injured (people)
++m
+Are male (people)
++noncamp
+Are not in camps (people)
++refugees
+Are refugees (people)
+#respondee
+Descriptive information, such as name, identifier, or traits, for a single respondee (person, household, etc.) in survey-style data. Since HXL 1.1.
+
+#targeted
+Number of people or households targeted for humanitarian assistance. Subset of #inneed; superset of #reached. Since HXL 1.0.
+
+Every value must be a number.
+
+e.g., #targeted +f +adult — number of women targeted for assistance
+
+Suggested attributes for #targeted
++abducted
+Have been abducted (people)
++adolescents
+Are adolescents (people)
++adults
+Are adults (people)
++children
+Are children (people)
++displaced
+Are displaced (people)
++elderly
+Are elderly (people)
++f
+Are female (people)
++hh
+Refers to households
++i
+Are non-gender-binary (people)
++idps
+Are internally displaced (people)
++incamp
+Are in camps (people)
++ind
+Refers to individuals
++infants
+Are infants (people)
++infected
+Are infected (people)
++injured
+Are injured (people)
++m
+Are male (people)
++noncamp
+Are not in camps (people)
++refugees
+Are refugees (people)
+1.3. Responses and other operations
+#access
+Accessiblity and constraints on access to a market, distribution point, facility, etc. Since HXL 1.1.
+
+e.g., #access +type — type of access being described
+
+Suggested attributes for #access
++type
+Classifies something by type
+#activity
+A programme, project, or other activity. This hashtag applies to all levels; use the attributes +activity, +project, or +programme to distinguish different hierarchical levels. Since HXL 1.0.
+
+e.g., #activity +project — an aid project
+
+Suggested attributes for #activity
++activity
+Is classified as an "activity"
++code
+Is a code or ID
++name
+Is a name or title
++programme
+Is classified as a "programme"
++project
+Is classified as a "project"
++type
+Classifies something by type
++url
+Is a web link (URL)
+#capacity
+The response capacity of the entity being described (e.g. "25 beds"). Since HXL 1.0.
+
+e.g., #capacity +num — number of (whatever) available
+
+Suggested attributes for #capacity
++num
+Contains numbers
++type
+Classifies something by type
+#contact
+Contact information for the subject of a data record (e.g. an activity). Since HXL 1.0.
+
+e.g., #contact +email — e-mail address for contacting an organisation or person
+
+Suggested attributes for #contact
++email
+Is an e-mail address
++name
+Is a name or title
++phone
+Is a phone number
++type
+Classifies something by type
++url
+Is a web link (URL)
+#frequency
+The frequency with which something occurs. Since HXL 1.1.
+
+e.g., #frequency +code — unique code for a frequency level
+
+Suggested attributes for #frequency
++type
+Classifies something by type
+#indicator
+A general hashtag for an indicator being tracked. See also #output, #capacity, #need, #impact, #severity, #affected, #inneed, #targeted, and #reached for more-specific indicator-related hashtags. Since HXL 1.0.
+
+Suggested attributes for #indicator
++code
+Is a code or ID
++name
+Is a name or title
++num
+Contains numbers
++text
+Contains free-form narrative text
++type
+Classifies something by type
+#item
+Physical things provided, stored, shipped, available, used, etc. Since HXL 1.1.
+
+e.g., #item +code — unique code for an item (e.g. type of food in a market)
+
+Suggested attributes for #item
++code
+Is a code or ID
++name
+Is a name or title
++provided
+Is provided (item or service)
++type
+Classifies something by type
++used
+Has been consumed (item, service, etc.)
+#need
+A(n) (unfulfilled) need for an affected person, household, group, or population. Since HXL 1.1.
+
+e.g., #need +name — text label for a need
+
+Suggested attributes for #need
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#operations
+Information that affects humanitarian operations, such as a restriction on movement or road closure. Since HXL 1.0.
+
+Suggested attributes for #operations
++type
+Classifies something by type
+#org
+An organisation contributing to a humanitarian emergency response, e.g. a local government, community-based organisation, NGO, agency, donor, or law-enforcement or military unit. Use #group for organisations that are not part of the emergency response (e.g. a paramilitary group). Since HXL 1.0.
+
+e.g., #org +funder — donor (financial)
+
+Suggested attributes for #org
++code
+Is a code or ID
++funder
+Is a funder/donor (org)
++impl
+Is an implementing partner (org)
++name
+Is a name or title
++prog
+Is a programming agency/NGO (orgs)
++type
+Classifies something by type
++url
+Is a web link (URL)
+#output
+An output indicator (e.g. "number of water-purification kits distributed"). A more-specific alternative to #indicator, especially for 3W-style activity reports. Since HXL 1.0.
+
+e.g., #output +num — number of items delivered, people helped, etc
+
+Suggested attributes for #output
++code
+Is a code or ID
++name
+Is a name or title
++num
+Contains numbers
++type
+Classifies something by type
+#sector
+A humanitarian cluster or sector. Since HXL 1.0.
+
+Defaults to +v_ocha_clusters with the +code attribute if you do not specify a vocabulary.
+
+e.g., #sector +cluster +name — name of an IASC humanitarian cluster
+
+Suggested attributes for #sector
++cluster
+Is a humanitarian cluster
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#service
+A service used or needed by an affected person, household, group, or population. Since HXL 1.1.
+
+Suggested attributes for #service
++code
+Is a code or ID
++name
+Is a name or title
++provided
+Is provided (item or service)
++type
+Classifies something by type
++url
+Is a web link (URL)
++used
+Has been consumed (item, service, etc.)
+#subsector
+A humanitarian subsector. Since HXL 1.0.
+
+e.g., #subsector +name +i_ar — Arabic-language name for a subsector.
+
+Suggested attributes for #subsector
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+1.4. Cash and finance
+#channel
+The detailed method of delivering aid (e.g. smartcard vs mobile transfer). More specific than #modality. Since HXL 1.1.
+
+e.g., #channel +name — text label for a specific delivery channel
+
+Suggested attributes for #channel
++code
+Is a code or ID
++name
+Is a name or title
+#currency
+Name or ISO 4217 currency code for all financial #value cells in the row (e.g. "EUR"). Typically used together with #value in financial or cash data. Since HXL 1.1.
+
+Defaults to +v_currency with the +code attribute if you do not specify a vocabulary.
+
+Suggested attributes for #currency
++code
+Is a code or ID
+#modality
+The means by which an aid activity is accomplished. For cash transfers, values might include "cash", "vouchers", "in-kind", etc. May also be used for other types of modalities in other contexts. Since HXL 1.1.
+
+e.g., #modality +code — unique code for an aid modality
+
+Suggested attributes for #modality
++code
+Is a code or ID
++name
+Is a name or title
+#value
+A monetary value, such as the price of goods in a market, a project budget, or the amount of cash transferred to beneficiaries. May be used together with #currency in financial or cash data. Since HXL 1.1.
+
+Every value must be a number.
+
+e.g., #value +transfer — amount transferred
+
+1.5. Crises, incidents, and events
+#cause
+The cause of an event, crisis, etc. Since HXL 1.0.
+
+e.g., #cause +code — unique code for the cause of a crisis or event
+
+Suggested attributes for #cause
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#crisis
+A humanitarian emergency. Since HXL 1.0.
+
+Defaults to +v_glide with the +code attribute if you do not specify a vocabulary.
+
+e.g., #crisis +code — a code identifying a crisis (a GLIDE number by default)
+
+Suggested attributes for #crisis
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#event
+An individual event or incident within a crisis/emergency, such as a (localised) flood, bridge collapse, or conflict. Since HXL 1.0.
+
+e.g., #event +type — type of event
+
+Suggested attributes for #event
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#group
+A non-humanitarian group (of any type) related to humanitarian crisis (e.g., a paramilitary group) Use #org instead for a humanitarian organisation such as an NGO, contributing to the humanitarian response. Since HXL 1.0.
+
+e.g., #group +name — name of a non-humanitarian actor, such as a political party
+
+Suggested attributes for #group
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#impact
+The impact of a crisis on a group or other entity. Since HXL 1.0.
+
+e.g., #impact +code — unique code for the type of impact
+
+Suggested attributes for #impact
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+#severity
+Severity of the crisis or event. Since HXL 1.0.
+
+e.g., #severity +name — text label for the severity level
+
+Suggested attributes for #severity
++code
+Is a code or ID
++name
+Is a name or title
++type
+Classifies something by type
+1.6. Metadata
+#date
+Date related to the data in the record applies. Preferred format is ISO 8610 (e.g. "2015-06-01", "2015-Q1", etc.) Since HXL 1.0.
+
+Every value must be a date.
+
+e.g., #date +start — the date when something began
+
+Suggested attributes for #date
++approved
+Date approved
++canceled
+Date canceled
++converted
+Date converted
++end
+Date finished
++occurred
+Date when something happened
++reported
+Date reported
++start
+Date begun
+#description
+Long description for a data record. Since HXL 1.0.
+
+e.g., #description +i_ar — Arabic-language version of a description
+
+Suggested attributes for #description
++type
+Classifies something by type
+#meta
+Metadata about a row. Since HXL 1.0.
+
+e.g., #meta +id — unique identifier for a data record
+
+Suggested attributes for #meta
++id
+Unique identifier for a data record
++source
+Is the source of information
++url
+Is a web link (URL)
+#status
+Project/activity status description (such as "planned", "active", "canceled", or "complete"). Since HXL 1.0.
+
+e.g., #status +code — unique code for the status level
+
+Suggested attributes for #status
++code
+Is a code or ID
++name
+Is a name or title

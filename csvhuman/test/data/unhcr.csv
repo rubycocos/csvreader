@@ -1,0 +1,85 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Extracted from the UNHCR Population Statistics Reference Database - United Nations High Commissioner for Refugees
+%   Date extracted: 2015-09-18 04:37:09 +02:00
+
+Year,"Country / territory of asylum/residence",Origin,"Refugees (incl. refugee-like situations)","Asylum-seekers (pending cases)","Returned refugees","Internally displaced persons (IDPs)","Returned IDPs","Stateless persons","Others of concern","Total Population"
+"#date +year","#country +residence","#country +origin","#affected +refugees","#affected +asylum","#affected +returned_refugees","#affected +idps","#affected +returned_idps","#affected +stateless","#affected +others","#affected +total"
+1951,Australia,Various/Unknown,180000,,,,,,,180000
+1951,Austria,Various/Unknown,282000,,,,,,,282000
+1951,Belgium,Various/Unknown,55000,,,,,,,55000
+1951,Canada,Various/Unknown,168511,,,,,,,168511
+1951,Switzerland,Various/Unknown,10000,,,,,,,10000
+1951,Germany,Various/Unknown,265000,,,,,,,265000
+1951,Denmark,Various/Unknown,2000,,,,,,,2000
+1951,Spain,Various/Unknown,2000,,,,,,,2000
+1951,France,Various/Unknown,290000,,,,,,,290000
+1951,"United Kingdom",Various/Unknown,208000,,,,,,,208000
+1951,Greece,Various/Unknown,18000,,,,,,,18000
+1951,"China, Hong Kong SAR",Various/Unknown,30000,,,,,,,30000
+1951,Italy,Various/Unknown,26500,,,,,,,26500
+1951,Luxembourg,Various/Unknown,1800,,,,,,,1800
+1951,Morocco,Various/Unknown,3000,,,,,,,3000
+1951,Netherlands,Various/Unknown,14200,,,,,,,14200
+1951,Norway,Various/Unknown,2500,,,,,,,2500
+1951,Sweden,Various/Unknown,44000,,,,,,,44000
+1951,Tunisia,Various/Unknown,2000,,,,,,,2000
+1951,Turkey,Various/Unknown,2700,,,,,,,2700
+1951,"United States of America",Various/Unknown,350000,,,,,,,350000
+1951,Various/Unknown,Various/Unknown,158800,,,,,,,158800
+1952,Austria,Various/Unknown,238200,,,,,,,238200
+1952,Belgium,Various/Unknown,53500,,,,,,,53500
+1952,Canada,Various/Unknown,154828,,,,,,,154828
+1952,Switzerland,Various/Unknown,9800,,,,,,,9800
+1952,Germany,Various/Unknown,240000,,,,,,,240000
+1952,Denmark,Various/Unknown,1800,,,,,,,1800
+1952,France,Various/Unknown,280000,,,,,,,280000
+1952,"United Kingdom",Various/Unknown,200000,,,,,,,200000
+1952,Greece,Various/Unknown,19000,,,,,,,19000
+1952,Italy,Various/Unknown,25500,,,,,,,25500
+1952,Luxembourg,Various/Unknown,1800,,,,,,,1800
+1952,Morocco,Various/Unknown,2900,,,,,,,2900
+1952,Netherlands,Various/Unknown,14100,,,,,,,14100
+1952,Norway,Various/Unknown,2500,,,,,,,2500
+1952,Sweden,Various/Unknown,42000,,,,,,,42000
+1952,Turkey,Various/Unknown,2000,,,,,,,2000
+1952,"United States of America",Various/Unknown,500000,,,,,,,500000
+1952,Various/Unknown,Various/Unknown,165000,,,,,,,165000
+1953,Austria,Various/Unknown,215200,,,,,,,215200
+1953,Belgium,Various/Unknown,53000,,,,,,,53000
+1953,Canada,Various/Unknown,107004,,,,,,,107004
+1953,Switzerland,Various/Unknown,9500,,,,,,,9500
+1953,Germany,Various/Unknown,228000,,,,,,,228000
+1953,Denmark,Various/Unknown,1600,,,,,,,1600
+1953,France,Various/Unknown,270000,,,,,,,270000
+1953,"United Kingdom",Various/Unknown,192000,,,,,,,192000
+1953,Greece,Various/Unknown,18500,,,,,,,18500
+1953,Italy,Various/Unknown,24500,,,,,,,24500
+1953,Luxembourg,Various/Unknown,1800,,,,,,,1800
+1953,Morocco,Various/Unknown,2800,,,,,,,2800
+1953,Netherlands,Various/Unknown,13900,,,,,,,13900
+1953,Norway,Various/Unknown,2500,,,,,,,2500
+1953,Sweden,Various/Unknown,37000,,,,,,,37000
+1953,Turkey,Various/Unknown,2000,,,,,,,2000
+1953,"United States of America",Various/Unknown,500000,,,,,,,500000
+1953,Various/Unknown,Various/Unknown,168000,,,,,,,168000
+1954,Austria,Various/Unknown,150000,,,,,,,150000
+1954,Belgium,Various/Unknown,53000,,,,,,,53000
+1954,Canada,Various/Unknown,75828,,,,,,,75828
+1954,Switzerland,Various/Unknown,9400,,,,,,,9400
+1954,Germany,Various/Unknown,225000,,,,,,,225000
+1954,Denmark,Various/Unknown,1400,,,,,,,1400
+1954,Spain,Various/Unknown,2000,,,,,,,2000
+1954,France,Various/Unknown,263000,,,,,,,263000
+1954,"United Kingdom",Various/Unknown,182000,,,,,,,182000
+1954,Greece,Various/Unknown,19000,,,,,,,19000
+1954,"China, Hong Kong SAR",Various/Unknown,22000,,,,,,,22000
+1954,Italy,Various/Unknown,21500,,,,,,,21500
+1954,Luxembourg,Various/Unknown,1800,,,,,,,1800
+1954,Morocco,Various/Unknown,3500,,,,,,,3500
+1954,Netherlands,Various/Unknown,12400,,,,,,,12400
+1954,Norway,Various/Unknown,2300,,,,,,,2300
+1954,Sweden,Various/Unknown,33000,,,,,,,33000
+1954,Tunisia,Various/Unknown,2000,,,,,,,2000
+1954,Turkey,Various/Unknown,2500,,,,,,,2500
+1954,"United States of America",Various/Unknown,500000,,,,,,,500000
+1954,Various/Unknown,Various/Unknown,168000,,,,,,,168000

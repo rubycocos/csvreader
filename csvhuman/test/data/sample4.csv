@@ -1,0 +1,8 @@
+%%%%%%%%%%%%%%%%%%%%%
+% sample from HXL tagging conventions (version 1.1)
+%  see http://hxlstandard.org/standard/1_1final/tagging/
+
+REGION,            2008,            2009,            2010,            2011
+#adm1 +name,       #affected+label, #affected+label, #affected+label, #affected+label
+Coast District,    0,               30,              100,             250
+Mountain District, 15,              75,              30,              45

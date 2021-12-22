@@ -1,0 +1,10 @@
+%%%%%%%%%%%%%%%%%%%%%
+% sample from HXL tagging conventions (version 1.1)
+%  see http://hxlstandard.org/standard/1_1final/tagging/
+
+CAMP INFORMATION,       ,        NEEDS
+LOCATION NAME,    LOCATION CODE, NUMBER AFFECTED
+#loc +name,       #loc +code,    #affected
+Camp A,           01000001,      2000
+Camp B,           01000002,      750
+Camp C,           01000003,      1920
