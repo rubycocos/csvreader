@@ -1,0 +1,13 @@
+HISTORY.md
+Manifest.txt
+README.md
+Rakefile
+lib/csvpack.rb
+lib/csvpack/downloader.rb
+lib/csvpack/pack.rb
+lib/csvpack/version.rb
+test/helper.rb
+test/test_companies.rb
+test/test_countries.rb
+test/test_downloader.rb
+test/test_import.rb

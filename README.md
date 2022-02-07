@@ -13,6 +13,9 @@ Gem Family
 
 [tabreader](tabreader) - read in tabular datafiles in text in the tabular (TAB) format
 
+[csvpack](csvpack) - tools 'n' scripts for working with tabular data packages using comma-separated values (CSV) datafiles in text with meta info (that is, schema, datatypes, ..) in datapackage.json; download, read into and query CSV datafiles with your SQL database (e.g. SQLite, PostgreSQL, ...) of choice and much more
+
+
 
 <!-- break -->
 

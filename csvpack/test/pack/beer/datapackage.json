@@ -1,0 +1,14 @@
+{
+  "name": "beer",
+  "resources": [
+    {
+      "path": "data.csv",
+      "schema": {
+        "fields": [{ "name": "Brewery",   "type": "string" },
+                   { "name": "City",      "type": "string" },
+                   { "name": "Name",      "type": "string" },
+                   { "name": "Abv",       "type": "number" }]
+      }
+    }
+  ]
+}
