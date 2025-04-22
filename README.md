@@ -1,5 +1,14 @@
 # Comma-Separated Values (CSV) Tabular Data Readers Incl. CSV <3 JSON, CSV <3 YAML And More
 
+---
+
+NOTE:  I (Gerald Bauer) am happy to work on a better (alternate) csv library for ruby, BUT unfortunately for now I have first to figure out how to survive and earn some money. unfortunately, ruby is no longer (never was really) in demand over here (in austria). 
+thus, if you want to see progress - please ping me (gerald.bauer @ gmail.com) and your support is more than welcome.
+
+---
+
+
+
 
 Gem Family
 
